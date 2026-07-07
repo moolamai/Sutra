@@ -1,0 +1,62 @@
+name: "RFC: protocol or cognitive contract change"
+description: Propose a change to the wire contract, a cognitive contract, or a MUST-level obligation
+title: "RFC: <short description>"
+labels: ["rfc", "rfc-discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        RFCs govern the load-bearing surfaces of Sutra: `sync-protocol/src/contract.ts`, the contracts in `packages/contracts/src/`,
+        and MUST-level obligations in the PRD. The process is described in CONTRIBUTING.md section 9 and rfcs/README.md: minimum
+        7 days of discussion, then a 72-hour final comment period, then acceptance or a recorded decline. Accepted RFCs land as
+        numbered documents in rfcs/. Wire changes must be additive-only.
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: The concrete problem this solves. Cite real use cases, PRD spec IDs, or roadmap criteria it unblocks.
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Detailed design
+      description: Exact proposed changes. For contract changes, show the new fields/schemas. For interface changes, show new or changed method signatures and obligations. Be precise enough that someone else could implement it.
+      render: typescript
+    validations:
+      required: true
+  - type: textarea
+    id: cross-language
+    attributes:
+      label: Cross-language and cross-package impact
+      description: What must change in the TS contract, the Pydantic mirrors, both CRDT twins, the edge agent, the cloud engine, and the Playground. State "none" per surface where true.
+    validations:
+      required: true
+  - type: textarea
+    id: migration
+    attributes:
+      label: Compatibility and migration
+      description: How existing implementations and stored states keep working. Confirm the change is additive on the wire, or explain why a major protocol version is warranted.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Including the status quo. Why is this design the right one?
+    validations:
+      required: true
+  - type: textarea
+    id: unresolved
+    attributes:
+      label: Unresolved questions
+      description: What you expect the discussion to settle.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I read the RFC process in CONTRIBUTING.md and GOVERNANCE.md
+          required: true
+        - label: The proposed wire changes are additive-only, or I have justified a major version
+          required: true

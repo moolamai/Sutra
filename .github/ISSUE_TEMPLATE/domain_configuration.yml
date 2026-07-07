@@ -1,0 +1,60 @@
+name: Domain configuration proposal
+description: Propose a task graph, knowledge connector, tool pack, agent profile, or domain specification
+title: "domain(<field>): <short description>"
+labels: ["domain-config", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Domain configurations are how the platform grows: the same contracts, configured for education, law, medicine, finance,
+        engineering, agriculture, governance, or accessibility. See domains/ for the existing specifications,
+        docs/domains/USE_CASES.md for the catalogue, and CONTRIBUTING.md section 11 for requirements.
+        Regulated domains need a practitioner reviewer.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Configuration kind
+      options:
+        - Task / goal graph
+        - Knowledge connector
+        - Tool pack
+        - Agent profile (charter + refusal boundaries)
+        - New domain specification (the five-file structure under domains/)
+        - Full domain configuration (several of the above)
+    validations:
+      required: true
+  - type: input
+    id: domain
+    attributes:
+      label: Domain and jurisdiction/context
+      placeholder: "e.g. Indian contract law; CBSE class 8 mathematics; Kharif crop agronomy for Telangana"
+    validations:
+      required: true
+  - type: textarea
+    id: users
+    attributes:
+      label: Intended users and modality
+      description: Who uses the resulting companion and how (text, voice-only, voice+vision). Reference the modality classes in USE_CASES.md.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Knowledge sources and licensing
+      description: What corpora or datasets the configuration draws on, their licenses, and how citations resolve. Connectors must carry truthful as-of dates.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Scope of practice and refusal boundaries
+      description: What the companion must decline or escalate to a human professional. Mandatory for law, medicine, and finance.
+    validations:
+      required: true
+  - type: textarea
+    id: reviewer
+    attributes:
+      label: Practitioner review
+      description: For regulated domains, name (or describe how you will find) a practitioner willing to review. Write "not regulated" otherwise.
+    validations:
+      required: true

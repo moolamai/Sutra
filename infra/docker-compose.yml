@@ -1,0 +1,54 @@
+name: sutra
+
+services:
+  pgvector:
+    image: pgvector/pgvector:pg17
+    container_name: sutra-pgvector
+    environment:
+      POSTGRES_USER: sutra
+      POSTGRES_PASSWORD: ${SUTRA_PG_PASSWORD:-sutra_dev_only}
+      POSTGRES_DB: sutra
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sutra -d sutra"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: sutra-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  orchestrator:
+    build:
+      context: ../packages/cloud-orchestrator
+    container_name: sutra-orchestrator
+    environment:
+      SUTRA_PG_DSN: postgresql://sutra:${SUTRA_PG_PASSWORD:-sutra_dev_only}@pgvector:5432/sutra
+      SUTRA_REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8000:8000"
+    depends_on:
+      pgvector:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:

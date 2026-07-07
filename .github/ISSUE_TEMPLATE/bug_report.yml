@@ -1,0 +1,75 @@
+name: Bug report
+description: Report incorrect behavior with a reproduction
+title: "fix(<area>): <short description>"
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug. A reproduction is the single most valuable thing you can give us.
+        Questions belong in Discussions, and security issues must go through the private channel in SECURITY.md.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - contracts (cognitive / runtime interfaces)
+        - cognitive-core (composition loop)
+        - runtime (lifecycle / scheduler / events)
+        - sync-protocol (contract / CRDT / HLC / sync engine)
+        - telemetry (friction collector)
+        - edge-agent (on-device host / local vector db / SLM runtime)
+        - cloud-orchestrator (FastAPI / task router / planner / memory graph / Python CRDT)
+        - sdk (public entry point)
+        - domains (specifications)
+        - examples / benchmarks
+        - playground (developer console)
+        - infra (docker-compose / schema)
+        - docs
+        - build tooling / CI
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen, ideally with a reference to the contract, PRD spec ID, or interface obligation that defines it.
+      placeholder: "Per SYNC-03, replaying the same payload must return the same masteryDeltas..."
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happens instead. Include full error output, not a paraphrase.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Exact steps, commands, or a code snippet. For CRDT issues, include the two states being merged.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Node/pnpm versions, Python version, commit hash or release.
+      placeholder: |
+        OS: Ubuntu 24.04
+        Node: 22.11 / pnpm 10.4
+        Python: 3.12.6
+        Commit: abc1234
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and this is not a duplicate
+          required: true
+        - label: This is not a security vulnerability (those go through SECURITY.md)
+          required: true

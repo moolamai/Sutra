@@ -1,0 +1,68 @@
+name: Feature request
+description: Propose new functionality that does not change the wire contract or cognitive contracts
+title: "feat(<area>): <short description>"
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for features in implementations, adapters, tooling, the Playground, or docs.
+        If your idea changes the wire contract or any cognitive contract, use the **RFC** template instead; that path has different requirements.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - cognitive-core (non-contract code)
+        - runtime
+        - sync-protocol (non-contract code)
+        - telemetry
+        - edge-agent
+        - cloud-orchestrator
+        - sdk
+        - domains
+        - examples / benchmarks
+        - playground
+        - infra
+        - docs
+        - build tooling / CI
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can a user or developer not do today? Describe the situation, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you want to happen. Sketch APIs or UI if helpful.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches and why they are worse, including "do nothing".
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Are you willing to implement this?
+      options:
+        - Yes, I want to implement it
+        - Yes, with guidance from a maintainer
+        - No, proposing only
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This does not change the wire contract or a cognitive contract (otherwise I would use the RFC template)
+          required: true
+        - label: I searched existing issues and discussions for prior proposals
+          required: true

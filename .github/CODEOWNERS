@@ -1,0 +1,54 @@
+# CODEOWNERS: review routing for the Sutra monorepo.
+#
+# Later entries take precedence over earlier ones. Teams listed here are
+# GitHub teams under the moolamai organization; individual maintainers are
+# added as the maintainer roster grows (see GOVERNANCE.md).
+#
+# The load-bearing surfaces (wire contract, cognitive contracts) route to the
+# protocol and contracts owner teams and require two approvals per GOVERNANCE.md.
+
+# Default owners for anything not matched below
+*                                       @moolamai/maintainers
+
+# Load-bearing: wire contract and CRDT engine (RFC-gated)
+/packages/sync-protocol/                @moolamai/protocol-owners
+/packages/cloud-orchestrator/src/sutra_orchestrator/crdt_merge.py  @moolamai/protocol-owners
+/packages/cloud-orchestrator/src/sutra_orchestrator/contract_models.py  @moolamai/protocol-owners
+
+# Load-bearing: cognitive contracts and core loop (RFC-gated)
+/packages/contracts/                    @moolamai/contracts-owners
+/packages/cognitive-core/               @moolamai/contracts-owners
+
+# Public surface
+/packages/sdk/                          @moolamai/contracts-owners
+
+# Reference implementations
+/packages/runtime/                      @moolamai/contracts-owners
+/packages/telemetry/                    @moolamai/edge-owners
+/packages/edge-agent/                   @moolamai/edge-owners
+/packages/cloud-orchestrator/           @moolamai/cloud-owners
+
+# Domain specifications
+/domains/                               @moolamai/domain-owners
+
+# Developer console, examples, benchmarks
+/playground/                            @moolamai/playground-owners
+/examples/                              @moolamai/docs-owners
+/benchmarks/                            @moolamai/protocol-owners
+
+# Self-host stack
+/infra/                                 @moolamai/cloud-owners
+
+# Documentation, design, decisions
+/docs/                                  @moolamai/docs-owners
+/docs/adr/                              @moolamai/steering-council
+/docs/PRD_MATRIX.md                     @moolamai/protocol-owners @moolamai/contracts-owners
+/design/                                @moolamai/contracts-owners
+/rfcs/                                  @moolamai/steering-council
+
+# Community and governance surfaces
+/CONTRIBUTING.md                        @moolamai/community-owners
+/GOVERNANCE.md                          @moolamai/steering-council
+/CODE_OF_CONDUCT.md                     @moolamai/community-owners
+/SECURITY.md                            @moolamai/steering-council
+/.github/                               @moolamai/community-owners

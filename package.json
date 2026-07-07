@@ -1,0 +1,31 @@
+{
+  "name": "sutra",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sutra — Moolam open cognitive infrastructure. Reusable, domain-agnostic foundation for autonomous cognitive companions: contracts, cognitive core, runtime, sync protocol, edge and cloud hosts.",
+  "license": "Apache-2.0",
+  "author": "Moolam AI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moolamai/sutra"
+  },
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml down"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  }
+}

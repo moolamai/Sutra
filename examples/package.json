@@ -1,0 +1,22 @@
+{
+  "name": "@moolam/examples",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Small, runnable examples for the Moolam open cognitive infrastructure. Every example runs offline with zero external services.",
+  "type": "module",
+  "scripts": {
+    "teacher-basic": "node teacher-basic/main.mjs",
+    "lawyer-basic": "node lawyer-basic/main.mjs",
+    "offline-edge": "node offline-edge/main.mjs",
+    "cloud-sync": "node cloud-sync/main.mjs",
+    "memory": "node memory/main.mjs",
+    "voice": "node voice/main.mjs",
+    "vision": "node vision/main.mjs",
+    "tool-use": "node tool-use/main.mjs",
+    "custom-domain": "node custom-domain/main.mjs",
+    "test": "node teacher-basic/main.mjs && node lawyer-basic/main.mjs && node offline-edge/main.mjs && node cloud-sync/main.mjs && node memory/main.mjs && node voice/main.mjs && node vision/main.mjs && node tool-use/main.mjs && node custom-domain/main.mjs"
+  },
+  "dependencies": {
+    "@moolam/sdk": "workspace:*"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@moolam/cloud-orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Turborepo task shim for the Python cloud engine. Real packaging lives in pyproject.toml.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "python -m compileall src -q",
+    "typecheck": "python -m compileall src -q",
+    "dev": "uvicorn sutra_orchestrator.main:app --reload --app-dir src",
+    "test": "pytest -q",
+    "clean": "python -c \"import shutil,glob; [shutil.rmtree(p, ignore_errors=True) for p in glob.glob('**/__pycache__', recursive=True)]\""
+  }
+}

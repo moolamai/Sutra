@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and design discussion
+    url: https://github.com/moolamai/sutra/discussions
+    about: Ask questions, introduce yourself, propose ideas, or discuss designs before they become RFCs.
+  - name: Security vulnerability (private)
+    url: https://github.com/moolamai/sutra/security/advisories/new
+    about: Never report security issues in public. Use a private advisory or email security@moolam.org.

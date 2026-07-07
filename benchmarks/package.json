@@ -1,0 +1,17 @@
+{
+  "name": "@moolam/benchmarks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Microbenchmarks for the cognitive infrastructure: CRDT merge throughput, memory retrieval latency, sync engine round-trip, and core loop overhead.",
+  "type": "module",
+  "scripts": {
+    "crdt-merge": "node crdt_merge.bench.mjs",
+    "memory-retrieval": "node memory_retrieval.bench.mjs",
+    "sync-roundtrip": "node sync_roundtrip.bench.mjs",
+    "core-loop": "node core_loop.bench.mjs",
+    "all": "node crdt_merge.bench.mjs && node memory_retrieval.bench.mjs && node sync_roundtrip.bench.mjs && node core_loop.bench.mjs"
+  },
+  "dependencies": {
+    "@moolam/sdk": "workspace:*"
+  }
+}
