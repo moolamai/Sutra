@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "guidance-eval.rubric.v1",
+  "title": "Guidance routing-quality rubric",
+  "description": "Partial scoring for TaskRouter / playground route decisions vs golden scenarios. Weights sum to 1.0. Rationale uses keyword presence (not exact-string match) to avoid flaky wording.",
+  "weights": {
+    "routeAction": 0.4,
+    "targetConceptId": 0.35,
+    "mode": 0.1,
+    "rationaleKeywords": 0.15
+  },
+  "keywordMatch": {
+    "caseInsensitive": true,
+    "requireAll": false
+  },
+  "failBelow": 0.85,
+  "bounds": {
+    "maxScenarios": 256,
+    "maxFrictionHistory": 64
+  },
+  "seedDefault": 42
+}

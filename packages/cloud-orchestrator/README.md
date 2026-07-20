@@ -15,9 +15,24 @@ Domain-agnostic runtime components, each isolated from HTTP concerns:
 | `sync_service.py` | CRDT reconciliation over master state documents |
 | `contract_models.py` | Pydantic mirrors of the canonical TypeScript wire contract |
 | `crdt_merge.py` | Join-semilattice merge, byte-identical twin of the TS resolver |
-| `main.py` | FastAPI transport: `/v1/sync`, `/v1/agent/turn`, `/v1/subjects/{id}/state`, `/v1/health` |
+| `main.py` | FastAPI transport: `/v1/sync`, `/v1/agent/turn`, `/v1/agent/turn/stream` (SSE), `/v1/subjects/{id}/state`, `/v1/subjects/{id}/sync-audit`, `/v1/health` |
+| `auth.py` | Pluggable `AuthVerifier` seam + reference API-key / permissive-dev verifiers |
 
 No module knows about any profession. Domain configuration (task graphs, charters, tool packs) lives in `domains/` and is loaded as data.
+
+## AuthN / AuthZ (pluggable)
+
+Default-deny on `/v1/*` except `/v1/health`. Self-hosters inject an `AuthVerifier` at startup — Sutra does not ship an IdP.
+
+**Operator guide:** [docs/pluggable-auth-deployment.md](./docs/pluggable-auth-deployment.md) (API-key setup, JWT sketch, mTLS-at-proxy pattern).
+
+Quick API-key mode:
+
+```bash
+export SUTRA_AUTH_VERIFIER=api_key
+export SUTRA_API_KEYS_JSON='{"sk_demo":{"principalId":"ops-1","subjectScope":"*"}}'
+uvicorn sutra_orchestrator.main:app --app-dir src
+```
 
 ## Public API
 
@@ -34,11 +49,39 @@ SUTRA_PG_DSN=postgresql://sutra:sutra@localhost:5432/sutra uvicorn sutra_orchest
 
 Or via the repo root: `pnpm infra:up` (see `infra/docker-compose.yml`).
 
+### Task graph pack (production)
+
+Boot loads a versioned JSON pack via `resolve_production_task_graph` (not an inline demo graph):
+
+```bash
+# Optional override (compose sets this to the bundled pack path):
+export TASK_GRAPH_PACK=/path/to/task-graph.v1.json
+uvicorn sutra_orchestrator.main:app --app-dir src
+```
+
+When unset, the bundled `sutra_orchestrator/packs/teacher-cbse-slice.json` is used (same bytes as `@moolam/domain-loader` / playground). Override with `TASK_GRAPH_PACK` for alternate packs (e.g. `demo-math-sd-slice.json`). Postgres row injection is supported by the same resolver (`pack_row=…`) with threshold fallback when the row omits thresholds.
+
+**Operator runbooks:**
+
+- [Local dev and compose bring-up](../../docs/operations/runbooks/local-dev-compose-bring-up.md) — `pnpm install`, Python venv, compose up, `smoke_test.py`, playground at `http://localhost:3000`
+- [Sync audit query (SYNC-06)](../../docs/operations/runbooks/sync-audit-query-sync-06.md) — SQL + API listing advisories by subject / device / code, remediation table, seeded fixture
+- [Incident triage basics](../../docs/operations/runbooks/incident-triage-basics.md) — `X-Request-Id` correlation; sync storm vs turn latency metrics; quarantined vs exhausted
+
+Live verification (compose): `bash packages/cloud-orchestrator/scripts/verify_operator_surfaces_compose.sh` (HEALMETREN-003 + OPERRUNB-004).
+
+All three link metrics (`/v1/metrics`) and the [event catalog](../observability/docs/event-catalog.md).
+
 Dependency-light smoke test (pydantic only):
 
 ```bash
 python smoke_test.py
 ```
+
+## Versioning
+
+Distribution semver and the wire `PROTOCOL_VERSION` constant move together at
+release. See [`docs/protocol/VERSION-LOCKSTEP.md`](../../docs/protocol/VERSION-LOCKSTEP.md)
+for the file list, bump procedure, and PyPI/npm alignment rules.
 
 ## Contributing notes
 

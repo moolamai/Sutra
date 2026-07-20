@@ -1,0 +1,202 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moolam.ai/schemas/guidance-eval-scenario-v1.json",
+  "title": "Guidance eval scenario v1",
+  "description": "Golden routing-quality fixture: protocol FrictionSample history + mastery seed → expected routeAction/targetConceptId + rationale keywords. Scored against evals/guidance/rubric.json. No raw keystrokes or learner utterance fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "scenarioId",
+    "subjectId",
+    "deviceId",
+    "packId",
+    "packVersion",
+    "seed",
+    "activeConceptId",
+    "mode",
+    "masterySeed",
+    "frictionHistory",
+    "turnFriction",
+    "expected"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "guidance-eval.scenario.v1"
+    },
+    "scenarioId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._/-]*$"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 4000,
+      "description": "Author notes (e.g. hysteretic hold near hesitation boundary; multi-weak-prereq targeting). Never raw learner content."
+    },
+    "subjectId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Subject scope for this fixture — must not collide across scenarios in a suite."
+    },
+    "deviceId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "packId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Task-graph pack under test (e.g. teacher-cbse-slice)."
+    },
+    "packVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+([-a-z0-9.]+)?$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647,
+      "description": "Determinism seed for any model-assisted or stochastic checks (scorer / CI)."
+    },
+    "activeConceptId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "mode": {
+      "$ref": "#/$defs/guidanceMode"
+    },
+    "masterySeed": {
+      "type": "object",
+      "description": "ConceptMastery map keyed by conceptId — protocol shape (alpha/beta G-Counters), not free-form floats alone.",
+      "additionalProperties": { "$ref": "#/$defs/conceptMastery" },
+      "maxProperties": 4096
+    },
+    "frictionHistory": {
+      "type": "array",
+      "description": "Prior FrictionSample rows (protocol telemetry shape). Bounded — no unbounded scans.",
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/frictionSample" }
+    },
+    "turnFriction": {
+      "$ref": "#/$defs/frictionSample",
+      "description": "Friction sample for the route turn under test (protocol FrictionSample)."
+    },
+    "expected": {
+      "$ref": "#/$defs/expectedDecision"
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "string",
+        "enum": [
+          "advance",
+          "remediate",
+          "hold",
+          "hesitation-spike",
+          "hysteresis",
+          "multi-weak-prereq",
+          "unknown-concept",
+          "format-example"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "hlc": {
+      "type": "string",
+      "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$"
+    },
+    "guidanceMode": {
+      "type": "string",
+      "enum": [
+        "exploratory",
+        "guided",
+        "reinforcement",
+        "prerequisite-remediation",
+        "diagnostic"
+      ]
+    },
+    "frictionSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Protocol FrictionSample — behavioral metadata only (packages/telemetry / sync-protocol).",
+      "required": [
+        "conceptId",
+        "hesitationMs",
+        "inputVelocity",
+        "revisionCount",
+        "assistanceRequested",
+        "outcome",
+        "capturedAt"
+      ],
+      "properties": {
+        "conceptId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "hesitationMs": { "type": "integer", "minimum": 0, "maximum": 86400000 },
+        "inputVelocity": { "type": "number", "minimum": 0 },
+        "revisionCount": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "assistanceRequested": { "type": "boolean" },
+        "outcome": {
+          "type": "string",
+          "enum": ["correct", "partial", "incorrect", "ungraded"]
+        },
+        "capturedAt": { "$ref": "#/$defs/hlc" }
+      }
+    },
+    "conceptMastery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conceptId", "alpha", "beta", "lastExercisedAt"],
+      "properties": {
+        "conceptId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "alpha": {
+          "type": "object",
+          "additionalProperties": { "type": "number", "minimum": 0 },
+          "minProperties": 1,
+          "maxProperties": 64
+        },
+        "beta": {
+          "type": "object",
+          "additionalProperties": { "type": "number", "minimum": 0 },
+          "minProperties": 1,
+          "maxProperties": 64
+        },
+        "lastExercisedAt": { "$ref": "#/$defs/hlc" }
+      }
+    },
+    "expectedDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeAction", "targetConceptId", "rationaleKeywords"],
+      "description": "Expected router decision. routeAction is advance|remediate|hold; targetConceptId is the concept after the turn (null only when unknown/quarantine hold without retarget).",
+      "properties": {
+        "routeAction": {
+          "type": "string",
+          "enum": ["advance", "remediate", "hold"]
+        },
+        "targetConceptId": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "mode": { "$ref": "#/$defs/guidanceMode" },
+        "rationaleKeywords": {
+          "type": "array",
+          "description": "Case-insensitive substrings that must appear in routing rationale for partial credit (rubric).",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+        }
+      }
+    }
+  }
+}

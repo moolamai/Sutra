@@ -1,6 +1,6 @@
 # Examples (documentation guide)
 
-The runnable examples live in the top-level [`examples/`](../../examples/README.md) directory. Each is a single small script against `@moolam/sdk`, designed to be read in one sitting and run with one command.
+The runnable examples live in the top-level [`examples/`](../../examples/README.md) directory. Each is a single small script against `sutra-sdk`, designed to be read in one sitting and run with one command.
 
 ## Map
 

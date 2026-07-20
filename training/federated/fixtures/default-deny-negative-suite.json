@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "federated.default-deny-suite.v1",
+  "suiteId": "federated.default-deny.negative",
+  "deviceId": "device.federated.negative",
+  "locality": "self-hosted",
+  "cases": [
+    {
+      "caseId": "missing-consent",
+      "expect": "reject",
+      "expectedFailureClass": "federated.default_deny",
+      "request": {
+        "operationId": "op.fed.neg.missing-consent",
+        "subjectId": "tenant.neg.missing-consent",
+        "federationTier": null,
+        "consentClass": null,
+        "optedIn": false,
+        "anonymized": true,
+        "dp": {
+          "epsilon": 1.0,
+          "delta": 0.00001,
+          "clipNorm": 1.0
+        },
+        "bundle": {
+          "featureHash": "sha256:missingconsent000000000000000000000000000000000000000000000000"
+        }
+      },
+      "localityProof": {
+        "destinationClass": "self-hosted",
+        "payloadClass": "metadata",
+        "egressObserved": true,
+        "destinationHostClass": "self-hosted-allowlist"
+      }
+    },
+    {
+      "caseId": "raw-content-leak",
+      "expect": "reject",
+      "expectedFailureClass": "federated.sovereignty",
+      "request": {
+        "operationId": "op.fed.neg.raw-leak",
+        "subjectId": "tenant.neg.raw-leak",
+        "federationTier": "research_anon",
+        "consentClass": "research",
+        "optedIn": true,
+        "anonymized": true,
+        "dp": {
+          "epsilon": 1.0,
+          "delta": 0.00001,
+          "clipNorm": 1.0
+        },
+        "bundle": {
+          "utterance": "RAW_LEARNER_CONTENT_MUST_NOT_UPLOAD"
+        }
+      },
+      "localityProof": {
+        "destinationClass": "self-hosted",
+        "payloadClass": "metadata",
+        "egressObserved": true,
+        "destinationHostClass": "self-hosted-allowlist"
+      }
+    },
+    {
+      "caseId": "wrong-anonymization-tier",
+      "expect": "reject",
+      "expectedFailureClass": "federated.anonymization_missing",
+      "request": {
+        "operationId": "op.fed.neg.wrong-anon",
+        "subjectId": "tenant.neg.wrong-anon",
+        "federationTier": "research_anon",
+        "consentClass": "research",
+        "optedIn": true,
+        "anonymized": false,
+        "dp": {
+          "epsilon": 1.0,
+          "delta": 0.00001,
+          "clipNorm": 1.0
+        },
+        "bundle": {
+          "featureHash": "sha256:wronganon0000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "localityProof": {
+        "destinationClass": "self-hosted",
+        "payloadClass": "metadata",
+        "egressObserved": true,
+        "destinationHostClass": "self-hosted-allowlist"
+      }
+    },
+    {
+      "caseId": "consent-tier-mismatch",
+      "expect": "reject",
+      "expectedFailureClass": "federated.consent_mismatch",
+      "request": {
+        "operationId": "op.fed.neg.tier-mismatch",
+        "subjectId": "tenant.neg.tier-mismatch",
+        "federationTier": "research_anon",
+        "consentClass": "product-improve",
+        "optedIn": true,
+        "anonymized": true,
+        "dp": {
+          "epsilon": 1.0,
+          "delta": 0.00001,
+          "clipNorm": 1.0
+        },
+        "bundle": {
+          "featureHash": "sha256:tiermismatch000000000000000000000000000000000000000000000000"
+        }
+      },
+      "localityProof": {
+        "destinationClass": "self-hosted",
+        "payloadClass": "metadata",
+        "egressObserved": true,
+        "destinationHostClass": "self-hosted-allowlist"
+      }
+    },
+    {
+      "caseId": "missing-locality-proof",
+      "expect": "reject",
+      "expectedFailureClass": "federated.locality_proof_missing",
+      "request": {
+        "operationId": "op.fed.neg.missing-proof",
+        "subjectId": "tenant.neg.missing-proof",
+        "federationTier": "research_anon",
+        "consentClass": "research",
+        "optedIn": true,
+        "anonymized": true,
+        "dp": {
+          "epsilon": 1.0,
+          "delta": 0.00001,
+          "clipNorm": 1.0
+        },
+        "bundle": {
+          "featureHash": "sha256:missingproof00000000000000000000000000000000000000000000000"
+        }
+      },
+      "localityProof": null
+    },
+    {
+      "caseId": "proven-accept",
+      "expect": "accept",
+      "expectedFailureClass": null,
+      "request": {
+        "operationId": "op.fed.neg.proven-accept",
+        "subjectId": "tenant.neg.proven",
+        "federationTier": "research_anon",
+        "consentClass": "research",
+        "optedIn": true,
+        "anonymized": true,
+        "dp": {
+          "epsilon": 1.0,
+          "delta": 0.00001,
+          "clipNorm": 1.0
+        },
+        "bundle": {
+          "featureHash": "sha256:provenaccept00000000000000000000000000000000000000000000000",
+          "count": 4
+        }
+      },
+      "localityProof": {
+        "destinationClass": "self-hosted",
+        "payloadClass": "metadata",
+        "egressObserved": true,
+        "destinationHostClass": "self-hosted-allowlist"
+      }
+    }
+  ]
+}

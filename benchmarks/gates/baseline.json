@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "bench-baseline.v1",
+  "unit": "ms",
+  "metric": "p95",
+  "recordedAt": "2026-07-15T18:56:15.782Z",
+  "deviceId": "green-main-capture",
+  "subjectId": null,
+  "note": "Regression reference for CI `ci:gate` (absolute ceilings + relative ±50% vs this file). Checker never auto-rewrites or auto-relaxes baselines. To refresh after intentional perf work: (1) pnpm build from repo root, (2) pnpm --filter @moolam/benchmarks baseline:record, (3) pnpm --filter @moolam/benchmarks ci:gate, (4) open a PR that updates gates/baseline.json with rationale — never push baseline-only without review.",
+  "benches": {
+    "core_loop": {
+      "p95Ms": 0.035,
+      "nfrId": "NFR-06"
+    },
+    "crdt_merge": {
+      "p95Ms": 12,
+      "nfrId": "NFR-03"
+    },
+    "memory_retrieval": {
+      "p95Ms": 71.457,
+      "nfrId": "NFR-06"
+    },
+    "sync_roundtrip": {
+      "p95Ms": 5.957,
+      "nfrId": "NFR-03"
+    },
+    "router": {
+      "p95Ms": 0.05,
+      "nfrId": "NFR-04"
+    },
+    "agent_turn": {
+      "p95Ms": 0.08,
+      "nfrId": "NFR-06"
+    },
+    "sync_convergence": {
+      "p95Ms": 18.588,
+      "nfrId": "NFR-03"
+    },
+    "py_sync_merge": {
+      "p95Ms": 5,
+      "nfrId": "NFR-03"
+    },
+    "py_agent_runtime": {
+      "p95Ms": 5,
+      "nfrId": "NFR-06"
+    }
+  }
+}

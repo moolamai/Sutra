@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "training.corpus-manifest.v1",
+  "manifestId": "corpus.c4.micro-run",
+  "version": "1.0.0",
+  "title": "C4 micro-run minimal C1 corpus slice (UND-only synthetic)",
+  "consentClass": "synthetic",
+  "laneCodes": ["pack.teacher.cbse-slice"],
+  "knowledgeModes": ["UND"],
+  "sources": [
+    {
+      "sourceId": "src.micro.und",
+      "relpath": "sources/micro-und.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:e69bbce3350535a6b3bb08d335a9ae9132550b8c0ccd229b84b0375dca2f2fa4"
+    }
+  ],
+  "filters": [
+    { "filterId": "flt.exclude-unknown-license", "kind": "exclude_unknown_license" },
+    { "filterId": "flt.exclude-ret-weights", "kind": "exclude_ret_from_weights" },
+    { "filterId": "flt.exclude-eval-overlap", "kind": "exclude_eval_overlap" }
+  ],
+  "dedupReport": {
+    "status": "pending",
+    "algorithm": "sha256+fuzzy",
+    "fuzzyThreshold": 0.92
+  },
+  "licenseLedger": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "spdxOrLabel": "CC-BY-4.0",
+      "licenseClass": "open"
+    }
+  ],
+  "weightTrainingPolicy": {
+    "excludeKnowledgeModes": ["RET"],
+    "requireKnownLicense": true
+  },
+  "determinism": {
+    "canonicalSort": true,
+    "contentAddressedShards": true,
+    "forbidWallClockInShardBytes": true
+  }
+}

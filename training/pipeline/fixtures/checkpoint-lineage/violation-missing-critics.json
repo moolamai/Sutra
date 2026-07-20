@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "checkpoint.lineage.v1",
+  "runId": "run.lineage.violation.missing-critics",
+  "subjectId": "subj.lineage.gate",
+  "deviceId": "dev.lineage.gate",
+  "locality": "on-device",
+  "checkpointHash": "ckpt:sha256:incomplete0000001",
+  "parentCheckpointHash": "ckpt:sha256:genesis00000001",
+  "corpusManifestHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "baseModelHash": "base:sha256:model0000000001",
+  "hyperparameters": { "lr": 0.0001, "groupSize": 4 },
+  "criticVersions": [],
+  "stage": "GRPO",
+  "evalVerdicts": [{ "verdictId": "micro.golden", "outcome": "pass" }],
+  "recordedAt": "2026-07-16T14:00:00.000Z"
+}

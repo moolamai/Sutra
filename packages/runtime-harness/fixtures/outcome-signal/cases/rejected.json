@@ -1,0 +1,17 @@
+{
+  "id": "rejected",
+  "subjectId": "anika-k",
+  "turnId": "turn-outcome-rejected",
+  "sessionId": "sess-outcome-e2e",
+  "deviceId": "edge-aaaa",
+  "path": "reject",
+  "expectedSignal": "REJECTED",
+  "executionState": {
+    "commandExecuted": "tool.write",
+    "statusCode": "stream_aborted"
+  },
+  "streamFrames": ["SESSION_START", "TOKEN_DELTA", "TOOL_STATUS", "TURN_COMPLETE"],
+  "expectPreAbortFrames": true,
+  "expectedPreAbortFrameTypes": ["SESSION_START", "TOKEN_DELTA", "TOOL_STATUS"],
+  "locality": "on-device"
+}

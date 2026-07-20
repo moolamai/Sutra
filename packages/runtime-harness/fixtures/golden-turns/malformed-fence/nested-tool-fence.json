@@ -1,0 +1,33 @@
+{
+  "coverage": [
+    "nested_fence",
+    "never_answer"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedEvents": [
+    {
+      "discardedBytes": 8,
+      "failureClass": "nested_fence",
+      "type": "violation"
+    },
+    {
+      "delta": "{\"b\":2}",
+      "type": "tool_buffer_delta"
+    },
+    {
+      "body": "{\"b\":2}",
+      "type": "tool_buffer"
+    }
+  ],
+  "forbiddenAnswerSubstrings": [
+    "tool_call",
+    "{\"a\":1}"
+  ],
+  "id": "nested-tool-fence",
+  "input": [
+    "```tool_call\n{\"a\":1}\n```tool_call\n{\"b\":2}\n```"
+  ],
+  "scenario": "nested_fence",
+  "specId": "CK-07",
+  "subjectId": "anika-k"
+}

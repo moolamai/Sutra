@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "description": "Initial golden-turn corpus: thought/answer, tool fence, correction, meter tick, harness error.",
+  "turns": [
+    {
+      "id": "thought-answer-basic",
+      "file": "thought-answer-basic.json"
+    },
+    {
+      "id": "tool-call-fence",
+      "file": "tool-call-fence.json"
+    },
+    {
+      "id": "correction-loop",
+      "file": "correction-loop.json"
+    },
+    {
+      "id": "meter-tick",
+      "file": "meter-tick.json"
+    },
+    {
+      "id": "harness-error-terminal",
+      "file": "harness-error-terminal.json"
+    }
+  ]
+}

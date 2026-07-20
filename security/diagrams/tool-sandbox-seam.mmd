@@ -1,0 +1,38 @@
+%% Tool sandbox seam — envelope parse → policy → audit → invoke
+%% Trust boundary TB-TOOL-* crossings in THREAT-MODEL.md
+
+flowchart TB
+  subgraph TB_MODEL["Trust boundary: model output (untrusted)"]
+    GEN["ModelInterface.generate\nfinishReason: tool-call"]
+  end
+
+  subgraph TB_PARSE["Trust boundary: envelope parse"]
+    FENCE["parseToolCallEnvelope\n(sync-protocol / cognitive-core)"]
+  end
+
+  subgraph TB_POLICY["Trust boundary: ToolPolicy"]
+    AUTHZ["authorizeToolInvocation\nrisk-class routing"]
+    HOOKS["onWriteApproval /\nonCriticalConfirm"]
+  end
+
+  subgraph TB_AUDIT["Trust boundary: write-ahead audit"]
+    WA["recordThenInvoke /\nassertAuditBeforeEffect"]
+    SINK["AuditSink\n(hashed args, metadata)"]
+  end
+
+  subgraph TB_EXEC["Trust boundary: tool host sandbox"]
+    INVOKE["ToolInterface.invoke"]
+    HOST["Host tool implementation"]
+  end
+
+  GEN -->|"content: fenced JSON"| FENCE
+  FENCE -->|"content: toolName + arguments"| AUTHZ
+  AUTHZ -->|"metadata: approval signal"| HOOKS
+  HOOKS --> WA
+  WA --> SINK
+  WA -->|"content: bounded invocation"| INVOKE
+  INVOKE --> HOST
+  HOST -->|"metadata status +\nbounded result"| GEN
+
+  classDef boundary stroke:#1e3a5f,stroke-width:3px
+  class TB_MODEL,TB_PARSE,TB_POLICY,TB_AUDIT,TB_EXEC boundary

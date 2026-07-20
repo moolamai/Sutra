@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/training/corpus-manifest.v1.json",
+  "title": "CorpusManifest",
+  "description": "Versioned training corpus manifest: sources, filters, lanes, MEM/UND/RET modes, consent class, dedup report slot, license ledger. Validate on write. RET is excluded from weight-training by policy.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "manifestId",
+    "version",
+    "consentClass",
+    "laneCodes",
+    "knowledgeModes",
+    "sources",
+    "filters",
+    "dedupReport",
+    "licenseLedger",
+    "weightTrainingPolicy",
+    "determinism"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "training.corpus-manifest.v1"
+    },
+    "manifestId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "consentClass": {
+      "description": "First-class corpus consent class. Consented subject data and public corpora never share a shard/manifest.",
+      "type": "string",
+      "enum": ["consented", "public", "synthetic", "government"]
+    },
+    "laneCodes": {
+      "description": "Domain / saturation lane codes (canonical sort on write).",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[a-z0-9][a-z0-9._-]*$"
+      }
+    },
+    "knowledgeModes": {
+      "description": "Knowledge modes present in this corpus. RET never enters weights.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["MEM", "UND", "RET"]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "relpath",
+          "licenseId",
+          "knowledgeMode",
+          "laneCode"
+        ],
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "relpath": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "description": "Repo-relative or content-addressed path; never a network fetch URL for rebuild identity."
+          },
+          "licenseId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Must resolve in licenseLedger. Unknown license → exclude (validate rejects)."
+          },
+          "knowledgeMode": {
+            "type": "string",
+            "enum": ["MEM", "UND", "RET"]
+          },
+          "laneCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "contentHash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "description": "Optional pinned content hash for deterministic rebuild."
+          },
+          "curriculumStage": {
+            "description": "Optional SLM saturation curriculum stage tag for pack SFT lanes.",
+            "type": "string",
+            "enum": ["protocol", "tool_use", "domain_depth", "repair"]
+          }
+        }
+      }
+    },
+    "filters": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["filterId", "kind"],
+        "properties": {
+          "filterId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "exclude_unknown_license",
+              "exclude_ret_from_weights",
+              "exclude_eval_overlap",
+              "near_duplicate_dedup",
+              "custom"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": ["string", "number", "boolean"]
+            }
+          }
+        }
+      }
+    },
+    "dedupReport": {
+      "description": "Slot for the dedup build report (filled by later pipeline stages).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "algorithm"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pending", "recorded"]
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["sha256", "sha256+fuzzy"]
+        },
+        "reportRelpath": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "fuzzyThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "laneThresholds": {
+          "description": "Optional per-lane SimHash similarity overrides (0..1).",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "licenseLedger": {
+      "description": "License references for source.licenseId resolution.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["licenseId", "spdxOrLabel"],
+        "properties": {
+          "licenseId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "spdxOrLabel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "uri": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "licenseClass": {
+            "type": "string",
+            "enum": ["open", "restricted", "government", "proprietary"],
+            "description": "Optional explicit class; otherwise inferred from spdxOrLabel at build time. Never defaults to inventing rights."
+          }
+        }
+      }
+    },
+    "weightTrainingPolicy": {
+      "description": "Manifest policy: RET excluded from weight mix (not a post-hoc filter).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["excludeKnowledgeModes", "requireKnownLicense"],
+      "properties": {
+        "excludeKnowledgeModes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["MEM", "UND", "RET"]
+          }
+        },
+        "requireKnownLicense": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "determinism": {
+      "description": "Rebuild identity: canonical sort, content-addressed shards, no wall-clock in shard bytes.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonicalSort",
+        "contentAddressedShards",
+        "forbidWallClockInShardBytes"
+      ],
+      "properties": {
+        "canonicalSort": { "type": "boolean", "const": true },
+        "contentAddressedShards": { "type": "boolean", "const": true },
+        "forbidWallClockInShardBytes": { "type": "boolean", "const": true }
+      }
+    },
+    "decontaminationProof": {
+      "description": "Optional slot for C0 baseline decontamination proof (filled by decontamination pipeline).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pending", "recorded"]
+        },
+        "baselineRegistryRelpath": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "reportRelpath": {
+          "type": "string",
+          "maxLength": 512
+        }
+      }
+    },
+    "curriculum": {
+      "description": "Optional SLM pack-SFT curriculum: stage order protocol→tool_use→domain_depth→repair, repair-heavy target weight, and orderedSourceIds train sequence.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "stageOrder",
+        "repairHeavyTargetWeight",
+        "stageCounts",
+        "stageWeights",
+        "orderedSourceIds"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "training.pack-sft-curriculum.v1"
+        },
+        "stageOrder": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "enum": ["protocol", "tool_use", "domain_depth", "repair"]
+          }
+        },
+        "repairHeavyTargetWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "stageCounts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["protocol", "tool_use", "domain_depth", "repair"],
+          "properties": {
+            "protocol": { "type": "integer", "minimum": 0 },
+            "tool_use": { "type": "integer", "minimum": 0 },
+            "domain_depth": { "type": "integer", "minimum": 0 },
+            "repair": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "stageWeights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["protocol", "tool_use", "domain_depth", "repair"],
+          "properties": {
+            "protocol": { "type": "number", "minimum": 0, "maximum": 1 },
+            "tool_use": { "type": "number", "minimum": 0, "maximum": 1 },
+            "domain_depth": { "type": "number", "minimum": 0, "maximum": 1 },
+            "repair": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "orderedSourceIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4096,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      }
+    },
+    "mixPolicyVersion": {
+      "description": "Content-addressed mix policy version (sha256:…). Required for pack SFT promotion; must match the ratified MIX_POLICY_SIGNOFF hash.",
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}

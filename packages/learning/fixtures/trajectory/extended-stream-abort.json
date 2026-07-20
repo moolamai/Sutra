@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-c0-abort",
+  "turnId": "turn-c0-abort",
+  "deviceId": "edge-aaaa",
+  "capturedAt": "2026-07-15T20:10:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "personal",
+    "recordedAt": "2026-07-15T20:10:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "opCode": "tool.write",
+      "status": "aborted"
+    }
+  ],
+  "policyCheckpointHash": "sha256:streamabort01",
+  "precisionFormat": "bf16",
+  "executionState": {
+    "commandExecuted": "tool.write",
+    "statusCode": "stream_aborted"
+  }
+}

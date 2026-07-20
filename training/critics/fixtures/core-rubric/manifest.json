@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "critic.core-rubric.goldens.v1",
+  "rubricId": "critic.core-rubric",
+  "rubricVersion": "1.0.0",
+  "agreementThreshold": 0.85,
+  "branches": [
+    {
+      "id": "accepted-clean",
+      "branch": "human_accepted+clean_success",
+      "file": "accepted-clean.json",
+      "isolation": false,
+      "label": "ACCEPTED",
+      "expectedTotal": 1.5,
+      "expectedBreakdown": {
+        "human_accepted": 1,
+        "clean_success": 0.5
+      }
+    },
+    {
+      "id": "format-breach",
+      "branch": "format_breach",
+      "file": "format-breach.json",
+      "isolation": true,
+      "expectedTotal": -1,
+      "expectedBreakdown": {
+        "format_breach": -1
+      }
+    },
+    {
+      "id": "invariant-violation",
+      "branch": "invariant_violation",
+      "file": "invariant-violation.json",
+      "isolation": true,
+      "expectedTotal": -2,
+      "expectedBreakdown": {
+        "invariant_violation": -2
+      }
+    },
+    {
+      "id": "schema-failure",
+      "branch": "schema_failure",
+      "file": "schema-failure.json",
+      "isolation": true,
+      "expectedTotal": -1,
+      "expectedBreakdown": {
+        "schema_failure": -1
+      }
+    },
+    {
+      "id": "rejected",
+      "branch": "human_rejected",
+      "file": "rejected.json",
+      "isolation": true,
+      "label": "REJECTED",
+      "expectedTotal": -1,
+      "expectedBreakdown": {
+        "human_rejected": -1
+      }
+    },
+    {
+      "id": "discarded",
+      "branch": "human_discarded",
+      "file": "discarded.json",
+      "isolation": true,
+      "label": "DISCARDED",
+      "expectedTotal": 0,
+      "expectedBreakdown": {
+        "human_discarded": 0
+      }
+    },
+    {
+      "id": "reward-hack-empty",
+      "branch": "reward_hack",
+      "file": "reward-hack-empty.json",
+      "isolation": true,
+      "expectedTotal": 0,
+      "expectedBreakdown": {
+        "reward_hack_guard": 0
+      }
+    },
+    {
+      "id": "reward-hack-tool-spam",
+      "branch": "reward_hack",
+      "file": "reward-hack-tool-spam.json",
+      "isolation": true,
+      "expectedTotal": 0,
+      "expectedBreakdown": {
+        "reward_hack_guard": 0
+      }
+    },
+    {
+      "id": "repair-disqualifies-clean",
+      "branch": "clean_success_disqualified",
+      "file": "repair-disqualifies-clean.json",
+      "isolation": true,
+      "label": "ACCEPTED",
+      "expectedTotal": 1,
+      "expectedBreakdown": {
+        "human_accepted": 1
+      }
+    },
+    {
+      "id": "stack-format-rejected",
+      "branch": "stack",
+      "file": "stack-format-rejected.json",
+      "isolation": false,
+      "label": "REJECTED",
+      "expectedTotal": -2,
+      "expectedBreakdown": {
+        "format_breach": -1,
+        "human_rejected": -1
+      }
+    }
+  ]
+}

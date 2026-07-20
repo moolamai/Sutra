@@ -1,7 +1,11 @@
 # vision
 
-A multimodal core turn: a visual attachment (a photographed worksheet, a chart, a schematic, a scanned page) is analyzed by the bound `VisionInterface` and its answer is folded into the working context before recall and reasoning run.
+A multimodal core turn: a committed CK-06 fixture image is analyzed by the
+bound local `VisionInterface` (`sutra-bindings-vision`) and folded into the
+working context before recall and reasoning run. Network is unused
+(on-device).
 
 ```bash
 pnpm vision
 ```
+

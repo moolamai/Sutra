@@ -1,0 +1,59 @@
+{
+  "valid": [
+    { "id": "valid-single", "file": "valid-single.json", "form": "single" },
+    { "id": "valid-array", "file": "valid-array.json", "form": "array" }
+  ],
+  "violations": [
+    {
+      "code": "MISSING_TOOL_NAME",
+      "file": "violations/missing-tool-name.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "INVALID_ARGUMENTS",
+      "file": "violations/invalid-arguments.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "INVALID_CALL_ID",
+      "file": "violations/invalid-call-id.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "EMPTY_ENVELOPE",
+      "file": "violations/empty-envelope.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "TOO_MANY_CALLS",
+      "file": "violations/too-many-calls.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "AMBIGUOUS_ARRAY",
+      "file": "violations/ambiguous-array.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "SCHEMA_VIOLATION",
+      "file": "violations/schema-violation.json",
+      "kind": "json-value"
+    },
+    {
+      "code": "INVALID_JSON",
+      "file": "violations/invalid-json.txt",
+      "kind": "json-text"
+    },
+    {
+      "code": "MISSING_FENCE",
+      "file": "violations/missing-fence.txt",
+      "kind": "fence-text"
+    },
+    {
+      "code": "SUBJECT_REQUIRED",
+      "file": "valid-single.json",
+      "kind": "subject-scope",
+      "subjectId": ""
+    }
+  ]
+}

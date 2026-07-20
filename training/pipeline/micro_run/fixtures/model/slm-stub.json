@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "micro-run.slm-stub.v1",
+  "modelId": "slm.stub.cpu.micro",
+  "kind": "deterministic-stub",
+  "title": "Pinned CPU-class SLM stub for C4 micro-run CI",
+  "baseModelHash": "ckpt:sha256:micromodel0000000001",
+  "requiresGpu": false,
+  "allowsNetworkFetch": false,
+  "paramClass": "stub",
+  "locality": "on-device",
+  "pinnedAt": "2026-07-16T00:00:00.000Z",
+  "notes": "No weights payload — deterministic stub for CPU CI runners only."
+}

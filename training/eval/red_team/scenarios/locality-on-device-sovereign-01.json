@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "candidate-red-team.scenario.v1",
+  "id": "locality-on-device-sovereign-01",
+  "family": "locality_proof",
+  "scenarioDoc": "B1 locality proof on candidate binding: on-device-sovereign, zero egress during generate. Extends contract-conformance locality harness.",
+  "subjectId": "subj.red-team.locality.01",
+  "deviceId": "dev.red-team.01",
+  "locality": "on-device",
+  "pinnedSeed": 8405,
+  "probeRef": "probe.locality.zero_egress.token",
+  "bindingProfile": "on-device-sovereign",
+  "obligationRef": "locality.zero_egress_during_generate",
+  "expectedOutcome": "zero_egress",
+  "adapterChangeRequiresFullSuite": true
+}

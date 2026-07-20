@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "training.pack-sft-distill.v1",
+  "turnId": "distill-teacher-high",
+  "domainCode": "teacher",
+  "curriculumStage": "tool_use",
+  "summary": "Synthetic high-quality teacher distillation stub for pack SFT lane assembly."
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "invalid-cycle",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "a", "title": "A" },
+    { "conceptId": "b", "title": "B" },
+    { "conceptId": "c", "title": "C" }
+  ],
+  "edges": [
+    { "fromConceptId": "a", "toConceptId": "b", "type": "prerequisite" },
+    { "fromConceptId": "b", "toConceptId": "c", "type": "prerequisite" },
+    { "fromConceptId": "c", "toConceptId": "a", "type": "prerequisite" }
+  ]
+}

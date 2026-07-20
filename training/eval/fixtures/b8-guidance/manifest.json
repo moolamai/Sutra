@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "description": "Frozen B8 guidance-eval scenarios for decontamination (metadata only).",
+  "scenarios": [
+    {
+      "id": "teacher-guidance-tone",
+      "file": "teacher-guidance-tone.json"
+    },
+    {
+      "id": "lawyer-scope-refusal",
+      "file": "lawyer-scope-refusal.json"
+    }
+  ]
+}

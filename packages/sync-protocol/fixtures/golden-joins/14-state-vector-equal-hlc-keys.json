@@ -1,0 +1,105 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "active": "000000000000100:000000:dev-a",
+      "device:dev-a": "000000000000777:000003:dev-a",
+      "device:dev-b": "000000000000777:000003:dev-b",
+      "profile": "000000000000777:000003:dev-b",
+      "session": "000000000000777:000003:dev-b"
+    },
+    "subjectId": "subj-sv2"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "active": "000000000000100:000000:dev-a",
+      "device:dev-a": "000000000000777:000003:dev-a",
+      "device:dev-b": "000000000000777:000003:dev-b",
+      "profile": "000000000000777:000003:dev-b",
+      "session": "000000000000777:000003:dev-b"
+    },
+    "subjectId": "subj-sv2"
+  },
+  "id": "14-state-vector-equal-hlc-keys",
+  "kind": "state-vector",
+  "note": "Adversarial equal physical+logical across stateVector keys",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "device:dev-a": "000000000000777:000003:dev-a",
+      "device:dev-b": "000000000000777:000003:dev-b",
+      "profile": "000000000000777:000003:dev-b",
+      "session": "000000000000777:000003:dev-a"
+    },
+    "subjectId": "subj-sv2"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "active": "000000000000100:000000:dev-a",
+      "session": "000000000000777:000003:dev-b"
+    },
+    "subjectId": "subj-sv2"
+  },
+  "subjectId": "subj-sv2"
+}

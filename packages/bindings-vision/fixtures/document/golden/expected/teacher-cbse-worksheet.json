@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "bindings-vision.cbse-worksheet.v1",
+  "documentKind": "cbse-worksheet",
+  "board": "CBSE",
+  "classLevel": "Class 7",
+  "subject": "Mathematics",
+  "title": "probe.worksheet.ratios",
+  "pageIndex": 0,
+  "confidence": 0.78,
+  "items": [
+    {
+      "index": 1,
+      "promptText": "probe.q.simplify-ratio",
+      "learnerResponse": "probe.a.2-to-3",
+      "marksAllocated": 2,
+      "marksAwarded": null,
+      "confidence": 0.75
+    },
+    {
+      "index": 2,
+      "promptText": null,
+      "learnerResponse": null,
+      "marksAllocated": null,
+      "marksAwarded": null,
+      "confidence": 0.2
+    }
+  ],
+  "partial": true,
+  "unresolvedFields": ["items[1].promptText", "items[1].learnerResponse"]
+}
+

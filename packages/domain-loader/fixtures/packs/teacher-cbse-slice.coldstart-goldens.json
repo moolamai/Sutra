@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "teacher-cbse-slice.coldstart-goldens.v1",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "packFile": "teacher-cbse-slice.json",
+  "description": "CAST-05 cold-start parity fixtures. Same cases must yield identical nextConceptId + mode from Python TaskRouter and playground routeTurnOnGraph; edge coldstart gate must agree on block/allow.",
+  "deviceId": "dev-coldstart-parity",
+  "cases": [
+    {
+      "id": "first-turn-empty-mastery-diagnostic",
+      "subjectId": "subj.cold.parity.empty",
+      "activeConceptId": "math.fractions",
+      "mode": "exploratory",
+      "mastery": {},
+      "friction": {
+        "conceptId": "math.fractions",
+        "hesitationMs": 80,
+        "inputVelocity": 3.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.fractions",
+        "mode": "diagnostic",
+        "rationaleIncludes": ["CAST-05.1", "unassessed_roots"],
+        "gateBlocked": true,
+        "unassessedRoots": ["math.fractions"],
+        "probeConceptId": "math.fractions"
+      }
+    },
+    {
+      "id": "high-confidence-unassessed-root-blocks-advance",
+      "subjectId": "subj.cold.parity.block",
+      "activeConceptId": "math.ratios",
+      "mode": "exploratory",
+      "mastery": {
+        "math.fractions": { "alpha": 1.0, "beta": 0.0 },
+        "math.ratios": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "math.ratios",
+        "hesitationMs": 100,
+        "inputVelocity": 3.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.fractions",
+        "mode": "diagnostic",
+        "rationaleIncludes": ["CAST-05.1", "advance quarantined"],
+        "gateBlocked": true,
+        "unassessedRoots": ["math.fractions"],
+        "probeConceptId": "math.fractions"
+      }
+    },
+    {
+      "id": "assessed-root-allows-advance",
+      "subjectId": "subj.cold.parity.advance",
+      "activeConceptId": "math.fractions",
+      "mode": "exploratory",
+      "mastery": {
+        "math.fractions": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "math.fractions",
+        "hesitationMs": 100,
+        "inputVelocity": 3.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.ratios",
+        "mode": "exploratory",
+        "rationaleIncludes": [],
+        "gateBlocked": false,
+        "unassessedRoots": [],
+        "probeConceptId": null
+      }
+    },
+    {
+      "id": "idempotent-replay-block",
+      "subjectId": "subj.cold.parity.replay",
+      "activeConceptId": "math.ratios",
+      "mode": "exploratory",
+      "replay": 2,
+      "mastery": {
+        "math.fractions": { "alpha": 1.0, "beta": 0.0 },
+        "math.ratios": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "math.ratios",
+        "hesitationMs": 120,
+        "inputVelocity": 2.5,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.fractions",
+        "mode": "diagnostic",
+        "rationaleIncludes": ["CAST-05.1"],
+        "gateBlocked": true,
+        "unassessedRoots": ["math.fractions"],
+        "probeConceptId": "math.fractions"
+      }
+    },
+    {
+      "id": "partial-two-root-inline",
+      "subjectId": "subj.cold.parity.partial",
+      "activeConceptId": "child",
+      "mode": "exploratory",
+      "inlineGraph": {
+        "advanceThreshold": 0.85,
+        "remediateThreshold": 0.4,
+        "nodes": [
+          { "conceptId": "root.a", "title": "A", "prerequisites": [] },
+          { "conceptId": "root.b", "title": "B", "prerequisites": [] },
+          {
+            "conceptId": "child",
+            "title": "Child",
+            "prerequisites": ["root.a", "root.b"]
+          }
+        ]
+      },
+      "mastery": {
+        "root.a": { "alpha": 20.0, "beta": 1.0 },
+        "root.b": { "alpha": 1.0, "beta": 0.0 },
+        "child": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "child",
+        "hesitationMs": 90,
+        "inputVelocity": 3.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "root.b",
+        "mode": "diagnostic",
+        "rationaleIncludes": ["CAST-05.1", "root.b"],
+        "gateBlocked": true,
+        "unassessedRoots": ["root.b"],
+        "probeConceptId": "root.b"
+      }
+    }
+  ]
+}

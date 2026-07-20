@@ -1,0 +1,93 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "aaa-device",
+      "zzz-device"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "calculus",
+      "updatedAt": "000000002000000:000000:zzz-device"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000001:000000:zzz-device"
+    },
+    "subjectId": "subj-prof"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "aaa-device",
+      "zzz-device"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "calculus",
+      "updatedAt": "000000002000000:000000:zzz-device"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000001:000000:zzz-device"
+    },
+    "subjectId": "subj-prof"
+  },
+  "id": "10-lww-profile-tie-device",
+  "kind": "lww-equal-hlc",
+  "note": "Equal physical+logical profile.updatedAt — deviceId chooses winner",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "aaa-device",
+      "zzz-device"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "child",
+      "language": "hi",
+      "track": "numeracy",
+      "updatedAt": "000000002000000:000000:aaa-device"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000001:000000:aaa-device"
+    },
+    "subjectId": "subj-prof"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "aaa-device",
+      "zzz-device"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "calculus",
+      "updatedAt": "000000002000000:000000:zzz-device"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000001:000000:zzz-device"
+    },
+    "subjectId": "subj-prof"
+  },
+  "subjectId": "subj-prof"
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "certification-findings.v1",
+  "generatedAt": "2026-07-17T00:00:00.000Z",
+  "subjectId": "ci-certification-triage",
+  "deviceId": "ci",
+  "sourceReport": "artifacts/independent-certification/reports/certification-report.json",
+  "environmentManifest": "artifacts/independent-certification/reports/environment-manifest.json",
+  "runOutcome": "pass",
+  "checklistPassed": 10,
+  "checklistTotal": 10,
+  "stacks": {
+    "storage": { "id": "file-jsonl-v1", "shippedInReferenceMonorepo": false },
+    "model": { "id": "deterministic-on-device-v1", "shippedInReferenceMonorepo": false }
+  },
+  "findings": [
+    {
+      "id": "CERTRUN-F-001",
+      "severity": "P3",
+      "status": "closed",
+      "summary": "Independent checklist suite green (SYNC/CK-02/CK-03/locality).",
+      "disposition": "Accepted as DIST-01 evidence; no waiver required."
+    },
+    {
+      "id": "CERTRUN-F-002",
+      "severity": "P3",
+      "status": "closed",
+      "summary": "Golden SyncRequest protocolVersion drifted ahead of frozen schema const; independent producer emits schema-locked version.",
+      "disposition": "Closed — producer aligns to schema const; schema/golden lockstep tracked under version bump to 1.0.0."
+    },
+    {
+      "id": "CERTRUN-F-003",
+      "severity": "P2",
+      "status": "waived",
+      "summary": "Independent factory covers checklist surface (10 obligations), not the full 34-id published catalog (speech/vision/tool/… stacks).",
+      "disposition": "Waived with owner+expiry — reference catalog remains 34/34 green; DIST-01 bar is checklist + non-reference stacks.",
+      "owner": "Track A lead",
+      "expiry": "2026-10-01"
+    },
+    {
+      "id": "FP-002",
+      "severity": "P1",
+      "status": "closed",
+      "summary": "Indic classroom-noise STT fixture landed with confidence regression lock.",
+      "disposition": "Closed — packages/bindings-speech/fixtures/indic hi-classroom-noise + tests/fp002_classroom_noise.test.mjs"
+    }
+  ]
+}

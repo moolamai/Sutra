@@ -1,0 +1,38 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [
+    [
+      "sutra-bindings-knowledge",
+      "sutra-bindings-slm",
+      "sutra-bindings-speech",
+      "sutra-bindings-vision",
+      "@moolam/cognitive-core",
+      "@moolam/contract-conformance",
+      "@moolam/contracts",
+      "@moolam/edge-agent",
+      "@moolam/learning",
+      "@moolam/observability",
+      "@moolam/runtime",
+      "@moolam/runtime-harness",
+      "sutra-sdk",
+      "@moolam/sync-protocol",
+      "@moolam/telemetry"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "@moolam/benchmarks",
+    "@moolam/cloud-orchestrator",
+    "@moolam/contract-mocks",
+    "@moolam/examples",
+    "@moolam/playground",
+    "@moolam/training-corpus",
+    "@moolam/training-distillation",
+    "@moolam/training-gym"
+  ]
+}

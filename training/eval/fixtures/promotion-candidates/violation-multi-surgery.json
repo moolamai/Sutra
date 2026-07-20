@@ -1,0 +1,15 @@
+{
+  "componentDigests": {
+    "adapter": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "critic": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "deviceId": "ci-promotion-candidate",
+  "locality": "on-device",
+  "schemaVersion": "promotion-candidate.v1",
+  "stageId": "C4-micro-adapter-and-critic-void",
+  "subjectId": null,
+  "surgeryClasses": [
+    "adapter",
+    "critic"
+  ]
+}

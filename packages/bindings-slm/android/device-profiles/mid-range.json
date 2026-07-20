@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "bindings-slm.device-profile.v1",
+  "profileId": "android-mid-range",
+  "platform": "android",
+  "hardwareClass": "mid-range",
+  "maxMemoryMiB": 1536,
+  "description": "India-first mid-range Android SLM budget (peak RSS ceiling, not bare weight file size). Aligns with NFR-01 on-device first-token class.",
+  "nfr": {
+    "firstTokenP95Ms": 1500,
+    "nfrId": "NFR-01"
+  }
+}

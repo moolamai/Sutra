@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "lastReviewed": "2026-07-16",
+  "nextReviewDue": "2026-10-01",
+  "suppressions": [
+    {
+      "advisoryIds": ["1123525", "GHSA-fx2h-pf6j-xcff", "CVE-2026-53571"],
+      "ecosystem": "npm",
+      "package": "vite",
+      "severity": "high",
+      "owner": "Track A lead",
+      "expiresOn": "2026-10-01",
+      "rationale": "Vite is a dev/build dependency for docs-site and playground only; production edge and cloud artifacts do not bundle vite. Patched major upgrade tracked for the next release window."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+import { domainPack } from "./config/domain.ts";
+import { createStorageDriver } from "./bindings/storage.ts";
+import { createSyncTransport, isOfflineTransport } from "./bindings/transport.ts";
+
+/** Scaffold metadata — binding choices are fixed at generation time. */
+export const project = {
+  name: "{{PROJECT_NAME}}",
+  domainPack: domainPack.id,
+  storageDriver: "{{STORAGE_DRIVER}}",
+  transport: "{{TRANSPORT}}",
+} as const;
+
+/**
+ * Bootstrap typed binding stubs. Every read/write is scoped by `subjectId`.
+ * Replace stubs with production adapters without changing CognitiveCore wiring.
+ */
+export function bootstrapBindings(subjectId: string) {
+  if (!subjectId.trim()) {
+    throw new Error("subjectId is required for sovereign binding bootstrap");
+  }
+
+  const storage = createStorageDriver({ subjectId });
+  const transport = createSyncTransport({ subjectId, baseUrl: process.env.SUTRA_SYNC_URL });
+
+  return {
+    subjectId,
+    storage,
+    transport,
+    offline: isOfflineTransport(transport),
+    domainPack,
+  };
+}

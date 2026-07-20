@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "gym-golden-episode.v1",
+  "scenarioId": "tool-call-micro",
+  "sourceId": "tool-call-fence",
+  "sourceKind": "c2_gym_micro",
+  "sourceRelPath": "training/gym/scenarios/golden/tasks/tool-call-fence.json",
+  "subjectId": "subj.micro.run",
+  "deviceId": "dev.micro.run",
+  "locality": "on-device",
+  "expectedTerminalFrame": "TURN_COMPLETE",
+  "frameCount": 7,
+  "pinnedAt": "2026-07-16T00:00:00.000Z",
+  "oracleCheckId": "oracle.micro.tool-call.frame_sequence",
+  "promptId": "prompt.micro.tool-call"
+}

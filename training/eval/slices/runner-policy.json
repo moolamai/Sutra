@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "eval-slice-runner-policy.v1",
+  "maxSlicesPerRun": 256,
+  "maxBaselinesPerSlice": 64,
+  "defaultTimeoutMs": 5000,
+  "notes": "Per-slice scores are primary; aggregate is always derived from slices[]. Stochastic components must use injected pinned seeds — never Math.random."
+}

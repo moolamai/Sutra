@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "teacher-cbse-slice.route-goldens.v1",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "description": "Golden friction → route decisions for teacher CBSE-slice pack. Same cases must yield identical nextConceptId + mode from Python TaskRouter and playground routeTurnOnGraph.",
+  "deviceId": "dev-parity",
+  "cases": [
+    {
+      "id": "advance-fractions-to-ratios",
+      "subjectId": "subj.parity.advance",
+      "activeConceptId": "math.fractions",
+      "mode": "exploratory",
+      "mastery": {
+        "math.fractions": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "math.fractions",
+        "hesitationMs": 100,
+        "inputVelocity": 3.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.ratios",
+        "mode": "exploratory"
+      }
+    },
+    {
+      "id": "remediate-ratios-to-fractions",
+      "subjectId": "subj.parity.remediate",
+      "activeConceptId": "math.ratios",
+      "mode": "guided",
+      "mastery": {
+        "math.ratios": { "alpha": 5.0, "beta": 5.0 },
+        "math.fractions": { "alpha": 1.0, "beta": 20.0 }
+      },
+      "friction": {
+        "conceptId": "math.ratios",
+        "hesitationMs": 20000,
+        "inputVelocity": 0.5,
+        "revisionCount": 3,
+        "assistanceRequested": true,
+        "outcome": "incorrect"
+      },
+      "expect": {
+        "nextConceptId": "math.fractions",
+        "mode": "prerequisite-remediation"
+      }
+    },
+    {
+      "id": "hold-mid-band-ratios",
+      "subjectId": "subj.parity.hold",
+      "activeConceptId": "math.ratios",
+      "mode": "exploratory",
+      "mastery": {
+        "math.ratios": { "alpha": 5.0, "beta": 5.0 },
+        "math.fractions": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "math.ratios",
+        "hesitationMs": 200,
+        "inputVelocity": 2.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.ratios",
+        "mode": "exploratory"
+      }
+    },
+    {
+      "id": "unknown-concept-quarantine",
+      "subjectId": "subj.parity.unknown",
+      "activeConceptId": "math.not_in_pack",
+      "mode": "diagnostic",
+      "mastery": {},
+      "friction": {
+        "conceptId": "math.not_in_pack",
+        "hesitationMs": 100,
+        "inputVelocity": 1.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.not_in_pack",
+        "mode": "diagnostic"
+      }
+    },
+    {
+      "id": "advance-ratios-to-equivalent",
+      "subjectId": "subj.parity.advance.eq",
+      "activeConceptId": "math.ratios",
+      "mode": "exploratory",
+      "mastery": {
+        "math.ratios": { "alpha": 20.0, "beta": 1.0 },
+        "math.fractions": { "alpha": 20.0, "beta": 1.0 }
+      },
+      "friction": {
+        "conceptId": "math.ratios",
+        "hesitationMs": 150,
+        "inputVelocity": 3.0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct"
+      },
+      "expect": {
+        "nextConceptId": "math.equivalent_ratios",
+        "mode": "exploratory"
+      }
+    }
+  ]
+}

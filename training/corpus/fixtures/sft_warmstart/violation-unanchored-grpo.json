@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "training.grpo-job.v1",
+  "jobId": "grpo.unanchored.violation",
+  "subjectId": "subj.sft.gate",
+  "deviceId": "dev.sft.gate",
+  "baseCheckpointHash": "ckpt:sha256:unanchoredbase012345",
+  "declaredCorpusManifestHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "sftParent": null,
+  "expectedFailureClass": "sft.unanchored_grpo",
+  "title": "CI seeded violation — RL attempt without completed SFT warmstart parent"
+}

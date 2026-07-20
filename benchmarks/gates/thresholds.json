@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "bench-thresholds.v1",
+  "unit": "ms",
+  "metric": "p95",
+  "policy": {
+    "autoRelax": false,
+    "updatesRequirePrReview": true,
+    "headroomRequiredInOutput": true,
+    "regressionTolerancePercent": 50,
+    "baselineModeStillEnforcesAbsoluteCeiling": true,
+    "baselineRelpath": "benchmarks/gates/baseline.json"
+  },
+  "benches": {
+    "crdt_merge": {
+      "benchFile": "crdt_merge.bench.mjs",
+      "nfrId": "NFR-03",
+      "nfrTitle": "Sync convergence after reconnect (1k pending samples)",
+      "nfrBudgetP95Ms": 10000,
+      "p95Ms": 40,
+      "p99Ms": 80,
+      "rationale": "Microbench ceiling for the worst-case CRDT merge size in the file (200 concepts / 1k samples). Full end-to-end 1k-sample SLA stays NFR-03 ≤10s (endurance proofs)."
+    },
+    "memory_retrieval": {
+      "benchFile": "memory_retrieval.bench.mjs",
+      "nfrId": "NFR-06",
+      "nfrTitle": "Core composition overhead (loop excluding bound-implementation time)",
+      "nfrBudgetP95Ms": 10,
+      "p95Ms": 100,
+      "p99Ms": 150,
+      "rationale": "On-device LocalVectorDb search over the documented ≤20k corpus. Gate uses max p95 across sizes in the file. Loop composition itself is gated by core_loop under the same NFR-06 row."
+    },
+    "sync_roundtrip": {
+      "benchFile": "sync_roundtrip.bench.mjs",
+      "nfrId": "NFR-03",
+      "nfrTitle": "Sync convergence after reconnect (1k pending samples)",
+      "nfrBudgetP95Ms": 10000,
+      "p95Ms": 50,
+      "p99Ms": 80,
+      "rationale": "In-process push+merge round-trip (no network). Composition regresses here must fail CI before the 10s reconnect SLA is approached."
+    },
+    "core_loop": {
+      "benchFile": "core_loop.bench.mjs",
+      "nfrId": "NFR-06",
+      "nfrTitle": "Core composition overhead (loop excluding bound-implementation time)",
+      "nfrBudgetP95Ms": 10,
+      "p95Ms": 10,
+      "p99Ms": 15,
+      "rationale": "Direct PRD_MATRIX NFR-06 mapping: ≤10ms p95 per turn excluding bound-implementation time."
+    },
+    "router": {
+      "benchFile": "router.bench.mjs",
+      "nfrId": "NFR-04",
+      "nfrTitle": "Cloud /v1/agent/turn routing overhead (excluding LLM generation)",
+      "nfrBudgetP95Ms": 50,
+      "p95Ms": 50,
+      "p99Ms": 80,
+      "rationale": "Task-router assess_friction → route decision on the demo graph (incl. remediation depth breaker). Measures routing composition only — zero model generation. Direct PRD_MATRIX NFR-04 ≤50ms p95."
+    },
+    "agent_turn": {
+      "benchFile": "agent_turn.bench.mjs",
+      "nfrId": "NFR-06",
+      "nfrTitle": "Core composition overhead (loop excluding bound-implementation time)",
+      "nfrBudgetP95Ms": 10,
+      "p95Ms": 10,
+      "p99Ms": 15,
+      "rationale": "Full CognitiveCore.turn perceive→reflect with contract-complete zero-sleep mocks. Measures composition overhead only (NFR-06 ≤10ms p95); model/reasoning bindings return instantly."
+    },
+    "py_sync_merge": {
+      "runtime": "python",
+      "packageRelpath": "packages/cloud-orchestrator",
+      "benchModule": "benchmarks.sync_merge_bench",
+      "benchFile": "sync_merge_bench.py",
+      "nfrId": "NFR-03",
+      "nfrTitle": "Sync convergence after reconnect (1k pending samples)",
+      "nfrBudgetP95Ms": 10000,
+      "p95Ms": 40,
+      "p99Ms": 80,
+      "rationale": "Python crdt_merge.merge_states parity with JS crdt_merge microbench (max p95 across sizes). Consumed via check.mjs python spawn + bench.mjs-compatible JSON."
+    },
+    "py_agent_runtime": {
+      "runtime": "python",
+      "packageRelpath": "packages/cloud-orchestrator",
+      "benchModule": "benchmarks.agent_runtime_bench",
+      "benchFile": "agent_runtime_bench.py",
+      "nfrId": "NFR-06",
+      "nfrTitle": "Core composition overhead (loop excluding bound-implementation time)",
+      "nfrBudgetP95Ms": 10,
+      "p95Ms": 10,
+      "p99Ms": 15,
+      "rationale": "Python AgentRuntime.run_turn with DeterministicFakeProvider (zero-sleep). Measures cloud turn-handler composition; check.mjs parses unified p95 capture."
+    },
+    "sync_convergence": {
+      "benchFile": "load/sync_convergence.bench.mjs",
+      "nfrId": "NFR-03",
+      "nfrTitle": "Sync convergence after reconnect (1k pending samples)",
+      "nfrBudgetP95Ms": 10000,
+      "p95Ms": 10000,
+      "p99Ms": 15000,
+      "rationale": "End-to-end POST /v1/sync with 1k pending friction samples on compose orchestrator (SUTRA_ORCHESTRATOR_URL). In-process SyncEngine floor when compose is absent — full NFR-03 SLA requires docker-compose."
+    }
+  }
+}

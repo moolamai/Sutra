@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/bindings-slm/certification.report.v1.json",
+  "title": "bindings-slm certification report",
+  "description": "Versioned machine-readable certification report: adapter id, model hash, B0 obligation verdicts, B1 egress summary, P4 p95 benches. Never contains utterance/prompt bodies.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schemaVersion",
+    "recordedAt",
+    "event",
+    "outcome",
+    "profileId",
+    "adapter",
+    "subjectId",
+    "deviceId",
+    "modelArtifactSha256",
+    "measuredArtifactSha256",
+    "obligationVerdicts",
+    "egressRecord",
+    "p95Benches",
+    "failures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "bindings-slm.certification.report.v1"
+    },
+    "recordedAt": { "type": "string", "minLength": 1 },
+    "event": { "const": "bindings_slm.certify" },
+    "outcome": { "enum": ["pass", "fail"] },
+    "profileId": { "type": "string", "minLength": 1 },
+    "adapter": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Adapter id (llamacpp | onnx | mlx | …)"
+    },
+    "subjectId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Subject isolation key — required on every report"
+    },
+    "deviceId": { "type": "string", "minLength": 1 },
+    "modelArtifactSha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "Pinned model artifact hash from the profile"
+    },
+    "measuredArtifactSha256": {
+      "type": "string",
+      "description": "Measured on-disk fixture hash (empty string when missing-artifact fail-fast)"
+    },
+    "deadlineMs": { "type": "number", "exclusiveMinimum": 0 },
+    "phaseOrder": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["phase", "ok", "durationMs"],
+        "properties": {
+          "phase": { "type": "string" },
+          "ok": { "type": "boolean" },
+          "durationMs": { "type": "number" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "obligationVerdicts": {
+      "type": "array",
+      "description": "B0 model obligation verdicts (CK-03.*)",
+      "items": {
+        "type": "object",
+        "required": ["obligationId", "outcome"],
+        "properties": {
+          "obligationId": { "type": "string", "minLength": 1 },
+          "outcome": { "type": "string", "minLength": 1 },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "egressRecord": {
+      "type": "object",
+      "description": "B1 locality egress summary (metadata only — no content bodies)",
+      "required": ["ok", "attemptCount", "zeroEgressOps", "obligationId"],
+      "properties": {
+        "ok": { "type": "boolean" },
+        "attemptCount": { "type": "integer", "minimum": 0 },
+        "zeroEgressOps": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "obligationId": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string" }
+      }
+    },
+    "p95Benches": {
+      "type": "object",
+      "description": "P4 perf subset (first_token + core_loop)",
+      "required": ["first_token", "core_loop"],
+      "properties": {
+        "first_token": {
+          "type": "object",
+          "required": ["nfrId", "budgetP95Ms", "floorP95Ms", "ok"],
+          "properties": {
+            "nfrId": { "type": "string" },
+            "measuredMs": { "type": ["number", "null"] },
+            "budgetP95Ms": { "type": "number" },
+            "floorP95Ms": { "type": "number" },
+            "ok": { "type": ["boolean", "null"] }
+          }
+        },
+        "core_loop": {
+          "type": "object",
+          "required": ["nfrId", "configured", "policy", "ok"],
+          "properties": {
+            "nfrId": { "type": "string" },
+            "configured": { "type": "boolean" },
+            "policy": { "type": "string" },
+            "ok": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "failures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Human-readable DIFF lines (no utterance bodies)"
+    }
+  }
+}

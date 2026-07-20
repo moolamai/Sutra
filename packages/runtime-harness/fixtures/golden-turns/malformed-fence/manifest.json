@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "file": "unclosed-tool-fence.json",
+      "id": "unclosed-tool-fence",
+      "scenario": "unclosed_fence"
+    },
+    {
+      "file": "unclosed-thought.json",
+      "id": "unclosed-thought",
+      "scenario": "unclosed_fence"
+    },
+    {
+      "file": "nested-tool-fence.json",
+      "id": "nested-tool-fence",
+      "scenario": "nested_fence"
+    },
+    {
+      "file": "undeclared-markup.json",
+      "id": "undeclared-markup",
+      "scenario": "undeclared_markup"
+    }
+  ],
+  "note": "B4 regression goldens for CK-07 violation routing. Not A P6 harness-frame turns — do not sync into A P6 corpus.",
+  "specId": "CK-07"
+}

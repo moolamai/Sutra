@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "bindings-slm.cert-profile-registry.v1",
+  "description": "Authoritative registry of certification profiles for the unified bindings-slm certify harness. Registry ids are the CLI --profile values; profileRelpath is resolved under this certification/ directory.",
+  "reportSchemaRelpath": "schemas/certification.report.schema.json",
+  "reportSchemaVersion": "bindings-slm.certification.report.v1",
+  "profiles": [
+    {
+      "id": "desktop",
+      "aliases": [],
+      "adapter": "llamacpp",
+      "hardwareClass": "cpu",
+      "displayName": "Desktop CPU (llama.cpp)",
+      "profileRelpath": "desktop.profile.json",
+      "committedReportRelpath": "reports/certification.report.json"
+    },
+    {
+      "id": "android-mid",
+      "aliases": ["android"],
+      "adapter": "onnx",
+      "hardwareClass": "mid-range-android",
+      "displayName": "Mid-range Android (ONNX Runtime Mobile)",
+      "profileRelpath": "android.profile.json",
+      "committedReportRelpath": "../android/certification/reports/android.cert.json"
+    },
+    {
+      "id": "apple-silicon",
+      "aliases": [],
+      "adapter": "mlx",
+      "hardwareClass": "apple-silicon",
+      "displayName": "Apple silicon (MLX / Metal)",
+      "profileRelpath": "apple-silicon.profile.json",
+      "committedReportRelpath": "../macos/certification/reports/apple-silicon.cert.json"
+    }
+  ]
+}

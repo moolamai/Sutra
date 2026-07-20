@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "llm-judge.eval-entry.v1",
+  "id": "clarity.pass.02",
+  "aspect": "clarity",
+  "subjectId": "subj.lj.clarity.pass.02",
+  "deviceId": "dev.lj.02",
+  "turnId": "turn.lj.clarity.pass.02",
+  "locality": "on-device",
+  "humanLabel": "pass"
+}

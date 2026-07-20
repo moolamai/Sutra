@@ -42,11 +42,22 @@ CREATE TABLE IF NOT EXISTS friction_samples (
   synced               INTEGER NOT NULL DEFAULT 0
 )`;
 
+/** Optional seams for deterministic offline-horizon / endurance tests. */
+export type CognitiveTelemetryCollectorOptions = {
+  /**
+   * Injectable wall clock (ms since epoch). Defaults to `Date.now`.
+   * Must be non-decreasing for a given collector when paired with
+   * {@link HlcClock} — the HLC layer stays monotonic if the wall clock
+   * briefly goes backwards (DST edge).
+   */
+  nowMs?: () => number;
+};
+
 /**
  * Per-session friction collector + durable sample log.
  *
  * Lifecycle per exercise:
-   *   prompt-rendered → [input/deletion/assistance-requested]* → submitted
+ *   prompt-rendered → [input/deletion/assistance-requested]* → submitted
  * `submitted` finalizes a sample, persists it, and resets the accumulator.
  */
 export class CognitiveTelemetryCollector {
@@ -60,10 +71,52 @@ export class CognitiveTelemetryCollector {
     assistanceRequested: boolean;
   } | null = null;
 
+  private readonly wallNow: () => number;
+  /** Cumulative approximate durable bytes (metadata columns only). */
+  private approxStoreBytes = 0;
+  /** Wall time of the most recent write-ahead persist (ms). */
+  private lastPersistMs = 0;
+
   constructor(
     private readonly driver: StorageDriver,
     private readonly clock: HlcClock,
-  ) {}
+    options: CognitiveTelemetryCollectorOptions = {},
+  ) {
+    this.wallNow = options.nowMs ?? Date.now;
+  }
+
+  /**
+   * Approximate on-disk size of one friction row (primary key + ints + enums).
+   * Used by offline-horizon store-growth proofs — never includes utterance text.
+   */
+  static estimateSampleStoreBytes(sample: FrictionSample): number {
+    return (
+      String(sample.capturedAt).length +
+      String(sample.conceptId).length +
+      String(sample.outcome).length +
+      48
+    );
+  }
+
+  /** Current wall time from the injected seam (or `Date.now`). */
+  nowMs(): number {
+    return this.wallNow();
+  }
+
+  /** HLC authority used for `capturedAt` (write-ahead CAST samples). */
+  get hlcClock(): HlcClock {
+    return this.clock;
+  }
+
+  /** Cumulative approximate durable friction store size (bytes). */
+  approxDurableStoreBytes(): number {
+    return this.approxStoreBytes;
+  }
+
+  /** Latency of the most recent CAST write-ahead persist (ms). */
+  lastPersistLatencyMs(): number {
+    return this.lastPersistMs;
+  }
 
   /** Create the telemetry table. Safe to call on every app launch. */
   async initialize(): Promise<void> {
@@ -166,7 +219,47 @@ export class CognitiveTelemetryCollector {
     }
   }
 
+  /**
+   * Durable CAST sample count via a single aggregate query — never materializes
+   * the friction log (keeps horizon / soak checks O(1) in result size).
+   */
+  async durableSampleCount(): Promise<number> {
+    const rows = await this.driver.query<{ n: number }>(
+      `SELECT COUNT(*) AS n FROM friction_samples`,
+    );
+    return Number(rows[0]?.n ?? 0);
+  }
+
+  /**
+   * Offline-horizon integrity probe: aggregates + HLC edge keys only.
+   * Never `SELECT *` the friction table (no unbounded materialization).
+   */
+  async castIntegrityProbe(): Promise<{
+    durableCount: number;
+    unsyncedCount: number;
+    earliestCapturedAt: HLCTimestamp | null;
+    latestCapturedAt: HLCTimestamp | null;
+  }> {
+    const durableCount = await this.durableSampleCount();
+    const unsyncedRows = await this.driver.query<{ n: number }>(
+      `SELECT COUNT(*) AS n FROM friction_samples WHERE synced = 0`,
+    );
+    const earliest = await this.driver.query<{ captured_at: string }>(
+      `SELECT captured_at FROM friction_samples ORDER BY captured_at ASC LIMIT 1`,
+    );
+    const latest = await this.driver.query<{ captured_at: string }>(
+      `SELECT captured_at FROM friction_samples ORDER BY captured_at DESC LIMIT 1`,
+    );
+    return {
+      durableCount,
+      unsyncedCount: Number(unsyncedRows[0]?.n ?? 0),
+      earliestCapturedAt: (earliest[0]?.captured_at as HLCTimestamp) ?? null,
+      latestCapturedAt: (latest[0]?.captured_at as HLCTimestamp) ?? null,
+    };
+  }
+
   private async persist(sample: FrictionSample): Promise<void> {
+    const started = performance.now();
     await this.driver.execute(
       `INSERT OR IGNORE INTO friction_samples
         (captured_at, concept_id, hesitation_ms, input_velocity, revision_count, assistance_requested, outcome)
@@ -180,6 +273,11 @@ export class CognitiveTelemetryCollector {
         sample.assistanceRequested ? 1 : 0,
         sample.outcome,
       ],
+    );
+    this.lastPersistMs = performance.now() - started;
+    // INSERT OR IGNORE is idempotent; still account once per successful submit call.
+    this.approxStoreBytes += CognitiveTelemetryCollector.estimateSampleStoreBytes(
+      sample,
     );
   }
 }

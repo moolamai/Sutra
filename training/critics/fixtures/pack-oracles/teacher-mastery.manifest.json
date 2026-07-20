@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "critic.pack-oracles.v1",
+  "packId": "pack.teacher.cbse-slice",
+  "oracles": [
+    {
+      "rubricId": "oracle.teacher.mastery-math",
+      "rubricVersion": "1.0.0",
+      "oracleKind": "mastery",
+      "title": "Teacher mastery math (verifiable stage signal)",
+      "weights": {
+        "mastery_signal": 0.5
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-m",
+      "dev-z"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-z"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-z"
+    },
+    "subjectId": "subj-devs"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-m",
+      "dev-z"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-z"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-z"
+    },
+    "subjectId": "subj-devs"
+  },
+  "id": "19-device-ids-union",
+  "kind": "shard-max",
+  "note": "deviceIds G-Set union is sorted in the join",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-z",
+      "dev-a"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-z"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-z"
+    },
+    "subjectId": "subj-devs"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-m"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-m"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-m"
+    },
+    "subjectId": "subj-devs"
+  },
+  "subjectId": "subj-devs"
+}

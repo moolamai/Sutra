@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "properties": {
+    "label": { "type": "string" },
+    "score": { "type": "number" }
+  },
+  "required": ["label", "score"]
+}

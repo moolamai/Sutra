@@ -1,0 +1,15 @@
+{
+  "name": "@moolam/create-sutra",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Scaffold companion Sutra projects with binding-choice prompts",
+  "type": "module",
+  "bin": {
+    "create-sutra": "./bin/create-sutra.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "templates"
+  ]
+}

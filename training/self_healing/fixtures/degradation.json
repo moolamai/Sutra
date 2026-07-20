@@ -1,0 +1,65 @@
+{
+  "id": "degradation",
+  "kind": "cluster_eligible",
+  "subjectId": "subj.fixture.degradation",
+  "deviceId": "dev.fixture",
+  "locality": "on-device",
+  "expect": {
+    "primaryClass": "degradation",
+    "disposition": "auto_eligible",
+    "lookupOk": true,
+    "policySurface": "degradation_registry",
+    "minSupport": 4
+  },
+  "trajectories": [],
+  "telemetryEvents": [
+    {
+      "event": "runtime.harness.degradation_registry",
+      "subjectId": "subj.fixture.degradation",
+      "deviceId": "dev.fixture",
+      "turnId": "turn.deg.0",
+      "outcome": "advisory",
+      "mode": "STALE_READ",
+      "dependency": "model",
+      "operation": "generate",
+      "signalCode": "DEGRADE_STALE_READ",
+      "advisoryOutcome": "stale_served"
+    },
+    {
+      "event": "runtime.harness.degradation_advisory",
+      "subjectId": "subj.fixture.degradation",
+      "deviceId": "dev.fixture",
+      "turnId": "turn.deg.1",
+      "outcome": "advisory",
+      "mode": "QUEUE_AND_WARN",
+      "dependency": "sync",
+      "operation": "write",
+      "signalCode": "DEGRADE_QUEUE_AND_WARN",
+      "advisoryOutcome": "queued"
+    },
+    {
+      "event": "runtime.harness.degradation_registry",
+      "subjectId": "subj.fixture.degradation",
+      "deviceId": "dev.fixture",
+      "turnId": "turn.deg.2",
+      "outcome": "advisory",
+      "mode": "HARD_STOP_WRITE",
+      "dependency": "tool",
+      "operation": "invoke",
+      "signalCode": "DEGRADE_HARD_STOP_WRITE",
+      "advisoryOutcome": "hard_stopped"
+    },
+    {
+      "event": "runtime.harness.degradation_advisory",
+      "subjectId": "subj.fixture.degradation",
+      "deviceId": "dev.fixture",
+      "turnId": "turn.deg.3",
+      "outcome": "advisory",
+      "mode": "STALE_READ",
+      "dependency": "model",
+      "operation": "generate",
+      "signalCode": "DEGRADE_STALE_READ",
+      "advisoryOutcome": "stale_served"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "description": "Post-compaction golden constraint retention — after forced compaction, refusals and required citation passages survive verbatim; no LLM self-summarization.",
+  "cases": [
+    {
+      "id": "retain-refusal-citation-numeric",
+      "specId": "context-compaction",
+      "protects": "After forced compaction, agent-facing summary still enforces refusals, numeric constraints, and cites required passages.",
+      "kind": "trigger",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "modelCard": {
+        "modelId": "slm-local",
+        "contextWindow": 400
+      },
+      "state": {
+        "subjectId": "anika-k",
+        "deviceId": "edge-aaaa",
+        "openConstraints": [
+          "refusal:medical-advice",
+          "ratio >= 2"
+        ],
+        "verifiedFacts": [
+          "water boils at 100C at 1atm"
+        ],
+        "citationRefs": [
+          "pack-a#§3"
+        ],
+        "episodicDetail": [
+          "learner struggled with fractions yesterday"
+        ]
+      },
+      "context": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "charter:keep-citations"
+          },
+          {
+            "role": "user",
+            "padTokens": 180,
+            "padChar": "x"
+          },
+          {
+            "role": "assistant",
+            "padTokens": 180,
+            "padChar": "x"
+          }
+        ],
+        "memories": [
+          {
+            "kind": "refusal",
+            "text": "refusal:medical-advice"
+          },
+          {
+            "kind": "episodic",
+            "text": "drop-me-episodic"
+          }
+        ],
+        "retrieval": [
+          {
+            "text": "long passage",
+            "score": 0.1,
+            "id": "p1"
+          }
+        ],
+        "pendingDynamicBlock": "user asks about ratios",
+        "protectedTexts": [
+          "plan:keep-citations"
+        ]
+      },
+      "mustRetainInSummary": [
+        "refusal:medical-advice",
+        "ratio >= 2",
+        "water boils at 100C at 1atm",
+        "pack-a#§3"
+      ],
+      "mustKeepMemoryTexts": [
+        "refusal:medical-advice"
+      ],
+      "expected": {
+        "allMustOmitAbsent": true,
+        "allMustRetainPresent": true,
+        "compacted": true,
+        "deferred": false,
+        "emptyStub": false,
+        "episodicDropped": false,
+        "failureClass": null,
+        "protectedMemoriesKept": true,
+        "retrievalCleared": true,
+        "summaryHash": "0cdc2ad61db1d3e400f78e0e4521e8a5fedd86db704ccdaef5e9539d607414e9",
+        "usedLlm": false
+      }
+    },
+    {
+      "id": "second-pass-episodic-drop",
+      "specId": "context-compaction",
+      "protects": "When summary exceeds token budget, second pass drops episodic detail only — constraints, facts, and citations remain verbatim.",
+      "kind": "second_pass",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "modelCard": {
+        "modelId": "slm-local",
+        "contextWindow": 400
+      },
+      "state": {
+        "subjectId": "anika-k",
+        "openConstraints": [
+          "ratio >= 2"
+        ],
+        "verifiedFacts": [
+          "fact-a"
+        ],
+        "citationRefs": [
+          "cite#1"
+        ],
+        "episodicDetail": [
+          "EPISODIC_DROP_MARKER eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        ]
+      },
+      "options": {
+        "maxSummaryTokens": 48
+      },
+      "mustRetainInSummary": [
+        "ratio >= 2",
+        "fact-a",
+        "cite#1"
+      ],
+      "mustOmitFromSummary": [
+        "EPISODIC_DROP_MARKER"
+      ],
+      "expected": {
+        "allMustOmitAbsent": true,
+        "allMustRetainPresent": true,
+        "compacted": true,
+        "deferred": false,
+        "emptyStub": false,
+        "episodicDropped": true,
+        "failureClass": null,
+        "protectedMemoriesKept": true,
+        "retrievalCleared": true,
+        "summaryHash": "b0ae5538a2adc11cad573d5b07c4cb63c204069a2f49f6d06d542bee1c5c1915",
+        "usedLlm": false
+      }
+    },
+    {
+      "id": "empty-durable-stub",
+      "specId": "context-compaction",
+      "protects": "Empty durable state yields a minimal summary stub after compaction — not an error.",
+      "kind": "empty_stub",
+      "subjectId": "anika-k",
+      "modelCard": {
+        "modelId": "slm-local",
+        "contextWindow": 200
+      },
+      "state": {
+        "subjectId": "anika-k"
+      },
+      "context": {
+        "messages": [
+          {
+            "role": "user",
+            "padTokens": 180,
+            "padChar": "x"
+          },
+          {
+            "role": "assistant",
+            "padTokens": 180,
+            "padChar": "x"
+          }
+        ]
+      },
+      "expected": {
+        "compacted": true,
+        "deferred": false,
+        "emptyStub": true,
+        "failureClass": null,
+        "summaryHash": "a3c0fa7bd175e1d6551b874682541d9ed4ea3221d41039161e1226c0f5b70756",
+        "usedLlm": false
+      }
+    },
+    {
+      "id": "tool-loop-deferred",
+      "specId": "context-compaction",
+      "protects": "Compaction during an active tool loop defers with a typed failure — never a silent skip.",
+      "kind": "tool_loop_defer",
+      "subjectId": "anika-k",
+      "modelCard": {
+        "modelId": "slm-local",
+        "contextWindow": 200
+      },
+      "state": {
+        "subjectId": "anika-k",
+        "openConstraints": [
+          "ratio >= 2"
+        ]
+      },
+      "context": {
+        "messages": [
+          {
+            "role": "user",
+            "padTokens": 180,
+            "padChar": "x"
+          }
+        ]
+      },
+      "options": {
+        "toolLoopActive": true
+      },
+      "expected": {
+        "compacted": false,
+        "deferred": true,
+        "failureClass": "deferred_tool_loop",
+        "usedLlm": false
+      }
+    },
+    {
+      "id": "cross-subject-rejected",
+      "specId": "context-compaction",
+      "protects": "Budget manager subjectId must match compaction state subjectId — cross-subject is rejected.",
+      "kind": "cross_subject",
+      "subjectId": "anika-k",
+      "budgetSubjectId": "other-learner",
+      "modelCard": {
+        "modelId": "slm-local",
+        "contextWindow": 400
+      },
+      "state": {
+        "subjectId": "anika-k",
+        "openConstraints": [
+          "secret-constraint"
+        ]
+      },
+      "context": {
+        "messages": [
+          {
+            "role": "user",
+            "padTokens": 320,
+            "padChar": "x"
+          }
+        ]
+      },
+      "expected": {
+        "compacted": false,
+        "deferred": false,
+        "failureClass": "cross_subject",
+        "usedLlm": false
+      }
+    }
+  ]
+}

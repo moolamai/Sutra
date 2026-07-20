@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "alpha": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "type": "object"
+    },
+    "beta": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "type": "object"
+    },
+    "conceptId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lastExercisedAt": {
+      "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "alpha",
+    "beta",
+    "conceptId",
+    "lastExercisedAt"
+  ],
+  "title": "ConceptMastery",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

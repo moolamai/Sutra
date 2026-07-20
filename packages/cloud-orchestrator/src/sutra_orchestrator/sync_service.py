@@ -1,34 +1,40 @@
 """Sync service — owns master state documents and CRDT reconciliation.
 
 The cloud side of the sync protocol, isolated from HTTP concerns so any
-transport (REST, GraphQL, gRPC) can mount it. The reference store is an
-in-process dict keeping ``uvicorn main:app`` runnable with zero infra; a
-production deployment persists documents to Postgres (JSONB, keyed by
-``subject_id``) behind the same ``MasterStateStore`` shape.
+transport (REST, GraphQL, gRPC) can mount it. Backends implement
+:class:`~sutra_orchestrator.master_state_repository.MasterStateRepository`;
+the in-memory store keeps ``uvicorn`` runnable with zero infra, and the
+Postgres repository plugs in behind the same protocol.
+
+Every successful reconciliation appends exactly one ``sync_audit`` row
+inside the same ``subject_guard`` transaction as the state write (SYNC-06).
 """
 
 from __future__ import annotations
 
 import logging
 
-from .contract_models import CognitiveState, SyncRequest, SyncResponse
+from . import PROTOCOL_VERSION
+from .contract_models import SyncRequest, SyncResponse
 from .crdt_merge import merge_states
+from .master_state_repository import (
+    InMemoryMasterStateStore,
+    MasterStateRepository,
+    MasterStateStore,
+    PostgresMasterStateStore,
+)
+from .sync_audit_writer import SyncAuditRecord, advisories_verbatim
+from .sync_trace import continue_sync_trace
 
 logger = logging.getLogger(__name__)
 
-
-class MasterStateStore:
-    """In-memory master-document store. Replace with a JSONB-backed store
-    in production; the sync service only needs get/put semantics."""
-
-    def __init__(self) -> None:
-        self._states: dict[str, CognitiveState] = {}
-
-    def get(self, subject_id: str) -> CognitiveState | None:
-        return self._states.get(subject_id)
-
-    def put(self, state: CognitiveState) -> None:
-        self._states[state.subjectId] = state
+__all__ = [
+    "InMemoryMasterStateStore",
+    "MasterStateRepository",
+    "MasterStateStore",
+    "PostgresMasterStateStore",
+    "SyncService",
+]
 
 
 class SyncService:
@@ -39,26 +45,55 @@ class SyncService:
     drops need no dedup bookkeeping. Structural impossibilities raise
     ``IrreconcilableStateError`` for the transport layer to map to a
     non-retryable status.
+
+    Every reconciliation is read-merge-write under the repository's
+    per-subject serialization guard, with a transactional sync_audit append.
+
+    Durability (A-G3): when the store is Postgres-backed, committed state and
+    audit rows survive orchestrator process kill / compose restart — covered by
+    ``tests/test_restart_durability.py``.
     """
 
-    def __init__(self, store: MasterStateStore) -> None:
+    def __init__(self, store: MasterStateRepository) -> None:
         self._store = store
 
     def reconcile(self, request: SyncRequest) -> SyncResponse:
         edge = request.edgeState
-        master = self._store.get(edge.subjectId) or edge
+        subject_id = edge.subjectId
 
-        merged, advisories = merge_states(master, edge)
-        self._store.put(merged)
+        with self._store.subject_guard(subject_id):
+            master = self._store.get_state(subject_id)
+            base = master or edge
+            state_vector_before = dict(base.stateVector)
+
+            # Extract W3C traceparent before merge .
+            with continue_sync_trace(request):
+                merged, advisories = merge_states(base, edge)
+            self._store.put_state(
+                merged,
+                expected_subject_id=subject_id,
+            )
+            self._store.append_sync_audit(
+                SyncAuditRecord(
+                    subject_id=subject_id,
+                    device_id=request.deviceId,
+                    sync_attempt_id=str(request.syncAttemptId),
+                    protocol_version=PROTOCOL_VERSION,
+                    advisories=advisories_verbatim(advisories),
+                    state_vector_before=state_vector_before,
+                    state_vector_after=dict(merged.stateVector),
+                )
+            )
 
         logger.info(
-            "sync ok: subject=%s device=%s samples=%d advisories=%d",
-            edge.subjectId,
+            "sync ok: subject_id=%s device_id=%s samples=%d advisories=%d outcome=ok",
+            subject_id,
             request.deviceId,
             len(edge.frictionLog),
             len(advisories),
         )
         return SyncResponse(
+            protocolVersion=PROTOCOL_VERSION,  # type: ignore[arg-type]
             mergedState=merged,
             # Reference engine compacts every merged sample immediately; a
             # production deployment may defer compaction to a batch job.

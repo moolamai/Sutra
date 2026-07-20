@@ -1,0 +1,18 @@
+{
+  "id": "user-discard",
+  "subjectId": "anika-k",
+  "turnId": "turn-outcome-discard",
+  "sessionId": "sess-outcome-e2e",
+  "deviceId": "edge-aaaa",
+  "path": "discard",
+  "expectedSignal": "DISCARDED",
+  "abandonmentKind": "user_discard",
+  "executionState": {
+    "commandExecuted": "diff.preview",
+    "statusCode": "discarded"
+  },
+  "streamFrames": ["SESSION_START", "TOKEN_DELTA", "ANSWER_DELTA"],
+  "expectPreAbortFrames": true,
+  "expectedPreAbortFrameTypes": ["SESSION_START", "TOKEN_DELTA", "ANSWER_DELTA"],
+  "locality": "on-device"
+}

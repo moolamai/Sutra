@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "bindings-vision.document-fixtures.v1",
+  "description": "Synthetic worksheet, textbook-page, and prescription-sketch probe images for document-understanding schemas. Bodies are synthetic — never learner/patient photos or PII.",
+  "fixtures": [
+    {
+      "id": "cbse-worksheet-probe",
+      "profileId": "cbse-worksheet",
+      "schemaRelpath": "../../schemas/cbse-worksheet.v1.json",
+      "imageRelpath": "images/cbse-worksheet-probe.bin",
+      "answerRelpath": "answers/cbse-worksheet-probe.json",
+      "mimeType": "image/png",
+      "byteLength": 24,
+      "maxInputBytes": 64,
+      "instruction": "probe.document.cbse-worksheet"
+    },
+    {
+      "id": "textbook-page-probe",
+      "profileId": "textbook-page",
+      "schemaRelpath": "../../schemas/textbook-page.v1.json",
+      "imageRelpath": "images/textbook-page-probe.bin",
+      "answerRelpath": "answers/textbook-page-probe.json",
+      "mimeType": "image/png",
+      "byteLength": 20,
+      "maxInputBytes": 64,
+      "instruction": "probe.document.textbook-page"
+    },
+    {
+      "id": "prescription-sketch-probe",
+      "profileId": "prescription-sketch",
+      "schemaRelpath": "../../schemas/prescription-sketch.v1.json",
+      "imageRelpath": "images/prescription-sketch-probe.bin",
+      "answerRelpath": "answers/prescription-sketch-probe.json",
+      "mimeType": "image/png",
+      "byteLength": 18,
+      "maxInputBytes": 64,
+      "instruction": "probe.document.prescription-sketch"
+    }
+  ]
+}

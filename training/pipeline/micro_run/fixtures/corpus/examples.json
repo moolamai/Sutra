@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "micro-run.examples.v1",
+  "subjectId": "subj.micro.run",
+  "deviceId": "dev.micro.run",
+  "locality": "on-device",
+  "examples": [
+    {
+      "exampleId": "ex.micro.und.1",
+      "subjectId": "subj.micro.run",
+      "deviceId": "dev.micro.run",
+      "shardId": "shard.micro.weight.1",
+      "docId": "doc.micro.1",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "frames": [
+        { "type": "SESSION_START", "protocolVersion": "sutra.streaming-turn.v1" },
+        { "type": "ANSWER_DELTA" },
+        { "type": "TURN_COMPLETE" }
+      ]
+    },
+    {
+      "exampleId": "ex.micro.und.2",
+      "subjectId": "subj.micro.run",
+      "deviceId": "dev.micro.run",
+      "shardId": "shard.micro.weight.1",
+      "docId": "doc.micro.2",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "frames": [
+        { "type": "SESSION_START", "protocolVersion": "sutra.streaming-turn.v1" },
+        { "type": "THOUGHT_DELTA" },
+        { "type": "TURN_COMPLETE" }
+      ]
+    }
+  ]
+}

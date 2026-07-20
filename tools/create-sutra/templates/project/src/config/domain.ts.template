@@ -1,0 +1,23 @@
+import type { AgentProfile } from "sutra-sdk";
+
+/** Domain pack metadata selected at scaffold time. */
+export const domainPack = {
+  id: "{{DOMAIN_PACK}}",
+  domainId: "{{DOMAIN_ID}}",
+  packId: "{{PACK_ID}}",
+  charter: "{{DOMAIN_CHARTER}}",
+} as const;
+
+/** Typed AgentProfile stub — edit charter/refusals for your domain. */
+export const agentProfile: AgentProfile = {
+  domainId: domainPack.domainId,
+  charter: domainPack.charter,
+  refusals: {{DOMAIN_REFUSALS_JSON}} as string[],
+  languages: {{DOMAIN_LANGUAGES_JSON}} as string[],
+};
+
+/** Prerequisite task graph rows (data, not code). */
+export const taskGraph = {{TASK_GRAPH_JSON}} as const;
+
+export type TaskGraphRow = (typeof taskGraph)[number];
+export type DomainPackConfig = typeof domainPack;

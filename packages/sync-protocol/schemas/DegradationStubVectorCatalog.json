@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "description": {
+      "maxLength": 512,
+      "minLength": 1,
+      "type": "string"
+    },
+    "vectors": {
+      "items": {
+        "properties": {
+          "allowsFabrication": {
+            "const": false,
+            "type": "boolean"
+          },
+          "allowsSilentWriteRetry": {
+            "const": false,
+            "type": "boolean"
+          },
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expectedMode": {
+            "enum": [
+              "HARD_STOP_WRITE",
+              "QUEUE_AND_WARN",
+              "STALE_READ"
+            ],
+            "type": "string"
+          },
+          "expectedReadPolicy": {
+            "enum": [
+              "fresh",
+              "stale-with-marker",
+              "unavailable"
+            ],
+            "type": "string"
+          },
+          "expectedSignalCode": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expectedWritePolicy": {
+            "enum": [
+              "hard-stop-rollback",
+              "proceed",
+              "queue-and-warn"
+            ],
+            "type": "string"
+          },
+          "forcedFailure": {
+            "properties": {
+              "dependency": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "detail": {
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "corrupt_response",
+                  "dependency_unavailable",
+                  "partial_failure",
+                  "timeout"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "dependency",
+              "kind"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "idempotencyKey": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "operation": {
+            "enum": [
+              "read",
+              "write"
+            ],
+            "type": "string"
+          },
+          "requiresRollback": {
+            "type": "boolean"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "surface": {
+            "enum": [
+              "model",
+              "storage",
+              "sync"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "allowsFabrication",
+          "allowsSilentWriteRetry",
+          "expectedMode",
+          "expectedReadPolicy",
+          "expectedSignalCode",
+          "expectedWritePolicy",
+          "forcedFailure",
+          "id",
+          "idempotencyKey",
+          "operation",
+          "subjectId",
+          "surface"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "type": "array"
+    },
+    "version": {
+      "maxLength": 32,
+      "minLength": 1,
+      "type": "string"
+    },
+    "violations": {
+      "items": {},
+      "maxItems": 32,
+      "type": "array"
+    }
+  },
+  "required": [
+    "description",
+    "vectors",
+    "version"
+  ],
+  "title": "DegradationStubVectorCatalog",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

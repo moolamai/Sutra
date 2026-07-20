@@ -1,0 +1,19 @@
+{
+  "aicorePresent": true,
+  "onDeviceGenerationAvailable": false,
+  "memoryClass": "mid",
+  "models": [
+    {
+      "modelId": "gemini-nano-aicore",
+      "contextWindow": 4096,
+      "memoryClass": "mid",
+      "memoryFootprintMiB": 768,
+      "quantization": "int4-system",
+      "languages": ["en-IN", "hi-IN", "en"],
+      "embedDim": 8,
+      "readiness": "downloading"
+    }
+  ],
+  "absenceReason": "model_downloading",
+  "detail": "AICore model still downloading"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "seeded-within-budget",
+  "kind": "remediate",
+  "subjectId": "subj.reme.budget",
+  "deviceId": "dev.reme.fixture",
+  "locality": "on-device",
+  "expect": {
+    "applied": true,
+    "actionKind": "adjust_retry_budget",
+    "surface": "retry_cap",
+    "maxRetries": 4,
+    "maxApplyCount": 1,
+    "resolved": true
+  },
+  "policies": [
+    {
+      "policyId": "policy.budget.retry",
+      "version": 1,
+      "failureClass": "tool_timeout",
+      "confidence": 0.93,
+      "action": {
+        "kind": "adjust_retry_budget",
+        "surface": "retry_cap",
+        "maxRetries": 4
+      },
+      "disabled": false,
+      "ineffectiveAttempts": 0,
+      "pageRequested": false,
+      "triageActive": false,
+      "idempotencyKey": "seed.budget.retry.1"
+    }
+  ],
+  "execute": {
+    "failureClass": "tool_timeout",
+    "evidenceFingerprint": "fp.budget.1",
+    "executionKey": "exec.budget.1"
+  }
+}

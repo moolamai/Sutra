@@ -1,8 +1,9 @@
 // lawyer-basic: the SAME cognitive core as teacher-basic, configured as a
 // legal research companion. Diff this file against teacher-basic/main.mjs:
 // only the profile and the knowledge corpus change.
-import { CognitiveCore } from "@moolam/sdk";
-import { makeMemory, makeModel, makeReasoning, makeKnowledge, makePlanning, makeNoTools } from "../_shared/mocks.mjs";
+import { CognitiveCore } from "sutra-sdk";
+import { makeMemory, makeModel, makeReasoning, makeKnowledge, makePlanning, makeNoTools } from "@moolam/contract-mocks";
+
 
 const profile = {
   domainId: "legal-research-in",

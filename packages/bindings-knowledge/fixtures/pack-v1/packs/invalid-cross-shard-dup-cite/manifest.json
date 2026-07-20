@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "packId": "pack.demo.cross-shard-dup",
+  "version": "0.0.1",
+  "asOf": "2026-06-01T00:00:00.000Z",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "locality": "bundled-offline",
+  "languages": ["en"],
+  "sources": [
+    {
+      "sourceId": "src.ncert.class8.math",
+      "title": "NCERT Class 8 Mathematics (fixture)",
+      "domain": "teacher",
+      "locality": "bundled-offline",
+      "coverage": { "from": "2024-01-01", "to": "2026-06-01" }
+    }
+  ],
+  "contentShards": [
+    { "shardId": "shard.a", "relpath": "content/shard-a.json" },
+    { "shardId": "shard.b", "relpath": "content/shard-b.json" }
+  ]
+}

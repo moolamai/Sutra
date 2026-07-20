@@ -1,0 +1,10 @@
+{
+  "shardId": "fx-federated-raw",
+  "contentHash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+  "consentClass": "public",
+  "subjectId": "anika-k",
+  "deviceId": "dev-consent-fx",
+  "locality": "self-hosted",
+  "crossSubject": true,
+  "anonymized": false
+}

@@ -3,9 +3,9 @@
  *
  * Nothing in this module fabricates data. Mastery posteriors, HLC
  * timestamps, CRDT merges, and advisories are produced by the exact code
- * that ships in `@moolam/sync-protocol`; the routing rules mirror the
- * reference cloud task router (`task_router.py`) constant-for-constant so
- * the console demonstrates true protocol behavior end to end.
+ * that ships in `@moolam/sync-protocol`. Task-graph nodes and advance/remediate
+ * thresholds come from the committed pack via `@moolam/domain-loader` (same
+ * bytes as the cloud TaskRouter), not duplicated constants.
  */
 
 import {
@@ -16,14 +16,29 @@ import {
   type GuidanceMode,
   type CognitiveState,
   type SyncAdvisory,
-} from "@moolam/sync-protocol";
+} from "@moolam/sync-protocol/client";
+import {
+  TaskGraphLoadError,
+  hydrateTaskGraphFromPackObject,
+  type LoadedTaskGraph,
+} from "@moolam/domain-loader/browser";
+import teacherPack from "@moolam/domain-loader/fixtures/packs/teacher-cbse-slice.json";
+import {
+  HESITATION_SPIKE_MS,
+  MAX_REMEDIATION_DEPTH,
+  masteryMean as masteryMeanCore,
+  evidenceCount as evidenceCountCore,
+  routeTurnOnGraph,
+} from "./route_core.mjs";
 
-/* Constants mirrored from sutra_orchestrator/task_router.py.
- * A CI conformance check keeps the two in lockstep. */
-export const ADVANCE_THRESHOLD = 0.85;
-export const REMEDIATE_THRESHOLD = 0.4;
-export const HESITATION_SPIKE_MS = 15_000;
-export const MAX_REMEDIATION_DEPTH = 4;
+export { HESITATION_SPIKE_MS, MAX_REMEDIATION_DEPTH };
+
+export type { LoadedTaskGraph };
+export { TaskGraphLoadError };
+
+const COMMITTED_PACK = teacherPack;
+const COMMITTED_PACK_SOURCE =
+  "@moolam/domain-loader/fixtures/packs/teacher-cbse-slice.json";
 
 export interface ConceptNode {
   conceptId: string;
@@ -32,34 +47,83 @@ export interface ConceptNode {
   track: "school-mathematics" | "system-design";
 }
 
-/** Reference task graph spanning two very different domain tracks. */
-export const TASK_GRAPH: ConceptNode[] = [
-  { conceptId: "math.fractions", title: "Fractions", prerequisites: [], track: "school-mathematics" },
-  { conceptId: "math.ratios", title: "Ratios & Proportion", prerequisites: ["math.fractions"], track: "school-mathematics" },
-  { conceptId: "math.percentages", title: "Percentages", prerequisites: ["math.ratios"], track: "school-mathematics" },
-  { conceptId: "sd.networking", title: "Networking Basics", prerequisites: [], track: "system-design" },
-  { conceptId: "sd.load-balancing", title: "Load Balancing", prerequisites: ["sd.networking"], track: "system-design" },
-  { conceptId: "sd.consistent-hashing", title: "Consistent Hashing", prerequisites: ["sd.load-balancing"], track: "system-design" },
-];
+function trackForConcept(conceptId: string): ConceptNode["track"] {
+  return conceptId.startsWith("sd.") ? "system-design" : "school-mathematics";
+}
 
-const conceptById = new Map(TASK_GRAPH.map((c) => [c.conceptId, c]));
+function conceptsFromLoaded(loaded: LoadedTaskGraph): ConceptNode[] {
+  return loaded.concepts.map((c) => ({
+    conceptId: c.conceptId,
+    title: c.title,
+    prerequisites: [...c.prerequisites],
+    track: trackForConcept(c.conceptId),
+  }));
+}
+
+// Boot hydrate first — thresholds/nodes come only from the committed teacher pack.
+const _boot = hydrateTaskGraphFromPackObject(COMMITTED_PACK, {
+  subjectId: "playground-boot",
+  deviceId: "console",
+  sourcePath: COMMITTED_PACK_SOURCE,
+  onTelemetry: () => {},
+});
+
+/** Live pack-owned thresholds — updated on hot reload (ESM live bindings). */
+export let ADVANCE_THRESHOLD = _boot.thresholds.advanceThreshold;
+export let REMEDIATE_THRESHOLD = _boot.thresholds.remediateThreshold;
+export let TASK_GRAPH: ConceptNode[] = conceptsFromLoaded(_boot);
+export let taskGraphPackVersionStamp: string | null = _boot.versionStamp;
+export let loadedTaskGraph: LoadedTaskGraph | null = _boot;
+
+let conceptById = new Map(TASK_GRAPH.map((c) => [c.conceptId, c]));
+
+/**
+ * Hydrate (or hot-reload) the console graph from a pack object.
+ * Rejects cycles / missing nodes via domain-loader DAG checks.
+ */
+export function loadTaskGraphPackObject(
+  raw: unknown,
+  opts: { subjectId?: string; deviceId?: string; sourcePath?: string } = {},
+): LoadedTaskGraph {
+  const loaded = hydrateTaskGraphFromPackObject(raw, {
+    subjectId: opts.subjectId ?? "playground-console",
+    deviceId: opts.deviceId ?? "console",
+    sourcePath: opts.sourcePath ?? COMMITTED_PACK_SOURCE,
+    onTelemetry: () => {
+      // subjectId/deviceId/outcome only — never titles or learner content.
+    },
+  });
+  ADVANCE_THRESHOLD = loaded.thresholds.advanceThreshold;
+  REMEDIATE_THRESHOLD = loaded.thresholds.remediateThreshold;
+  TASK_GRAPH = conceptsFromLoaded(loaded);
+  conceptById = new Map(TASK_GRAPH.map((c) => [c.conceptId, c]));
+  taskGraphPackVersionStamp = loaded.versionStamp;
+  loadedTaskGraph = loaded;
+  return loaded;
+}
+
+/** Re-apply the committed teacher CBSE-slice pack (operator hot-reload / reset). */
+export function reloadCommittedTaskGraphPack(
+  opts: { subjectId?: string; deviceId?: string } = {},
+): LoadedTaskGraph {
+  return loadTaskGraphPackObject(COMMITTED_PACK, {
+    subjectId: opts.subjectId ?? "playground-reload",
+    deviceId: opts.deviceId ?? "console",
+    sourcePath: COMMITTED_PACK_SOURCE,
+  });
+}
+
+export function setTaskGraphPackVersionStamp(stamp: string | null): void {
+  taskGraphPackVersionStamp = stamp;
+}
 
 /** Posterior mean of Beta(Σα+1, Σβ+1) — identical to ConceptMastery.mastery_mean (Python). */
 export function masteryMean(state: CognitiveState, conceptId: string): number {
-  const m = state.mastery[conceptId];
-  if (!m) return 0.5; // maximally uncertain, per CAST-05
-  const a = Object.values(m.alpha).reduce((s, v) => s + v, 0) + 1;
-  const b = Object.values(m.beta).reduce((s, v) => s + v, 0) + 1;
-  return a / (a + b);
+  return masteryMeanCore(state, conceptId);
 }
 
 export function evidenceCount(state: CognitiveState, conceptId: string): number {
-  const m = state.mastery[conceptId];
-  if (!m) return 0;
-  return (
-    Object.values(m.alpha).reduce((s, v) => s + v, 0) +
-    Object.values(m.beta).reduce((s, v) => s + v, 0)
-  );
+  return evidenceCountCore(state, conceptId);
 }
 
 export interface DeviceReplica {
@@ -74,17 +138,18 @@ export interface DeviceReplica {
 
 export function genesisState(subjectId: string, deviceId: string, clock: HlcClock): CognitiveState {
   const now = clock.tick();
+  const firstConcept = TASK_GRAPH[0]?.conceptId ?? "math.fractions";
   return {
     protocolVersion: PROTOCOL_VERSION,
     subjectId,
     deviceIds: [deviceId],
-    activeConceptId: "math.fractions",
+    activeConceptId: firstConcept,
     mode: "diagnostic",
     mastery: {},
     frictionLog: [],
     profile: {
       ageBand: "adolescent",
-      track: "cbse-class-7-maths",
+      track: "cbse-class-8-maths",
       language: "en-IN",
       updatedAt: now,
     },
@@ -147,7 +212,7 @@ export function applyInteraction(replica: DeviceReplica, input: InteractionInput
   return sample;
 }
 
-/* ── Task router: cyclical routing (mirrors task_router.py) ─────────────── */
+/* ── Task router: cyclical routing (mirrors task_router.py via route_core) ─ */
 
 export interface RoutingDecision {
   nextConceptId: string;
@@ -155,76 +220,24 @@ export interface RoutingDecision {
   rationale: string[];
 }
 
-function weakestPrerequisite(state: CognitiveState, conceptId: string): ConceptNode | null {
-  const node = conceptById.get(conceptId);
-  if (!node) return null;
-  const below = node.prerequisites
-    .map((p) => ({ node: conceptById.get(p)!, mean: masteryMean(state, p) }))
-    .filter((x) => x.node && x.mean < REMEDIATE_THRESHOLD);
-  if (below.length === 0) return null;
-  below.sort((a, b) => a.mean - b.mean);
-  return below[0]!.node;
-}
-
 export function routeTurn(state: CognitiveState, sample: FrictionSample): RoutingDecision {
-  const rationale: string[] = [];
-  let active = sample.conceptId;
-  let mode: GuidanceMode = state.mode;
-  let depth = 0;
-
-  const spike =
-    sample.hesitationMs > HESITATION_SPIKE_MS ||
-    sample.assistanceRequested ||
-    sample.outcome === "incorrect";
-  rationale.push(
-    `assess_friction: hesitation=${sample.hesitationMs}ms revisions=${sample.revisionCount} ` +
-      `outcome=${sample.outcome} assisted=${sample.assistanceRequested} → ${spike ? "SPIKE" : "nominal"}`,
+  const decision = routeTurnOnGraph(
+    {
+      nodes: conceptById,
+      orderedConcepts: TASK_GRAPH,
+      advanceThreshold: ADVANCE_THRESHOLD,
+      remediateThreshold: REMEDIATE_THRESHOLD,
+      hesitationSpikeMs: HESITATION_SPIKE_MS,
+      maxRemediationDepth: MAX_REMEDIATION_DEPTH,
+    },
+    state,
+    sample,
   );
-
-  // Cyclical remediation: loop back through weak prerequisites, bounded.
-  while (spike) {
-    const weak = weakestPrerequisite(state, active);
-    if (!weak) break;
-    if (depth >= MAX_REMEDIATION_DEPTH) {
-      rationale.push(
-        `remediation depth limit (${MAX_REMEDIATION_DEPTH}) reached → pinning guided mode`,
-      );
-      mode = "guided";
-      break;
-    }
-    depth += 1;
-    active = weak.conceptId;
-    mode = "prerequisite-remediation";
-    rationale.push(
-      `remediate_prereq: posterior(${weak.conceptId})=${masteryMean(state, weak.conceptId).toFixed(2)} < τ_r=${REMEDIATE_THRESHOLD} ` +
-        `→ loop back (depth ${depth})`,
-    );
-  }
-
-  if (!spike && depth === 0) {
-    const mean = masteryMean(state, active);
-    if (mean >= ADVANCE_THRESHOLD) {
-      const successor = TASK_GRAPH.find((n) => n.prerequisites.includes(active));
-      if (successor) {
-        rationale.push(
-          `advance_concept: posterior=${mean.toFixed(2)} ≥ τ_a=${ADVANCE_THRESHOLD} → advance to '${successor.conceptId}'`,
-        );
-        active = successor.conceptId;
-        mode = "exploratory";
-      } else {
-        rationale.push(`posterior=${mean.toFixed(2)} ≥ τ_a but no successor — track complete`);
-        mode = "reinforcement";
-      }
-    } else {
-      rationale.push(
-        `hold: τ_r=${REMEDIATE_THRESHOLD} ≤ posterior=${mean.toFixed(2)} < τ_a=${ADVANCE_THRESHOLD} (hysteretic dead band)`,
-      );
-      if (mode === "diagnostic" && evidenceCount(state, active) >= 3) mode = "exploratory";
-    }
-  }
-
-  rationale.push(`generate_lesson: TEACH concept='${conceptById.get(active)?.title ?? active}' mode=${mode} depth=${depth}`);
-  return { nextConceptId: active, mode, rationale };
+  return {
+    nextConceptId: decision.nextConceptId,
+    mode: decision.mode as GuidanceMode,
+    rationale: decision.rationale,
+  };
 }
 
 export function applyRouting(replica: DeviceReplica, decision: RoutingDecision): void {

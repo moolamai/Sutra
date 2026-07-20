@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "teacher-cbse-slice",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "title": "Teacher CBSE Class 8 maths — ratios & proportions slice",
+  "description": "Prerequisite DAG for track cbse-class-8-maths from domains/teacher (cbse-syllabus-slice.md, workflows.md). Pedagogical order: fractions → ratios → {equivalent ratios, percentages} → simple proportion → unitary method. Friction on ratios with weak fractions remediates fractions. Thresholds 0.85/0.40 are pack-owned. syntheticProbeNodes: none — every conceptId is listed in domains/teacher/data/task-graph-concept-ids.json.",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    {
+      "conceptId": "math.fractions",
+      "title": "Fractions",
+      "ageFloor": "adolescent"
+    },
+    {
+      "conceptId": "math.ratios",
+      "title": "Ratios",
+      "ageFloor": "adolescent"
+    },
+    {
+      "conceptId": "math.equivalent_ratios",
+      "title": "Equivalent ratios",
+      "ageFloor": "adolescent"
+    },
+    {
+      "conceptId": "math.percentages",
+      "title": "Percentages",
+      "ageFloor": "adolescent"
+    },
+    {
+      "conceptId": "math.simple_proportion",
+      "title": "Simple proportion",
+      "ageFloor": "adolescent"
+    },
+    {
+      "conceptId": "math.unitary_method",
+      "title": "Unitary method",
+      "ageFloor": "adolescent"
+    }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "math.ratios",
+      "toConceptId": "math.fractions",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.equivalent_ratios",
+      "toConceptId": "math.ratios",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.percentages",
+      "toConceptId": "math.ratios",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.simple_proportion",
+      "toConceptId": "math.ratios",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.simple_proportion",
+      "toConceptId": "math.equivalent_ratios",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.unitary_method",
+      "toConceptId": "math.simple_proportion",
+      "type": "prerequisite"
+    }
+  ]
+}

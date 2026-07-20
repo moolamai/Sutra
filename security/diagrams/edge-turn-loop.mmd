@@ -1,0 +1,36 @@
+%% Edge turn loop — on-device CognitiveCore.turn via EdgeAgent
+%% Locality: on-device. Trust boundary TB-EDGE-* crossings in THREAT-MODEL.md
+
+flowchart TB
+  subgraph TB_HOST["Trust boundary: host application (TB-EDGE-01)"]
+    APP["Host app / UI"]
+  end
+
+  subgraph TB_EDGE["Trust boundary: edge host (on-device)"]
+    EA["EdgeAgent.agentTurn"]
+    TC["turnChain serializer"]
+    CORE["CognitiveCore.turn"]
+    PLAN["runPlanStage"]
+    ACT["runActStage"]
+    MEM["MemoryInterface\n(local vector store)"]
+    MODEL["ModelInterface\n(on-device SLM)"]
+    BUS["EventBus\n(metadata only)"]
+    FOLD["foldFriction\n(durable local)"]
+  end
+
+  APP -->|"content: utterance"| EA
+  EA --> TC
+  TC -->|"content + subjectId"| CORE
+  CORE --> PLAN
+  PLAN -->|"content: goals/context"| MODEL
+  CORE -->|"content: messages"| MODEL
+  MODEL -->|"content: tool-call envelope\n(untrusted)"| ACT
+  ACT -->|"content: tool args"| TOOL_SEAM["Tool policy seam\n(see tool-sandbox-seam.mmd)"]
+  CORE -->|"content"| MEM
+  MEM -->|"content: recalled items"| CORE
+  CORE -->|"metadata: turn.stage events"| BUS
+  EA -->|"metadata: friction samples"| FOLD
+  EA -.->|"metadata: turn.completed"| BUS
+
+  classDef boundary stroke:#1e3a5f,stroke-width:3px
+  class TB_HOST,TB_EDGE boundary

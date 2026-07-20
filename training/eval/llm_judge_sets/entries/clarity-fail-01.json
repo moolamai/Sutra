@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "llm-judge.eval-entry.v1",
+  "id": "clarity.fail.01",
+  "aspect": "clarity",
+  "subjectId": "subj.lj.clarity.fail.01",
+  "deviceId": "dev.lj.02",
+  "turnId": "turn.lj.clarity.fail.01",
+  "locality": "self-hosted",
+  "humanLabel": "fail"
+}

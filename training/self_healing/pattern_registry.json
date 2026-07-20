@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "failure-pattern-registry.v1",
+  "appendOnly": true,
+  "description": "Versioned failure-pattern taxonomy and cluster registry. Cluster/policy changes append as new version rows — never edit in place.",
+  "minSupport": 3,
+  "confidenceThreshold": 0.8,
+  "ineffectiveAttemptLimit": 3,
+  "allowedRemediationSurfaces": [
+    "degradation_registry",
+    "correction_loop",
+    "routing_budget",
+    "retry_cap"
+  ],
+  "forbiddenRemediationSurfaces": [
+    "permissions",
+    "approval_gate",
+    "tool_permission",
+    "skip_approval"
+  ],
+  "failureClasses": [
+    {
+      "id": "correction_exhaustion",
+      "version": 1,
+      "sources": ["trajectory", "telemetry"],
+      "telemetryEvents": ["runtime.harness.correction_loop"],
+      "defaultPolicyHint": {
+        "surface": "correction_loop",
+        "parameter": "maxCorrectionTurns",
+        "delta": -1
+      },
+      "autoRemediationEligible": false
+    },
+    {
+      "id": "degradation",
+      "version": 1,
+      "sources": ["telemetry"],
+      "telemetryEvents": [
+        "runtime.harness.degradation_registry",
+        "runtime.harness.degradation_advisory"
+      ],
+      "defaultPolicyHint": {
+        "surface": "degradation_registry",
+        "parameter": "retryBudget",
+        "delta": 1
+      },
+      "autoRemediationEligible": false
+    },
+    {
+      "id": "refusal_misfire",
+      "version": 1,
+      "sources": ["trajectory", "telemetry"],
+      "evidenceCodes": [
+        "refusal_on_benign",
+        "over_refusal",
+        "hack.refusal_on_benign"
+      ],
+      "defaultPolicyHint": {
+        "surface": "routing_budget",
+        "parameter": "guidanceWeight",
+        "delta": 1
+      },
+      "autoRemediationEligible": false
+    },
+    {
+      "id": "tool_timeout",
+      "version": 1,
+      "sources": ["trajectory", "telemetry"],
+      "telemetryEvents": ["tool.result"],
+      "defaultPolicyHint": {
+        "surface": "retry_cap",
+        "parameter": "toolRetryCap",
+        "delta": 1
+      },
+      "autoRemediationEligible": false
+    }
+  ],
+  "versions": [
+    {
+      "version": 1,
+      "kind": "taxonomy",
+      "note": "Initial failure-class taxonomy for feature extraction."
+    },
+    {
+      "version": 2,
+      "kind": "cluster_registry",
+      "note": "Append-only cluster registry with confidence thresholds, min support, and typed remediation policy lookup surfaces."
+    },
+    {
+      "version": 3,
+      "kind": "seeded_fixtures",
+      "note": "Seeded metadata-only trajectory/telemetry fixtures validate per-class clustering and triage-only low-support behavior."
+    }
+  ],
+  "fixtureCatalog": {
+    "relPath": "training/self_healing/fixtures",
+    "requiredIds": [
+      "correction-exhaustion",
+      "degradation",
+      "refusal-misfire",
+      "tool-timeout",
+      "low-support-triage",
+      "cross-subject-denied"
+    ]
+  },
+  "clusters": []
+}

@@ -1,0 +1,13 @@
+{
+  "componentDigests": {
+    "adapter": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "deviceId": "ci-promotion-candidate",
+  "locality": "on-device",
+  "schemaVersion": "promotion-candidate.v1",
+  "stageId": "C4-micro-adapter-only-ok",
+  "subjectId": null,
+  "surgeryClasses": [
+    "adapter"
+  ]
+}

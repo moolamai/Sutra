@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "remediation-fixtures.v1",
+  "description": "Seeded metadata-only fixtures for remediation policy integration proves. Never raw learner content.",
+  "fixtures": [
+    { "id": "permission-widen-refused", "file": "permission-widen-refused.json" },
+    { "id": "skip-approval-refused", "file": "skip-approval-refused.json" },
+    { "id": "seeded-within-budget", "file": "seeded-within-budget.json" },
+    { "id": "exhausted-disables", "file": "exhausted-disables.json" },
+    { "id": "triage-suppressed", "file": "triage-suppressed.json" },
+    { "id": "version-winner-idempotent", "file": "version-winner-idempotent.json" }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "scenarioId": "format/example-multi-weak-prereq",
+  "title": "Format example — remediate to lowest posterior among weak prerequisites",
+  "description": "Schema/format fixture: two prerequisites below REMEDIATE τ; expected remediate targets the weakest posterior. Full teacher goldens land in EVALSCEN-002.",
+  "subjectId": "subj.eval.format.multiweak",
+  "deviceId": "dev-eval-format",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "activeConceptId": "math.simple_proportion",
+  "mode": "guided",
+  "masterySeed": {
+    "math.simple_proportion": {
+      "conceptId": "math.simple_proportion",
+      "alpha": { "dev-eval-format": 5.0 },
+      "beta": { "dev-eval-format": 5.0 },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-format"
+    },
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": { "dev-eval-format": 2.0 },
+      "beta": { "dev-eval-format": 10.0 },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-format"
+    },
+    "math.equivalent_ratios": {
+      "conceptId": "math.equivalent_ratios",
+      "alpha": { "dev-eval-format": 1.0 },
+      "beta": { "dev-eval-format": 20.0 },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-format"
+    }
+  },
+  "frictionHistory": [],
+  "turnFriction": {
+    "conceptId": "math.simple_proportion",
+    "hesitationMs": 20000,
+    "inputVelocity": 0.4,
+    "revisionCount": 4,
+    "assistanceRequested": true,
+    "outcome": "incorrect",
+    "capturedAt": "001700000000000:000010:dev-eval-format"
+  },
+  "expected": {
+    "routeAction": "remediate",
+    "targetConceptId": "math.equivalent_ratios",
+    "mode": "prerequisite-remediation",
+    "rationaleKeywords": ["SPIKE", "loop", "equivalent_ratios"]
+  },
+  "tags": ["remediate", "multi-weak-prereq", "hesitation-spike", "format-example"]
+}

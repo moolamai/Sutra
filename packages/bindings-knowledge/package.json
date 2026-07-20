@@ -1,0 +1,58 @@
+{
+  "name": "sutra-bindings-knowledge",
+  "version": "1.1.0",
+  "description": "Versioned knowledge-pack format (manifest + content shards) behind KnowledgeConnectorInterface.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/bindings-knowledge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/bindings-knowledge"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "fixtures",
+    "schemas",
+    "bin",
+    "certification"
+  ],
+  "bin": {
+    "validate-pack": "./bin/validate-pack.mjs"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test --test-concurrency=1 tests/pack_format.test.mjs tests/pack_validator.test.mjs tests/pack_vector_index.test.mjs tests/pack_loader.test.mjs tests/pack_offline_proof.test.mjs tests/pack_example_wiring.test.mjs tests/flagship_teacher_pack.test.mjs tests/flagship_doctor_pack.test.mjs tests/flagship_packs_ci.test.mjs",
+    "prove:offline-pack": "pnpm run build && node ./certification/prove-offline-pack.mjs",
+    "prove:teacher-pack": "pnpm run build && node ./certification/prove-teacher-pack.mjs",
+    "validate-pack": "pnpm run build && node ./bin/validate-pack.mjs",
+    "build:pack": "pnpm run build && node ./scripts/build_pack.mjs",
+    "check:pack": "pnpm run build && node ./scripts/build_pack.mjs --check",
+    "ci:flagship-packs": "pnpm run build && node ./scripts/ci_flagship_packs.mjs",
+    "ci:prove:flagship-packs": "pnpm run build && node ./scripts/ci_flagship_packs.mjs --prove",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@moolam/cognitive-core": "workspace:*",
+    "@moolam/contract-conformance": "workspace:*",
+    "@moolam/contracts": "workspace:*",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@moolam/contract-mocks": "workspace:*",
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

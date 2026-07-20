@@ -1,8 +1,18 @@
-// teacher-basic: the cognitive core configured as an education mentor.
-// The infrastructure is domain-agnostic; everything education-specific in
-// this file is configuration (profile + knowledge corpus), per domains/teacher.
-import { CognitiveCore } from "@moolam/sdk";
-import { makeMemory, makeModel, makeReasoning, makeKnowledge, makePlanning, makeNoTools } from "../_shared/mocks.mjs";
+// teacher-basic: CognitiveCore as an education mentor.
+// Knowledge is loaded as DATA from knowledge-packs/teacher-cbse-slice/
+// via PackKnowledgeConnector — never imported from domains/teacher.
+import { CognitiveCore } from "sutra-sdk";
+import {
+  loadTeacherCbseSliceConnector,
+  resolveTeacherCbseSlicePackRoot,
+} from "sutra-bindings-knowledge";
+import {
+  makeMemory,
+  makeModel,
+  makeReasoning,
+  makePlanning,
+  makeNoTools,
+} from "@moolam/contract-mocks";
 
 const profile = {
   domainId: "education-mathematics",
@@ -12,11 +22,24 @@ const profile = {
   languages: ["en-IN", "hi-IN"],
 };
 
-const knowledge = makeKnowledge("maths-corpus", [
-  { content: "A ratio compares two quantities by division; 3:4 means 3 parts to 4 parts.", asOf: "2024-06-01" },
-  { content: "Equivalent fractions represent the same value: 1/2 = 2/4 = 3/6.", asOf: "2024-06-01" },
-  { content: "A percentage is a ratio with denominator 100.", asOf: "2024-06-01" },
-]);
+const packRoot = resolveTeacherCbseSlicePackRoot();
+const knowledge = loadTeacherCbseSliceConnector({
+  packRoot,
+  subjectId: "subject-1",
+  deviceId: "dev-teacher-basic",
+  nowMs: Date.parse("2026-07-15T00:00:00.000Z"),
+});
+
+const desc = knowledge.describe();
+if (desc.locality !== "bundled-offline") {
+  throw new Error(`expected bundled-offline pack, got ${desc.locality}`);
+}
+if (!packRoot.replace(/\\/g, "/").includes("/knowledge-packs/")) {
+  throw new Error("teacher pack must load from knowledge-packs/ data path");
+}
+if (packRoot.replace(/\\/g, "/").includes("/domains/")) {
+  throw new Error("must not load knowledge from domains/ import path");
+}
 
 const core = new CognitiveCore(profile, {
   memory: makeMemory(),
@@ -33,8 +56,11 @@ const out = await core.turn({
   utterance: "I do not understand why 3:4 and 6:8 are the same ratio.",
 });
 
-console.log("reply     :", out.reply);
-console.log("citations :", out.citations.join(", "));
-console.log("trace ref :", out.traceRef);
+console.log("pack       :", desc.packId, `@ ${desc.asOf}`);
+console.log("locality   :", desc.locality);
+console.log("reply      :", out.reply);
+console.log("citations  :", out.citations.join(", "));
+console.log("trace ref  :", out.traceRef);
 if (!out.citations.length) throw new Error("expected grounded citations");
 console.log("teacher-basic OK");
+

@@ -1,0 +1,12 @@
+{
+  "description": "Post-compaction golden constraint retention — refusals, numeric constraints, and citation refs survive forced compaction.",
+  "fixtureFile": "cases.json",
+  "comparePolicy": "exact-retention-compare",
+  "requiredCases": [
+    "retain-refusal-citation-numeric",
+    "second-pass-episodic-drop",
+    "empty-durable-stub",
+    "tool-loop-deferred",
+    "cross-subject-rejected"
+  ]
+}

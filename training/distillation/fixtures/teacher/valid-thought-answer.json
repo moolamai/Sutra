@@ -1,0 +1,19 @@
+{
+  "id": "teacher.valid.thought-answer",
+  "subjectId": "subj.distill.teacher",
+  "deviceId": "dev-distill",
+  "correlationId": "corr-distill-01",
+  "sessionId": "sess-distill-01",
+  "turnId": "turn-distill-01",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-16T00:00:00.000Z"
+  },
+  "pinnedAt": "2026-07-16T00:00:00.000Z",
+  "teacherChunks": [
+    "<thought>consider ratio parts…</thought>",
+    "A ratio compares quantities."
+  ]
+}

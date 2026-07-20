@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "eval-slice-coverage-policy.v1",
+  "requirePinnedSeeds": true,
+  "emptyMarkersSatisfyCoverage": false,
+  "notes": "Every domainPackId / bindingId present on a baseline registry row must map to a non-empty frozen slice. Empty markers stay visible; they do not satisfy coverage."
+}

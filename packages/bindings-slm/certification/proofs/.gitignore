@@ -1,0 +1,3 @@
+# Scratch reports from prove runs (seeded red + per-adapter temp outputs).
+# Keep the committed summary: one-command.proof.json
+reports/

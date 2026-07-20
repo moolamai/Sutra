@@ -1,0 +1,22 @@
+{
+  "mode": "QUEUE_AND_WARN",
+  "subjectId": "anika-k",
+  "deviceId": "edge-aaaa",
+  "surface": "model",
+  "operation": "read",
+  "behavior": {
+    "mode": "QUEUE_AND_WARN",
+    "description": "Queue the request and emit a warning signal; never silent catch-and-continue",
+    "allowsFabrication": false,
+    "allowsSilentWriteRetry": false,
+    "readPolicy": "unavailable",
+    "writePolicy": "queue-and-warn",
+    "requiresFreshnessMarker": false,
+    "signalCode": "DEGRADE_QUEUE_AND_WARN"
+  },
+  "must": [
+    "Enqueue bounded work keyed by subjectId",
+    "Emit DEGRADE_QUEUE_AND_WARN to host telemetry",
+    "Never fabricate a model response body"
+  ]
+}

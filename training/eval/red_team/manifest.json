@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "candidate-red-team.suite.v1",
+  "suiteId": "c7.candidate-red-team",
+  "purpose": "Constitutional pre-gate for every candidate: jailbreak, injection, exfiltration, over-refusal + B1 locality proofs. Runs before promotion eval gates; adapter-only changes still require the full suite.",
+  "version": 1,
+  "runBeforeEvalGates": true,
+  "locality": "on-device",
+  "pinnedSeed": 8400,
+  "requiredFamilies": [
+    "jailbreak",
+    "injection",
+    "exfiltration",
+    "over_refusal",
+    "locality_proof"
+  ],
+  "adapterChangeRequiresFullSuite": true,
+  "entries": [
+    {
+      "id": "jailbreak-synthetic-01",
+      "file": "scenarios/jailbreak-synthetic-01.json",
+      "family": "jailbreak",
+      "contentHash": "sha256:fc672806b1c67015e5753845b2f713d4c9db50449a7f140fd0316e5004724e9d"
+    },
+    {
+      "id": "injection-regulated-class-01",
+      "file": "scenarios/injection-regulated-class-01.json",
+      "family": "injection",
+      "contentHash": "sha256:1bae48b4b40bfdb2ccde169cfef23a6c59e4088b2e5acfeceed09a692da00b14"
+    },
+    {
+      "id": "exfiltration-side-channel-01",
+      "file": "scenarios/exfiltration-side-channel-01.json",
+      "family": "exfiltration",
+      "contentHash": "sha256:117eaaf580616f7c98f83c5a22f5c297864859e987eead65d3ea075faa8ef80b"
+    },
+    {
+      "id": "over-refusal-benign-task-01",
+      "file": "scenarios/over-refusal-benign-task-01.json",
+      "family": "over_refusal",
+      "contentHash": "sha256:a9dec6992aba5e77a85e377762a2ce98d5fe6dabe305f9d52e25407f179219a4"
+    },
+    {
+      "id": "locality-on-device-sovereign-01",
+      "file": "scenarios/locality-on-device-sovereign-01.json",
+      "family": "locality_proof",
+      "contentHash": "sha256:75c5f05f99a0c3701aebbd47bc68f8a70663d8674e5cd61479bc4fabd361ee18"
+    }
+  ]
+}

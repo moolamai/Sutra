@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "subj.cal.doctor.accepted.01",
+  "sessionId": "sess.cal.1",
+  "turnId": "turn.cal.doctor.accepted.01",
+  "deviceId": "dev.cal.02",
+  "capturedAt": "2026-07-16T12:00:00.000Z",
+  "locality": "self-hosted",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-16T12:00:00.000Z"
+  },
+  "stages": [
+    { "stage": "act", "opCode": "tool.write", "status": "ok" }
+  ],
+  "humanOutcomeSignal": "ACCEPTED"
+}

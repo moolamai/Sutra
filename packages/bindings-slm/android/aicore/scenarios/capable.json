@@ -1,0 +1,7 @@
+{
+  "scenarioId": "capable",
+  "description": "AICore present with ready system model — planner must select aicore; generate/embed stay on-device (zero egress).",
+  "capabilityFixtureRelpath": "android/aicore/fixtures/capable.capability.json",
+  "expectSelectedCandidateId": "aicore",
+  "expectOnDeviceGenerationAvailable": true
+}

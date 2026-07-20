@@ -38,6 +38,10 @@ const reply = await agent.agentTurn("Explain this step to me.", frictionSample);
 ## Contributing notes
 
 - Every feature must answer "what does this do offline" at design time.
+- Missing or corrupt on-disk weights must throw typed `SlmRuntimeInitError`
+  (`missing_weights` / `corrupt_weights`) — never crash-loop or fabricate.
+  See [`LocalWeightSlmRuntime`](./src/slm_runtime.ts) and the drill map in
+  [`docs/protocol/DEGRADATION-DRILL-CROSSREF.md`](../../docs/protocol/DEGRADATION-DRILL-CROSSREF.md).
 - Memory store changes must preserve parity with the cloud `memory_graph.py` semantics (same decay, same kinds), or document why the divergence is substrate-specific.
 - Performance budgets: first token ≤ 1.5s p95 on mid-range Android (NFR-01).
 

@@ -1,0 +1,10 @@
+{
+  "description": "Context budget threshold boundaries — compaction only at/above 75%; refusals preserved under truncation.",
+  "fixtureFile": "cases.json",
+  "comparePolicy": "exact-threshold-compare",
+  "thresholdCases": [
+    "util-74",
+    "util-75",
+    "util-76"
+  ]
+}

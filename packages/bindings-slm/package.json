@@ -1,0 +1,61 @@
+{
+  "name": "sutra-bindings-slm",
+  "version": "1.1.0",
+  "description": "Native on-device SLM bindings (llama.cpp / GGUF). Implements SlmRuntime without an HTTP sidecar.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/bindings-slm#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/bindings-slm"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "bindings-slm": "./bin/bindings-slm.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "certification",
+    "android",
+    "macos"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "certify": "pnpm run build && node ./bin/bindings-slm.mjs certify --profile desktop --adapter llamacpp",
+    "ci:certify": "node ./bin/bindings-slm.mjs certify --profile desktop --adapter llamacpp --report-out ../../artifacts/llama-cpp-desktop-cert/desktop.cert.json",
+    "ci:certify:harness": "node ./bin/bindings-slm.mjs certify --profile desktop --adapter llamacpp --report-out ../../artifacts/binding-certify-harness/desktop.cert.json",
+    "certify:android": "pnpm run build && node ./bin/bindings-slm.mjs certify --profile android-mid --adapter onnx",
+    "ci:certify:android": "node ./bin/bindings-slm.mjs certify --profile android-mid --adapter onnx --report-out ../../artifacts/onnx-mobile-android-cert/android.cert.json",
+    "certify:apple-silicon": "pnpm run build && node ./bin/bindings-slm.mjs certify --profile apple-silicon --adapter mlx",
+    "ci:certify:apple-silicon": "node ./bin/bindings-slm.mjs certify --profile apple-silicon --adapter mlx --report-out ../../artifacts/mlx-apple-silicon-cert/apple-silicon.cert.json",
+    "prove:one-command": "pnpm run build && node ./scripts/prove-one-command.mjs",
+    "ci:prove:one-command": "node ./scripts/prove-one-command.mjs",
+    "test": "pnpm run build && node --test --test-concurrency=1 tests/llamacpp_runtime.test.mjs tests/gguf_metadata.test.mjs tests/deadline_stream.test.mjs tests/model_adapter.test.mjs tests/certify_profile.test.mjs tests/ci_job.test.mjs tests/offline_turn_proof.test.mjs tests/onnx_memory_ceiling.test.mjs tests/onnx_android_cert.test.mjs tests/mlx_runtime.test.mjs tests/mlx_deadline_stream.test.mjs tests/mlx_apple_silicon_cert.test.mjs tests/aicore_seam.test.mjs tests/aicore_fallback.test.mjs tests/aicore_device_integration.test.mjs tests/unified_certify_harness.test.mjs tests/cert_registry_schema.test.mjs tests/one_command_certify_prove.test.mjs tests/certified_binding_docs.test.mjs tests/adapter_train.test.mjs tests/adapter_load.test.mjs tests/adapter_cache.test.mjs tests/hot_swap_concurrent_load.test.mjs tests/ollama_backend.test.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@moolam/contract-conformance": "workspace:*",
+    "@moolam/contracts": "workspace:*",
+    "@moolam/edge-agent": "workspace:*",
+    "@moolam/observability": "workspace:*",
+    "@moolam/runtime": "workspace:*",
+    "@moolam/sync-protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

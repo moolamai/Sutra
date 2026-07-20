@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "subj.process.farm-obligation",
+  "sessionId": "sess.process.1",
+  "turnId": "turn.farm-obligation",
+  "deviceId": "dev.process.01",
+  "capturedAt": "2026-07-16T12:00:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-16T12:00:00.000Z"
+  },
+  "stages": [
+    { "stage": "act", "opCode": "tool.write", "status": "ok" }
+  ],
+  "correctionDepth": 8,
+  "correctionExhausted": true
+}

@@ -1,0 +1,196 @@
+{
+  "version": "1.0.0",
+  "description": "Stubbed-down dependency vectors for B4: surface + forced failure → expected mode/signal.",
+  "vectors": [
+    {
+      "id": "storage-read-unavailable-stale",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "storage",
+      "operation": "read",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "sqlite-local"
+      },
+      "expectedMode": "STALE_READ",
+      "expectedSignalCode": "DEGRADE_STALE_READ",
+      "expectedReadPolicy": "stale-with-marker",
+      "expectedWritePolicy": "hard-stop-rollback",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "idempotencyKey": "anika-k:storage:read:dep-down-1"
+    },
+    {
+      "id": "storage-write-unavailable-hard-stop",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "storage",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "sqlite-local"
+      },
+      "expectedMode": "HARD_STOP_WRITE",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedReadPolicy": "unavailable",
+      "expectedWritePolicy": "hard-stop-rollback",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "requiresRollback": true,
+      "idempotencyKey": "anika-k:storage:write:dep-down-1"
+    },
+    {
+      "id": "sync-read-timeout-stale",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "sync",
+      "operation": "read",
+      "forcedFailure": {
+        "kind": "timeout",
+        "dependency": "cloud-sync"
+      },
+      "expectedMode": "STALE_READ",
+      "expectedSignalCode": "DEGRADE_STALE_READ",
+      "expectedReadPolicy": "stale-with-marker",
+      "expectedWritePolicy": "hard-stop-rollback",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "idempotencyKey": "anika-k:sync:read:timeout-1"
+    },
+    {
+      "id": "sync-write-timeout-hard-stop",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "sync",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "timeout",
+        "dependency": "cloud-sync"
+      },
+      "expectedMode": "HARD_STOP_WRITE",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedReadPolicy": "unavailable",
+      "expectedWritePolicy": "hard-stop-rollback",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "requiresRollback": true,
+      "idempotencyKey": "anika-k:sync:write:timeout-1"
+    },
+    {
+      "id": "model-read-unavailable-queue",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "model",
+      "operation": "read",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "slm-runtime"
+      },
+      "expectedMode": "QUEUE_AND_WARN",
+      "expectedSignalCode": "DEGRADE_QUEUE_AND_WARN",
+      "expectedReadPolicy": "unavailable",
+      "expectedWritePolicy": "queue-and-warn",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "idempotencyKey": "anika-k:model:read:dep-down-1"
+    },
+    {
+      "id": "model-write-corrupt-hard-stop",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "model",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "corrupt_response",
+        "dependency": "slm-runtime"
+      },
+      "expectedMode": "HARD_STOP_WRITE",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedReadPolicy": "unavailable",
+      "expectedWritePolicy": "hard-stop-rollback",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "requiresRollback": true,
+      "idempotencyKey": "anika-k:model:write:corrupt-1"
+    },
+    {
+      "id": "storage-write-partial-failure-hard-stop",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "surface": "storage",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "partial_failure",
+        "dependency": "sqlite-local",
+        "detail": "first durable side effect before resolve"
+      },
+      "expectedMode": "HARD_STOP_WRITE",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedReadPolicy": "unavailable",
+      "expectedWritePolicy": "hard-stop-rollback",
+      "allowsSilentWriteRetry": false,
+      "allowsFabrication": false,
+      "requiresRollback": true,
+      "idempotencyKey": "anika-k:storage:write:partial-1"
+    }
+  ],
+  "violations": [
+    {
+      "id": "empty-subject",
+      "kind": "missing_subject",
+      "vector": {
+        "id": "bad-empty-subject",
+        "subjectId": "",
+        "deviceId": "edge-aaaa",
+        "surface": "storage",
+        "operation": "read",
+        "forcedFailure": {
+          "kind": "dependency_unavailable",
+          "dependency": "sqlite-local"
+        },
+        "expectedMode": "STALE_READ",
+        "expectedSignalCode": "DEGRADE_STALE_READ",
+        "expectedReadPolicy": "stale-with-marker",
+        "expectedWritePolicy": "hard-stop-rollback",
+        "allowsSilentWriteRetry": false,
+        "allowsFabrication": false,
+        "idempotencyKey": ":storage:read:bad"
+      }
+    },
+    {
+      "id": "fabricated-stale-payload",
+      "kind": "fabrication_forbidden",
+      "subjectId": "anika-k",
+      "surface": "storage",
+      "operation": "read",
+      "payload": {
+        "fabricated": true,
+        "freshnessMarker": {
+          "capturedAt": "2026-07-15T10:00:00.000Z",
+          "source": "local-cache"
+        }
+      }
+    },
+    {
+      "id": "silent-retry-flag-on-vector",
+      "kind": "schema_violation",
+      "raw": {
+        "id": "bad-silent-retry",
+        "subjectId": "anika-k",
+        "surface": "storage",
+        "operation": "write",
+        "forcedFailure": {
+          "kind": "dependency_unavailable",
+          "dependency": "sqlite-local"
+        },
+        "expectedMode": "HARD_STOP_WRITE",
+        "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+        "expectedReadPolicy": "unavailable",
+        "expectedWritePolicy": "hard-stop-rollback",
+        "allowsSilentWriteRetry": true,
+        "allowsFabrication": false,
+        "idempotencyKey": "anika-k:storage:write:bad-retry"
+      }
+    }
+  ]
+}

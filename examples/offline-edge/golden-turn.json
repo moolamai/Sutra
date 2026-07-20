@@ -1,0 +1,29 @@
+{
+  "specId": "TASK-B-B3-EDGECOREUN-UNIFEDGETU-003",
+  "designId": "DESIGN-B-B3-EDGECOREUN-UNIFEDGETU",
+  "protects": "Offline-edge golden turn after edge-core unification: CognitiveCore path, friction fold, servedLocally without transport",
+  "subjectId": "subject-7",
+  "deviceId": "edge-demo-device",
+  "profile": {
+    "ageBand": "adult",
+    "track": "system-design-l5",
+    "language": "en-IN"
+  },
+  "utterance": "Explain consistent hashing simply.",
+  "friction": {
+    "conceptId": "sd.consistent-hashing",
+    "hesitationMs": 900,
+    "inputVelocity": 4.1,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "ungraded",
+    "capturedAt": "000000017000000:000000:edge-demo-device"
+  },
+  "expect": {
+    "servedLocally": true,
+    "syncStatus": "offline-mode",
+    "conceptId": "sd.consistent-hashing",
+    "replyKeys": ["text", "conceptId", "servedLocally"],
+    "replyTextPrefix": "On-device reply grounded in prompt of "
+  }
+}

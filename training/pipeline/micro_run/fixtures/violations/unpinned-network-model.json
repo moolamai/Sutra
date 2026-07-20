@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "micro-run.slm-stub.v1",
+  "modelId": "slm.stub.network.violation",
+  "kind": "deterministic-stub",
+  "title": "Intentionally broken: allows network fetch",
+  "baseModelHash": "ckpt:sha256:badnetworkmodel00001",
+  "requiresGpu": false,
+  "allowsNetworkFetch": true,
+  "paramClass": "stub",
+  "locality": "on-device",
+  "pinnedAt": "2026-07-16T00:00:00.000Z"
+}

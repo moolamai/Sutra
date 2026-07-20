@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "golden-missing-node-reject",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "title": "Golden missing-node reject",
+  "description": "Edge references conceptId absent from concepts[] — must fail before router use.",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "math.ratios", "title": "Ratios" }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "math.ratios",
+      "toConceptId": "math.fractions",
+      "type": "prerequisite"
+    }
+  ]
+}

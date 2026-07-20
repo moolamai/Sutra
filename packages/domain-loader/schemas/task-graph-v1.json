@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moolam.ai/schemas/task-graph-v1.json",
+  "title": "Task-graph pack v1",
+  "description": "Versioned prerequisite DAG for domain routing. Aligns with cloud TaskRouter ConceptNode / TaskGraph: concepts, prerequisite edges, and pack-owned advance/remediate thresholds (sole source — consumers must not hardcode duplicates). Graph MUST be a DAG; validateGraph() runs a Kahn topological check and rejects cycles with an ordered cyclePath of concept ids, plus unknown concept references at load. Committed golden outcomes live under fixtures/golden-packs/ (valid DAG, cyclic reject, missing-node reject).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "packId",
+    "domainId",
+    "version",
+    "thresholds",
+    "concepts",
+    "edges"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "task-graph.v1",
+      "description": "Locked format id for task-graph packs."
+    },
+    "packId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "description": "Stable pack identifier (e.g. teacher-cbse-slice-graph)."
+    },
+    "domainId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Domain id matching AgentProfile.domainId / track vocabulary."
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+([-a-z0-9.]+)?$",
+      "description": "Semver of this pack revision."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "thresholds": {
+      "$ref": "#/$defs/thresholds"
+    },
+    "concepts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "description": "Bounded concept set (NFR — no unbounded scans).",
+      "items": { "$ref": "#/$defs/conceptNode" }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 16384,
+      "description": "Prerequisite DAG edges. type=prerequisite means fromConceptId requires toConceptId.",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["advanceThreshold", "remediateThreshold"],
+      "description": "Mastery hysteresis — sole source for ADVANCE/REMEDIATE (aligns with task_router.py defaults 0.85 / 0.40).",
+      "properties": {
+        "advanceThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Posterior mastery mean at or above this advances (default 0.85)."
+        },
+        "remediateThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Prerequisite mean below this triggers remediation (default 0.40)."
+        }
+      }
+    },
+    "conceptNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conceptId", "title"],
+      "description": "Maps to sutra_orchestrator.task_router.ConceptNode fields.",
+      "properties": {
+        "conceptId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+          "description": "Stable mastery / routing key (e.g. math.fractions)."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "ageFloor": {
+          "type": "string",
+          "enum": ["child", "adolescent", "adult"],
+          "default": "child",
+          "description": "Aligns with ConceptNode.age_floor."
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromConceptId", "toConceptId", "type"],
+      "description": "Directed prerequisite edge. Self-loops and cycles are rejected by validateGraph() with an ordered cyclePath of concept ids.",
+      "properties": {
+        "fromConceptId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Dependent concept (has the prerequisite)."
+        },
+        "toConceptId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Prerequisite concept that must be mastered first."
+        },
+        "type": {
+          "type": "string",
+          "const": "prerequisite",
+          "description": "Edge type for v1 — only prerequisite DAG edges are defined."
+        }
+      }
+    }
+  }
+}

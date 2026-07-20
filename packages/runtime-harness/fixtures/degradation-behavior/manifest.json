@@ -1,0 +1,19 @@
+{
+  "fixtureFile": "cases.json",
+  "comparePolicy": "exact-behavior-signal",
+  "description": "Per-behavior unit fixtures: stub dependency failure → exact Behavior + signal code; never fabricate; never silent write retry.",
+  "requiredBehaviors": [
+    "stale_with_marker",
+    "queue",
+    "hard_stop"
+  ],
+  "requiredCases": [
+    "behavior-stale-sync-read",
+    "behavior-queue-model-read",
+    "behavior-hard-stop-sync-write",
+    "behavior-hard-stop-tool-write",
+    "behavior-hard-stop-unknown-dependency",
+    "behavior-hard-stop-partial-failure",
+    "behavior-stale-blocked-without-lkg"
+  ]
+}

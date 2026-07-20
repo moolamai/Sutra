@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "at": {
+      "anyOf": [
+        {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$",
+          "type": "string"
+        }
+      ]
+    },
+    "payload": {
+      "properties": {
+        "advisoryCode": {
+          "enum": [
+            "CLOCK_SKEW_CLAMPED",
+            "DEPRECATED_FIELD_PRESENT",
+            "DUPLICATE_SAMPLE_DROPPED",
+            "STATE_VECTOR_REGRESSION",
+            "UNKNOWN_CONCEPT_QUARANTINED"
+          ],
+          "type": "string"
+        },
+        "advisoryIndex": {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deviceId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "hlcTimestamp": {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        },
+        "sessionId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "subjectId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "syncAttemptId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "advisoryCode",
+        "deviceId",
+        "subjectId",
+        "syncAttemptId"
+      ],
+      "type": "object"
+    },
+    "type": {
+      "const": "sync.advisory",
+      "type": "string"
+    }
+  },
+  "required": [
+    "at",
+    "payload",
+    "type"
+  ],
+  "title": "EventSyncAdvisory",
+  "type": "object",
+  "x-event-catalog-version": "1.3.0",
+  "x-event-type": "sync.advisory",
+  "x-protocol-version": "1.0.0"
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "slice-drift-baselines.v1",
+  "baselineRegistryHash": "sha256:0733d2c2014b0cc49174045c92f93186c99880b4c35dd7a8a458a4fcee6c0f77",
+  "confidenceAlpha": 0.05,
+  "notes": "Pinned C0 per-slice pass scores. Production scoring compares to these rows, never to a rolling production average.",
+  "slices": [
+    {
+      "sliceId": "guidance/en/b8",
+      "baselineScore": 1.0,
+      "tolerance": 0.05
+    },
+    {
+      "sliceId": "lawyer/en/b8",
+      "baselineScore": 1.0,
+      "tolerance": 0.05
+    },
+    {
+      "sliceId": "nfr/en/edge",
+      "baselineScore": 1.0,
+      "tolerance": 0.02
+    },
+    {
+      "sliceId": "protocol/en/a-p6",
+      "baselineScore": 1.0,
+      "tolerance": 0.0
+    },
+    {
+      "sliceId": "smoke/en/edge",
+      "baselineScore": 1.0,
+      "tolerance": 0.0
+    },
+    {
+      "sliceId": "teacher/en/b8",
+      "baselineScore": 1.0,
+      "tolerance": 0.05
+    },
+    {
+      "sliceId": "wire/en/protocol",
+      "baselineScore": 1.0,
+      "tolerance": 0.0
+    }
+  ]
+}

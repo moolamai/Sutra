@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-bad-prec",
+  "turnId": "turn-bad-prec",
+  "capturedAt": "2026-07-15T21:01:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T21:01:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "status": "ok"
+    }
+  ],
+  "precisionFormat": "fp8"
+}

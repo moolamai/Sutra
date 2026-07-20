@@ -1,0 +1,9 @@
+{
+  "domainPack": "teacher",
+  "scenarioIds": [
+    "guidance/teacher/teacher-guidance-tone"
+  ],
+  "schemaVersion": "gym-guidance-episode.v1",
+  "subjectId": "gym-guidance-teacher",
+  "taskCount": 1
+}

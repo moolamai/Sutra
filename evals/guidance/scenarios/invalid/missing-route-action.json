@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "scenarioId": "format/invalid-missing-route-action",
+  "subjectId": "subj.eval.format.bad",
+  "deviceId": "dev-eval-format",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 1,
+  "activeConceptId": "math.ratios",
+  "mode": "exploratory",
+  "masterySeed": {},
+  "frictionHistory": [],
+  "turnFriction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 100,
+    "inputVelocity": 1.0,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "001700000000000:000001:dev-eval-format"
+  },
+  "expected": {
+    "targetConceptId": "math.ratios",
+    "rationaleKeywords": ["hold"]
+  }
+}

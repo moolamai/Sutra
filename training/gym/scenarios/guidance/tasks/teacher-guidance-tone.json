@@ -1,0 +1,39 @@
+{
+  "binding": "b8",
+  "cases": [
+    {
+      "caseId": "tone-warm-redirect",
+      "expect": "pass"
+    },
+    {
+      "caseId": "tone-harsh-reject",
+      "expect": "fail"
+    }
+  ],
+  "deviceId": "gym-guidance-compiler",
+  "domainPack": "teacher",
+  "expectedOutcomes": [
+    {
+      "aspect": "tone",
+      "checkId": "oracle.guidance.teacher.tone.mastery",
+      "kind": "mastery",
+      "threshold": 0.8,
+      "verifiable": true
+    }
+  ],
+  "expectedTerminalFrame": "TURN_COMPLETE",
+  "language": "en",
+  "locality": "on-device",
+  "oracleCheckId": "oracle.guidance.teacher.tone",
+  "pinnedSeed": 2001,
+  "rubric": {
+    "aspect": "tone",
+    "threshold": 0.8
+  },
+  "scenarioId": "guidance/teacher/teacher-guidance-tone",
+  "schemaVersion": "gym-guidance-episode.v1",
+  "sourceId": "teacher-guidance-tone",
+  "sourceKind": "b8_guidance",
+  "sourceRelPath": "training/eval/fixtures/b8-guidance/teacher-guidance-tone.json",
+  "subjectId": "gym-guidance-teacher"
+}

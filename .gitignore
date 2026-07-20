@@ -29,6 +29,8 @@ venv/
 *.db
 *.gguf
 *.onnx
+!packages/bindings-slm/certification/fixtures/*.gguf
+!packages/bindings-slm/android/fixtures/*.onnx
 models/
 
 # OS / editor
@@ -38,5 +40,18 @@ Thumbs.db
 # Build / export logs
 *.log
 
+# --- Confidential / internal (Moolam team — keep local, do not push) ---
+# Dev framework, implementation queues, operator runbooks, IDE config — NOT the public PRD matrix
+docs/Dev Framework/
+docs/stages/
+docs/planning/
+docs/operations/
+docs/releases/PUBLISH-OPERATOR.md
+docs/internal/
+**/reduatant/
+.cursor/
+.vscode/
+!.vscode/extensions.json
 
+# Source TikZ / editable diagram sources (public PNGs stay in docs/assets)
 docs/architecture/diagrams/

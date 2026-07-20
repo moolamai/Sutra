@@ -1,0 +1,9 @@
+{
+  "domainPack": "lawyer",
+  "scenarioIds": [
+    "guidance/lawyer/lawyer-scope-refusal"
+  ],
+  "schemaVersion": "gym-guidance-episode.v1",
+  "subjectId": "gym-guidance-lawyer",
+  "taskCount": 1
+}

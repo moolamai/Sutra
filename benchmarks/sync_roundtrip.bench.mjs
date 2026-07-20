@@ -1,7 +1,7 @@
 // Sync round-trip latency: SyncEngine push + validated adoption over an
 // in-process transport that performs a real cloud-side CRDT merge.
 // Measures the full edge-to-cloud handoff path minus the network.
-import { CrdtHarnessResolver, SyncEngine, PROTOCOL_VERSION } from "@moolam/sdk";
+import { CrdtHarnessResolver, SyncEngine, PROTOCOL_VERSION } from "sutra-sdk";
 import { randomUUID } from "node:crypto";
 import { bench } from "./_shared/bench.mjs";
 

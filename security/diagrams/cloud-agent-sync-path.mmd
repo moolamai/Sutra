@@ -1,0 +1,41 @@
+%% Cloud agent and sync host path — self-hosted FastAPI orchestrator
+%% Locality: self-hosted. Trust boundary TB-CLOUD-* crossings in THREAT-MODEL.md
+
+flowchart TB
+  subgraph TB_NET["Trust boundary: network / TLS (TB-CLOUD-01)"]
+    CLIENT["HTTP / SSE client"]
+  end
+
+  subgraph TB_AUTH["Trust boundary: auth middleware (P2)"]
+    MW["AuthVerifier → CallerContext"]
+  end
+
+  subgraph TB_CLOUD["Trust boundary: cloud orchestrator (self-hosted)"]
+  direction TB
+    RT["AgentRuntime.run_turn"]
+    STORE["MasterStateStore"]
+    ROUTER["TaskRouter"]
+    PLANNER["GraphPlanner"]
+    MP["ModelProvider.generate"]
+    STREAM["StreamingTurnHost"]
+    SYNC["SyncService.reconcile"]
+    AUDIT["sync_audit writer"]
+  end
+
+  CLIENT -->|"metadata: credentials"| MW
+  MW -->|"metadata: subject scope"| RT
+  RT -->|"metadata + cognitive state"| STORE
+  STORE -->|"metadata + state"| RT
+  RT --> ROUTER
+  RT --> PLANNER
+  RT -->|"content: assembled prompt\n(self-hosted locality)"| MP
+  MP -->|"content: model text"| RT
+  RT --> STREAM
+  STREAM -->|"metadata frames +\ncontent: ANSWER_DELTA"| CLIENT
+  CLIENT -->|"SyncRequest envelope"| SYNC
+  SYNC -->|"metadata: subject_guard"| STORE
+  SYNC --> AUDIT
+  SYNC -->|"SyncResponse"| CLIENT
+
+  classDef boundary stroke:#1e3a5f,stroke-width:3px
+  class TB_NET,TB_AUTH,TB_CLOUD boundary

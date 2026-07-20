@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "release.tag-rehearsal.record.v1",
+  "kind": "release-record",
+  "version": "1.0.0",
+  "operationId": "op.release.rehearsal.prove",
+  "subjectId": "system:release-rehearsal",
+  "deviceId": "device.release-rehearsal.test",
+  "signedAt": "2026-07-20T03:45:25.476Z",
+  "checklist": {
+    "crossTrackGreenWiring": true,
+    "p7FreezeUnlocked": true,
+    "releaseDocsLanded": true,
+    "p5PublishDryRun": true,
+    "packagesVerified": 6
+  },
+  "evidence": {
+    "freezeReason": "RFC Accepted with maintainer sign-off; no blocking issues",
+    "workflow": ".github/workflows/release.yml",
+    "docs": [
+      "docs/releases/1.0.0.md",
+      "docs/releases/MIGRATION-0.x.md",
+      "docs/releases/ANNOUNCEMENT.md"
+    ],
+    "dryRunDetail": "verified 6 public packages + publish checklist",
+    "packages": [
+      "@moolam/contracts",
+      "sutra-sdk",
+      "@moolam/sync-protocol",
+      "@moolam/cognitive-core",
+      "@moolam/edge-agent",
+      "@moolam/telemetry"
+    ]
+  },
+  "outcome": "signed",
+  "attestors": [
+    {
+      "role": "release-operator",
+      "attestorId": "system:release-rehearsal",
+      "signedAt": "2026-07-20T03:45:25.476Z"
+    },
+    {
+      "role": "pipeline",
+      "attestorId": "a-p5-publish-pipeline",
+      "signedAt": "2026-07-20T03:45:25.476Z"
+    }
+  ]
+}

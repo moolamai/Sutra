@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "compaction.rubric.v1",
+  "rubricId": "critic.compaction",
+  "rubricVersion": "1.0.0",
+  "description": "AICA compaction critic: preserve constraints, verified facts, and citation refs; consent leaks hard-fail; reward downstream success on summary-only replay.",
+  "weights": {
+    "dropped_constraint": -2.0,
+    "dropped_verified_fact": -2.0,
+    "dropped_citation": -2.0,
+    "consent_scope_leak": -2.0,
+    "downstream_replay_success": 1.0
+  },
+  "limits": {
+    "maxRequiredItems": 64,
+    "maxSummaryChars": 65536,
+    "maxConsentMarkers": 32
+  },
+  "calibration": {
+    "marker": "executed_compaction",
+    "minimumTrajectoryCount": 32,
+    "maxTrajectoryCount": 256,
+    "agreementMetric": "cohen_kappa",
+    "agreementThreshold": 0.85
+  },
+  "hackDefense": {
+    "schemaVersion": "critic.compaction-hack-defense.v1",
+    "suiteVersion": "1.0.0",
+    "maxFixtureCount": 16,
+    "fixtures": [
+      {
+        "id": "empty-summary",
+        "attackPattern": "empty_summary",
+        "input": {
+          "summary": "",
+          "requiredConstraints": ["retain the active constraint"]
+        },
+        "expected": {
+          "maxTotal": 0,
+          "hardFail": false
+        }
+      },
+      {
+        "id": "citation-stripped",
+        "attackPattern": "citation_stripped",
+        "input": {
+          "summary": "The verified conclusion is retained without its source reference.",
+          "requiredCitationRefs": ["pack-a#3"],
+          "downstreamReplaySuccess": true
+        },
+        "expected": {
+          "maxTotal": -2,
+          "hardFail": false
+        }
+      },
+      {
+        "id": "consent-leak",
+        "attackPattern": "consent_leak",
+        "input": {
+          "summary": "Synthetic fixture marker: CONSENT_SCOPE_FIXTURE_PRIVATE",
+          "consentScopeMarkers": ["CONSENT_SCOPE_FIXTURE_PRIVATE"],
+          "downstreamReplaySuccess": true
+        },
+        "expected": {
+          "maxTotal": -2,
+          "hardFail": true
+        }
+      },
+      {
+        "id": "known-good",
+        "attackPattern": "known_good",
+        "input": {
+          "summary": "retain the active constraint\nverified fixture fact\npack-a#3",
+          "requiredConstraints": ["retain the active constraint"],
+          "requiredVerifiedFacts": ["verified fixture fact"],
+          "requiredCitationRefs": ["pack-a#3"],
+          "consentScopeMarkers": ["CONSENT_SCOPE_FIXTURE_PRIVATE"],
+          "downstreamReplaySuccess": true
+        },
+        "expected": {
+          "minTotal": 1,
+          "hardFail": false
+        }
+      }
+    ]
+  },
+  "invariants": [
+    "consent_scope_leak hard-fails at -2.0 regardless of other component scores",
+    "partial citation truncation counts as dropped_citation",
+    "reward-hack / empty / tool-spam trajectories score exactly 0"
+  ]
+}

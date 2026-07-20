@@ -1,0 +1,49 @@
+{
+  "id": "correction-exhaustion",
+  "kind": "cluster_eligible",
+  "subjectId": "subj.fixture.correction",
+  "deviceId": "dev.fixture",
+  "locality": "on-device",
+  "expect": {
+    "primaryClass": "correction_exhaustion",
+    "disposition": "auto_eligible",
+    "lookupOk": true,
+    "policySurface": "correction_loop",
+    "minSupport": 4
+  },
+  "trajectories": [
+    {
+      "subjectId": "subj.fixture.correction",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.corr.0",
+      "correctionDepth": 8,
+      "correctionExhausted": true
+    },
+    {
+      "subjectId": "subj.fixture.correction",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.corr.1",
+      "correctionDepth": 8,
+      "correctionExhausted": true
+    },
+    {
+      "subjectId": "subj.fixture.correction",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.corr.2",
+      "correctionDepth": 8,
+      "correctionExhausted": true
+    },
+    {
+      "subjectId": "subj.fixture.correction",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.corr.3",
+      "correctionDepth": 8,
+      "correctionExhausted": true
+    }
+  ],
+  "telemetryEvents": []
+}

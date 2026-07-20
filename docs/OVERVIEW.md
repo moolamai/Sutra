@@ -33,7 +33,7 @@ When evidence shows a foundation is weak, the planner does something linear work
 | Telemetry | `packages/telemetry` | The friction collector, shared by edge and cloud |
 | Edge host | `packages/edge-agent` | Runs a small language model (Phi-3, Gemma…) directly on the user's device. Works offline with zero latency, records friction into local SQLite, keeps a local memory of corrections and milestones |
 | Cloud host | `packages/cloud-orchestrator` (Python) | The reference backend: FastAPI + LangGraph "cognitive state machine" (`agent_runtime`, `task_router`, `planner`, `memory_graph`, `sync_service`) plus pgvector long-term memory. Replaceable by any backend that honours the contract |
-| SDK | `packages/sdk` | The one public entry point: `import { CognitiveCore } from "@moolam/sdk"` |
+| SDK | `packages/sdk` | The one public entry point: `import { CognitiveCore } from "sutra-sdk"` |
 | Domains | `domains/` | Domain specifications (teacher, lawyer, doctor, engineering, finance): profiles, task graphs, tool packs, memory semantics. Configuration, never platform code |
 | Playground | `playground/` | The developer instrument. Exercises the real protocol code interactively so you can understand and verify system behaviour before writing integration code |
 | Examples | `examples/` | Eight small runnable scripts against the SDK, from the education loop to CRDT sync to tool risk classes |

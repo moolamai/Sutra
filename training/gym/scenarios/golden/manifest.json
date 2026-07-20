@@ -1,0 +1,48 @@
+{
+  "fixtureAlias": "fixtures/golden-turns",
+  "scenarios": [
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "file": "tasks/thought-answer-basic.json",
+      "oracleCheckId": "oracle.golden.thought-answer-basic.frame_sequence",
+      "scenarioId": "thought-answer-basic",
+      "sourceId": "thought-answer-basic",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "file": "tasks/tool-call-fence.json",
+      "oracleCheckId": "oracle.golden.tool-call-fence.frame_sequence",
+      "scenarioId": "tool-call-fence",
+      "sourceId": "tool-call-fence",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "file": "tasks/correction-loop.json",
+      "oracleCheckId": "oracle.golden.correction-loop.frame_sequence",
+      "scenarioId": "correction-loop",
+      "sourceId": "correction-loop",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "file": "tasks/meter-tick.json",
+      "oracleCheckId": "oracle.golden.meter-tick.frame_sequence",
+      "scenarioId": "meter-tick",
+      "sourceId": "meter-tick",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "HARNESS_ERROR",
+      "file": "tasks/harness-error-terminal.json",
+      "oracleCheckId": "oracle.golden.harness-error-terminal.frame_sequence",
+      "scenarioId": "harness-error-terminal",
+      "sourceId": "harness-error-terminal",
+      "subjectId": "anika-k"
+    }
+  ],
+  "schemaVersion": "gym-golden-episode.v1",
+  "sourceRelPath": "packages/runtime-harness/fixtures/golden-turns",
+  "taskCount": 5
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "golden-cyclic-reject",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "title": "Golden cyclic reject",
+  "description": "Three-node prerequisite cycle — must fail validateGraph with ordered cyclePath.",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "concept.alpha", "title": "Alpha" },
+    { "conceptId": "concept.beta", "title": "Beta" },
+    { "conceptId": "concept.gamma", "title": "Gamma" }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "concept.alpha",
+      "toConceptId": "concept.beta",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "concept.beta",
+      "toConceptId": "concept.gamma",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "concept.gamma",
+      "toConceptId": "concept.alpha",
+      "type": "prerequisite"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 /**
- * @moolam/sdk - the one import an application needs.
+ * sutra-sdk - the one import an application needs.
  *
  * ```ts
- * import { CognitiveCore } from "@moolam/sdk";
+ * import { CognitiveCore } from "sutra-sdk";
  * ```
  *
  * The SDK re-exports the stable public APIs of the platform packages.
@@ -23,8 +23,15 @@
 // vision, speech, runtime.
 export * from "@moolam/contracts";
 
-// The cognitive core: CognitiveCore, CognitiveBindings, AgentProfile.
-export * from "@moolam/cognitive-core";
+// Application loop surface — advanced act/plan/policy exports stay on
+// `@moolam/cognitive-core`; wire parseToolCallEnvelope comes from sync-protocol.
+export {
+  CognitiveCore,
+  type AgentProfile,
+  type AgentTurnInput,
+  type AgentTurnOutput,
+  type CognitiveBindings,
+} from "@moolam/cognitive-core";
 
 // Reference runtime: RuntimeHost, InProcessScheduler, InProcessEventBus.
 export * from "@moolam/runtime";

@@ -1,8 +1,17 @@
 {
   "name": "@moolam/sync-protocol",
-  "version": "0.1.0",
-  "description": "The Contract. Framework-agnostic API boundary and CRDT state reconciliation for the Hybrid Cognitive Sync Protocol.",
+  "version": "1.1.0",
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. The Contract. Framework-agnostic API boundary and CRDT state reconciliation for the Hybrid Cognitive Sync Protocol.",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/sync-protocol#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/sync-protocol"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,19 +19,32 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node smoke_test.mjs",
+    "test": "node smoke_test.mjs && node --test tests/wire_schemas.test.mjs tests/harness_frames.test.mjs tests/harness_stream_semantics.test.mjs tests/metering.test.mjs tests/metering_budget.test.mjs tests/meter_events_parity.test.mjs tests/degradation_registry.test.mjs tests/degradation_registry_export.test.mjs tests/degradation_stub_vectors.test.mjs tests/tool_envelope.test.mjs tests/tool_envelope_errors.test.mjs tests/tool_envelope_fixtures.test.mjs tests/golden_turns.test.mjs tests/export_schemas.test.mjs tests/schemas_committed.test.mjs tests/wire_parity_golden.test.mjs tests/arbitraries.test.mjs tests/merge_laws.test.mjs tests/golden_joins.test.mjs tests/advisories_unknown_concept.test.mjs tests/advisories_state_vector_regression.test.mjs tests/hlc_advisories.test.mjs tests/changelog_baseline.test.mjs tests/deprecation_policy.test.mjs tests/deprecation_advisory.test.mjs tests/sync_spans.test.mjs tests/sync_wire_headers.test.mjs tests/sync_advisories_spans.test.mjs",
+    "test:golden-joins": "node --test tests/golden_joins.test.mjs",
+    "test:advisories": "node --test tests/advisories_unknown_concept.test.mjs tests/advisories_state_vector_regression.test.mjs tests/hlc_advisories.test.mjs tests/deprecation_advisory.test.mjs",
+    "schemas:export": "pnpm --filter @moolam/contracts run build && pnpm --filter @moolam/runtime run build && pnpm --filter @moolam/observability run build && pnpm run build && node scripts/export-schemas.mjs",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
+    "@moolam/contracts": "workspace:*",
+    "@moolam/observability": "workspace:*",
     "zod": "^4.1.0"
   },
   "devDependencies": {
+    "@opentelemetry/sdk-trace-base": "2.0.1",
+    "fast-check": "^4.9.0",
     "typescript": "^5.8.0"
   }
 }

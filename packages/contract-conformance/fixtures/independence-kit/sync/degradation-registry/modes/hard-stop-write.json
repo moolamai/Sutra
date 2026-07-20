@@ -1,0 +1,22 @@
+{
+  "mode": "HARD_STOP_WRITE",
+  "subjectId": "anika-k",
+  "deviceId": "edge-aaaa",
+  "surface": "storage",
+  "operation": "write",
+  "behavior": {
+    "mode": "HARD_STOP_WRITE",
+    "description": "Hard-stop writes with rollback; silent write retry is forbidden",
+    "allowsFabrication": false,
+    "allowsSilentWriteRetry": false,
+    "readPolicy": "unavailable",
+    "writePolicy": "hard-stop-rollback",
+    "requiresFreshnessMarker": false,
+    "signalCode": "DEGRADE_HARD_STOP_WRITE"
+  },
+  "must": [
+    "Refuse the write before durable side effects",
+    "Rollback any in-flight local buffer for this subjectId",
+    "Emit DEGRADE_HARD_STOP_WRITE — never silent retry"
+  ]
+}

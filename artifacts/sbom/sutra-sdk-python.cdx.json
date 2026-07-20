@@ -1,0 +1,93 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:28852f76-3c18-4ff6-8a96-92a8bba8d5ee",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-20T03:43:47.601Z",
+    "tools": [
+      {
+        "vendor": "moolam",
+        "name": "generate-release-sbom",
+        "version": "0.1.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "name": "sutra-sdk",
+      "version": "0.1.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "fastapi",
+      "version": "0.115",
+      "purl": "pkg:pypi/fastapi@0.115",
+      "bomRef": "pkg:pypi/fastapi@0.115"
+    },
+    {
+      "type": "library",
+      "name": "uvicorn",
+      "version": "0.34",
+      "purl": "pkg:pypi/uvicorn@0.34",
+      "bomRef": "pkg:pypi/uvicorn@0.34"
+    },
+    {
+      "type": "library",
+      "name": "pydantic",
+      "version": "2.10",
+      "purl": "pkg:pypi/pydantic@2.10",
+      "bomRef": "pkg:pypi/pydantic@2.10"
+    },
+    {
+      "type": "library",
+      "name": "pydantic-settings",
+      "version": "2.7",
+      "purl": "pkg:pypi/pydantic-settings@2.7",
+      "bomRef": "pkg:pypi/pydantic-settings@2.7"
+    },
+    {
+      "type": "library",
+      "name": "langgraph",
+      "version": "0.3",
+      "purl": "pkg:pypi/langgraph@0.3",
+      "bomRef": "pkg:pypi/langgraph@0.3"
+    },
+    {
+      "type": "library",
+      "name": "langchain-core",
+      "version": "0.3",
+      "purl": "pkg:pypi/langchain-core@0.3",
+      "bomRef": "pkg:pypi/langchain-core@0.3"
+    },
+    {
+      "type": "library",
+      "name": "psycopg",
+      "version": "3.2",
+      "purl": "pkg:pypi/psycopg@3.2",
+      "bomRef": "pkg:pypi/psycopg@3.2"
+    },
+    {
+      "type": "library",
+      "name": "pgvector",
+      "version": "0.3",
+      "purl": "pkg:pypi/pgvector@0.3",
+      "bomRef": "pkg:pypi/pgvector@0.3"
+    },
+    {
+      "type": "library",
+      "name": "redis",
+      "version": "5.2",
+      "purl": "pkg:pypi/redis@5.2",
+      "bomRef": "pkg:pypi/redis@5.2"
+    },
+    {
+      "type": "library",
+      "name": "numpy",
+      "version": "2.0",
+      "purl": "pkg:pypi/numpy@2.0",
+      "bomRef": "pkg:pypi/numpy@2.0"
+    }
+  ]
+}

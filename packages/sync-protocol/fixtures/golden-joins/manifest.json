@@ -1,0 +1,107 @@
+{
+  "cases": [
+    {
+      "file": "01-shard-max-basic.json",
+      "id": "01-shard-max-basic",
+      "kind": "shard-max"
+    },
+    {
+      "file": "02-shard-max-empty-vs-single.json",
+      "id": "02-shard-max-empty-vs-single",
+      "kind": "shard-max"
+    },
+    {
+      "file": "03-shard-max-disjoint-concepts.json",
+      "id": "03-shard-max-disjoint-concepts",
+      "kind": "shard-max"
+    },
+    {
+      "file": "04-shard-max-tostring-key.json",
+      "id": "04-shard-max-tostring-key",
+      "kind": "shard-max"
+    },
+    {
+      "file": "05-friction-union-disjoint.json",
+      "id": "05-friction-union-disjoint",
+      "kind": "friction-union"
+    },
+    {
+      "file": "06-friction-union-identical-replay.json",
+      "id": "06-friction-union-identical-replay",
+      "kind": "friction-union"
+    },
+    {
+      "file": "07-friction-collision-prefer.json",
+      "id": "07-friction-collision-prefer",
+      "kind": "friction-collision"
+    },
+    {
+      "file": "08-friction-empty-logs.json",
+      "id": "08-friction-empty-logs",
+      "kind": "friction-union"
+    },
+    {
+      "file": "09-lww-equal-physical-logical-session.json",
+      "id": "09-lww-equal-physical-logical-session",
+      "kind": "lww-equal-hlc"
+    },
+    {
+      "file": "10-lww-profile-tie-device.json",
+      "id": "10-lww-profile-tie-device",
+      "kind": "lww-equal-hlc"
+    },
+    {
+      "file": "11-lww-session-strictly-newer.json",
+      "id": "11-lww-session-strictly-newer",
+      "kind": "lww-equal-hlc"
+    },
+    {
+      "file": "12-lww-last-exercised-at.json",
+      "id": "12-lww-last-exercised-at",
+      "kind": "lww-equal-hlc"
+    },
+    {
+      "file": "13-state-vector-pointwise-max.json",
+      "id": "13-state-vector-pointwise-max",
+      "kind": "state-vector"
+    },
+    {
+      "file": "14-state-vector-equal-hlc-keys.json",
+      "id": "14-state-vector-equal-hlc-keys",
+      "kind": "state-vector"
+    },
+    {
+      "file": "15-state-vector-empty-remote.json",
+      "id": "15-state-vector-empty-remote",
+      "kind": "state-vector"
+    },
+    {
+      "file": "16-compaction-announced-timestamps.json",
+      "id": "16-compaction-announced-timestamps",
+      "kind": "compaction"
+    },
+    {
+      "file": "17-compaction-prune-then-merge-idempotent.json",
+      "id": "17-compaction-prune-then-merge-idempotent",
+      "kind": "compaction"
+    },
+    {
+      "file": "18-idempotent-self-join.json",
+      "id": "18-idempotent-self-join",
+      "kind": "idempotent"
+    },
+    {
+      "file": "19-device-ids-union.json",
+      "id": "19-device-ids-union",
+      "kind": "shard-max"
+    },
+    {
+      "file": "20-subject-isolation-refused.json",
+      "id": "20-subject-isolation-refused",
+      "kind": "subject-isolation"
+    }
+  ],
+  "corpus": "golden-joins",
+  "note": "Language-neutral (stateA, stateB, expectedJoin) triples. Expected joins are produced by the TS CrdtHarnessResolver and reviewed before commit. Regeneration: pnpm --filter @moolam/sync-protocol exec node scripts/generate-golden-joins.mjs — never auto-commit.",
+  "protocolVersion": "1.0.0"
+}

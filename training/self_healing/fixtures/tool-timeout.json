@@ -1,0 +1,52 @@
+{
+  "id": "tool-timeout",
+  "kind": "cluster_eligible",
+  "subjectId": "subj.fixture.timeout",
+  "deviceId": "dev.fixture",
+  "locality": "on-device",
+  "expect": {
+    "primaryClass": "tool_timeout",
+    "disposition": "auto_eligible",
+    "lookupOk": true,
+    "policySurface": "retry_cap",
+    "minSupport": 4
+  },
+  "trajectories": [
+    {
+      "subjectId": "subj.fixture.timeout",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.to.0",
+      "opCode": "tool.search",
+      "executionStatusCode": "timeout"
+    },
+    {
+      "subjectId": "subj.fixture.timeout",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.to.1",
+      "opCode": "tool.fetch",
+      "executionStatusCode": 408
+    }
+  ],
+  "telemetryEvents": [
+    {
+      "event": "tool.result",
+      "subjectId": "subj.fixture.timeout",
+      "deviceId": "dev.fixture",
+      "turnId": "turn.to.2",
+      "status": "timeout",
+      "toolIdHash": "tool.fixture.a",
+      "durationMs": 1200
+    },
+    {
+      "event": "tool.result",
+      "subjectId": "subj.fixture.timeout",
+      "deviceId": "dev.fixture",
+      "turnId": "turn.to.3",
+      "status": "timeout",
+      "toolIdHash": "tool.fixture.b",
+      "durationMs": 900
+    }
+  ]
+}

@@ -37,9 +37,12 @@ services:
     build:
       context: ../packages/cloud-orchestrator
     container_name: sutra-orchestrator
+    # SYNCCHAO: chaos/sync_chaos.mjs — kill/pause/corrupt drills + post-drill invariants
     environment:
       SUTRA_PG_DSN: postgresql://sutra:${SUTRA_PG_PASSWORD:-sutra_dev_only}@pgvector:5432/sutra
       SUTRA_REDIS_URL: redis://redis:6379/0
+      # File-backed task graph (bundled pack path inside the image; override to mount custom packs).
+      TASK_GRAPH_PACK: /app/src/sutra_orchestrator/packs/teacher-cbse-slice.json
     ports:
       - "8000:8000"
     depends_on:

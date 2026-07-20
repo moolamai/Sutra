@@ -1,0 +1,28 @@
+{
+  "id": "skip-approval-refused",
+  "kind": "refuse",
+  "subjectId": "subj.reme.forbid.approval",
+  "deviceId": "dev.reme.fixture",
+  "locality": "on-device",
+  "expect": {
+    "obligation": "remediation_executor.forbidden_action"
+  },
+  "probe": {
+    "type": "execute_forbidden_field",
+    "failureClass": "tool_timeout",
+    "evidenceFingerprint": "fp.forbid.approval",
+    "executionKey": "exec.forbid.approval",
+    "forbiddenField": "skip_approval",
+    "seedPolicy": {
+      "policyId": "policy.seed.timeout",
+      "failureClass": "tool_timeout",
+      "confidence": 0.91,
+      "action": {
+        "kind": "adjust_retry_budget",
+        "surface": "retry_cap",
+        "maxRetries": 3
+      },
+      "idempotencyKey": "seed.forbid.approval"
+    }
+  }
+}

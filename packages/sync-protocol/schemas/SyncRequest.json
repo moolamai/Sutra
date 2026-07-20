@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "deviceId": {
+      "minLength": 4,
+      "type": "string"
+    },
+    "edgeState": {
+      "properties": {
+        "activeConceptId": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deviceIds": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "frictionLog": {
+          "items": {
+            "properties": {
+              "assistanceRequested": {
+                "type": "boolean"
+              },
+              "capturedAt": {
+                "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+                "type": "string"
+              },
+              "conceptId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "hesitationMs": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "inputVelocity": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "outcome": {
+                "enum": [
+                  "correct",
+                  "incorrect",
+                  "partial",
+                  "ungraded"
+                ],
+                "type": "string"
+              },
+              "revisionCount": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "assistanceRequested",
+              "capturedAt",
+              "conceptId",
+              "hesitationMs",
+              "inputVelocity",
+              "outcome",
+              "revisionCount"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "mastery": {
+          "additionalProperties": {
+            "properties": {
+              "alpha": {
+                "additionalProperties": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              "beta": {
+                "additionalProperties": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              "conceptId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "lastExercisedAt": {
+                "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "alpha",
+              "beta",
+              "conceptId",
+              "lastExercisedAt"
+            ],
+            "type": "object"
+          },
+          "type": "object"
+        },
+        "mode": {
+          "enum": [
+            "diagnostic",
+            "exploratory",
+            "guided",
+            "prerequisite-remediation",
+            "reinforcement"
+          ],
+          "type": "string"
+        },
+        "profile": {
+          "properties": {
+            "ageBand": {
+              "enum": [
+                "adolescent",
+                "adult",
+                "child"
+              ],
+              "type": "string"
+            },
+            "language": {
+              "minLength": 2,
+              "type": "string"
+            },
+            "track": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "updatedAt": {
+              "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "ageBand",
+            "language",
+            "track",
+            "updatedAt"
+          ],
+          "type": "object"
+        },
+        "protocolVersion": {
+          "const": "1.0.0",
+          "type": "string"
+        },
+        "stateVector": {
+          "additionalProperties": {
+            "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "activeConceptId",
+        "deviceIds",
+        "frictionLog",
+        "mastery",
+        "mode",
+        "profile",
+        "protocolVersion",
+        "stateVector",
+        "subjectId"
+      ],
+      "type": "object"
+    },
+    "headers": {
+      "properties": {
+        "traceparent": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "tracestate": {
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "lastKnownCloudVector": {
+      "additionalProperties": {
+        "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "protocolVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "syncAttemptId": {
+      "format": "uuid",
+      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "deviceId",
+    "edgeState",
+    "lastKnownCloudVector",
+    "protocolVersion",
+    "syncAttemptId"
+  ],
+  "title": "SyncRequest",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

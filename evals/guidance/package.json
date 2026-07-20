@@ -1,0 +1,40 @@
+{
+  "name": "@moolam/guidance-evals",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Guidance routing-quality eval scenario format, rubric schema, and partial scorer.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/validate.mjs",
+    "./score": "./src/score.mjs",
+    "./router-actual": "./src/router_actual.mjs",
+    "./run": "./run.mjs",
+    "./rubric.json": "./rubric.json",
+    "./threshold.json": "./threshold.json",
+    "./schemas/scenario-v1.json": "./schemas/scenario-v1.json",
+    "./schemas/rubric-v1.json": "./schemas/rubric-v1.json"
+  },
+  "files": [
+    "src",
+    "schemas",
+    "rubric.json",
+    "threshold.json",
+    "run.mjs",
+    "scenarios"
+  ],
+  "scripts": {
+    "test": "pnpm --filter @moolam/domain-loader run build && node --test tests/scenario_schema.test.mjs tests/teacher_scenarios.test.mjs tests/scorer.test.mjs tests/run_gate.test.mjs",
+    "gate": "pnpm --filter @moolam/domain-loader run build && node run.mjs",
+    "score:teacher": "pnpm run gate",
+    "prove": "node ../../scripts/prove-guidance-eval-gate.mjs"
+  },
+  "dependencies": {
+    "@moolam/domain-loader": "workspace:*",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

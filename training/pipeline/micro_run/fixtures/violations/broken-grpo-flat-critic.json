@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "micro-run.grpo-violation.v1",
+  "violationId": "broken-grpo-flat-critic",
+  "stage": "grpo",
+  "obligation": "micro_run.grpo_group",
+  "criticMode": "flat",
+  "title": "Intentionally broken: flat critic scores collapse GRPO σ",
+  "detail": "Identical critic rewards → σ≈0 → group skip; CI must fail with stage=grpo and DIFF.",
+  "locality": "on-device",
+  "pinnedAt": "2026-07-16T00:00:00.000Z"
+}

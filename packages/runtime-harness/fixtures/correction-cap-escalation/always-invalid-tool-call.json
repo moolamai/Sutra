@@ -1,0 +1,26 @@
+{
+  "id": "always-invalid-tool-call",
+  "specId": "CK-07",
+  "protects": "CK-07 correction cap: seed model always returns invalid tool call → exactly maxCorrectionTurns repairs then HARNESS_ERROR CORRECTION_EXHAUSTED",
+  "subjectId": "anika-k",
+  "deviceId": "edge-aaaa",
+  "turnId": "turn-cap-esc",
+  "correlationId": "corr-cap-esc",
+  "maxCorrectionTurns": 3,
+  "invalidToolChunk": "```tool_call\nnot-json\n```",
+  "failure": {
+    "kind": "envelope_invalid",
+    "rule": "TOOL.ENVELOPE",
+    "code": "INVALID_JSON",
+    "toolCallId": "c-seed",
+    "issuePath": "arguments",
+    "message": "seed model emitted invalid tool JSON",
+    "requiresParserReset": true
+  },
+  "expected": {
+    "correctionsAccepted": 3,
+    "exhaustedCode": "CORRECTION_EXHAUSTED",
+    "recoverable": false,
+    "terminalFrame": "HARNESS_ERROR"
+  }
+}

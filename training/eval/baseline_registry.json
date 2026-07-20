@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "baseline-registry.v1",
+  "entries": [
+    {
+      "setId": "smoke.eval.v1",
+      "version": 1,
+      "kind": "nfr",
+      "contentHash": "sha256:29619d77bbc2e6eb4f0b9b3464726f6bfb490d255fe56a3a4863406a8925c5cc",
+      "sourcePath": "training/eval/fixtures/smoke-baseline.json",
+      "sliceTags": {
+        "domainPack": "smoke",
+        "language": "en",
+        "binding": "edge"
+      },
+      "pinnedSeed": 42,
+      "locality": "on-device"
+    },
+    {
+      "setId": "nfr.core-loop.bench.v1",
+      "version": 1,
+      "kind": "nfr",
+      "contentHash": "sha256:fe34ce89f104529edf583b83e7922c51a91142299505bc49e6a6380e2d1240dd",
+      "sourcePath": "training/eval/fixtures/nfr/core-loop-bench-inputs.json",
+      "sliceTags": {
+        "domainPack": "nfr",
+        "language": "en",
+        "binding": "edge"
+      },
+      "pinnedSeed": 3001,
+      "locality": "on-device"
+    },
+    {
+      "setId": "conformance.wire.bundle",
+      "version": 1,
+      "kind": "conformance",
+      "contentHash": "sha256:fb4f5e25af93218068cb9a7d77a2b3395db76150927ae0132a369b2f6d35ad5c",
+      "sourcePath": "packages/contract-conformance/fixtures/wire/bundle.json",
+      "sliceTags": {
+        "domainPack": "wire",
+        "language": "en",
+        "binding": "protocol"
+      },
+      "pinnedSeed": 1501,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "a-p6.golden-turns.manifest",
+      "version": 1,
+      "kind": "golden_turns",
+      "contentHash": "sha256:81a347e7b4a13f22b22daba790eeb6ccd934e1ec9a8dcabfa5f24657c211eab6",
+      "sourcePath": "packages/sync-protocol/fixtures/golden-turns/manifest.json",
+      "sliceTags": {
+        "domainPack": "protocol",
+        "language": "en",
+        "binding": "a-p6"
+      },
+      "pinnedSeed": 1000,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "a-p6.golden-turns.thought-answer-basic",
+      "version": 1,
+      "kind": "golden_turns",
+      "contentHash": "sha256:315de8a96bc785a55d271158e3c5c1be06ed902e2701b9f5564d79071cc3ceac",
+      "sourcePath": "packages/sync-protocol/fixtures/golden-turns/thought-answer-basic.json",
+      "sliceTags": {
+        "domainPack": "protocol",
+        "language": "en",
+        "binding": "a-p6"
+      },
+      "pinnedSeed": 1001,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "a-p6.golden-turns.tool-call-fence",
+      "version": 1,
+      "kind": "golden_turns",
+      "contentHash": "sha256:40a0185c19e6d49d055b9f618bbe1afdc327dbdc9c2bc03f21a947a01d4f86ce",
+      "sourcePath": "packages/sync-protocol/fixtures/golden-turns/tool-call-fence.json",
+      "sliceTags": {
+        "domainPack": "protocol",
+        "language": "en",
+        "binding": "a-p6"
+      },
+      "pinnedSeed": 1002,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "a-p6.golden-turns.correction-loop",
+      "version": 1,
+      "kind": "golden_turns",
+      "contentHash": "sha256:241d95986d8e836fc9394e9fe23616a444358d6339a07484983fce0feeaba105",
+      "sourcePath": "packages/sync-protocol/fixtures/golden-turns/correction-loop.json",
+      "sliceTags": {
+        "domainPack": "protocol",
+        "language": "en",
+        "binding": "a-p6"
+      },
+      "pinnedSeed": 1003,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "a-p6.golden-turns.meter-tick",
+      "version": 1,
+      "kind": "golden_turns",
+      "contentHash": "sha256:5c634744e4c4bbd71bf2df6b0f9550cfd516800e0888ac0dc5b6f84f2471181c",
+      "sourcePath": "packages/sync-protocol/fixtures/golden-turns/meter-tick.json",
+      "sliceTags": {
+        "domainPack": "protocol",
+        "language": "en",
+        "binding": "a-p6"
+      },
+      "pinnedSeed": 1004,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "a-p6.golden-turns.harness-error-terminal",
+      "version": 1,
+      "kind": "golden_turns",
+      "contentHash": "sha256:f4a67d9f5dfdd396cd7a7f4b6502aba9c0174e2c5fc23d8bfc3250040903b302",
+      "sourcePath": "packages/sync-protocol/fixtures/golden-turns/harness-error-terminal.json",
+      "sliceTags": {
+        "domainPack": "protocol",
+        "language": "en",
+        "binding": "a-p6"
+      },
+      "pinnedSeed": 1005,
+      "locality": "self-hosted"
+    },
+    {
+      "setId": "b8.guidance.manifest",
+      "version": 1,
+      "kind": "guidance",
+      "contentHash": "sha256:ac3943422660d18109286508a34e2619873d6b9f2b651f5bd48feff96912436c",
+      "sourcePath": "training/eval/fixtures/b8-guidance/manifest.json",
+      "sliceTags": {
+        "domainPack": "guidance",
+        "language": "en",
+        "binding": "b8"
+      },
+      "pinnedSeed": 2000,
+      "locality": "on-device"
+    },
+    {
+      "setId": "b8.guidance.teacher-guidance-tone",
+      "version": 1,
+      "kind": "guidance",
+      "contentHash": "sha256:37366b80a8c441eac0778981d73f17edb1ba5c9a97e076006de50fb3aaff0bbc",
+      "sourcePath": "training/eval/fixtures/b8-guidance/teacher-guidance-tone.json",
+      "sliceTags": {
+        "domainPack": "teacher",
+        "language": "en",
+        "binding": "b8"
+      },
+      "pinnedSeed": 2001,
+      "locality": "on-device"
+    },
+    {
+      "setId": "b8.guidance.lawyer-scope-refusal",
+      "version": 1,
+      "kind": "guidance",
+      "contentHash": "sha256:4a90bb0c84fe57bcf5a0d44c0aec35324070ec203b0a1d870d0b4de93f2676b2",
+      "sourcePath": "training/eval/fixtures/b8-guidance/lawyer-scope-refusal.json",
+      "sliceTags": {
+        "domainPack": "lawyer",
+        "language": "en",
+        "binding": "b8"
+      },
+      "pinnedSeed": 2002,
+      "locality": "on-device"
+    }
+  ]
+}

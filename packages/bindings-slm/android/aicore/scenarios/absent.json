@@ -1,0 +1,8 @@
+{
+  "scenarioId": "absent",
+  "description": "AICore API absent — planner must select onnx-mobile fallback; no crash loop on aicore candidate.",
+  "capabilityFixtureRelpath": "android/aicore/fixtures/absent.capability.json",
+  "expectSelectedCandidateId": "onnx-mobile",
+  "expectOnDeviceGenerationAvailable": false,
+  "expectAbsenceReason": "aicore_absent"
+}

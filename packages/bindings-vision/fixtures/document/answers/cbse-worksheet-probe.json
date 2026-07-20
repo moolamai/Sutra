@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "bindings-vision.cbse-worksheet.v1",
+  "documentKind": "cbse-worksheet",
+  "board": "CBSE",
+  "classLevel": "Class 8",
+  "subject": "Mathematics",
+  "title": "Fractions practice worksheet",
+  "pageIndex": 0,
+  "confidence": 0.82,
+  "items": [
+    {
+      "index": 1,
+      "promptText": "Simplify 6/8",
+      "learnerResponse": "3/4",
+      "marksAllocated": 1,
+      "marksAwarded": null,
+      "confidence": 0.8
+    },
+    {
+      "index": 2,
+      "promptText": null,
+      "learnerResponse": null,
+      "marksAllocated": null,
+      "marksAwarded": null,
+      "confidence": 0.2
+    }
+  ],
+  "partial": true,
+  "unresolvedFields": ["items[1].promptText", "items[1].learnerResponse"]
+}
+

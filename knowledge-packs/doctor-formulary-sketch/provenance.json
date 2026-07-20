@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-provenance-v1",
+  "packId": "pack.doctor.formulary-sketch",
+  "packVersion": "1.0.0",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "domain": "doctor",
+  "sliceId": "formulary-sketch",
+  "sourcePaths": [
+    "domains/doctor/data/formulary-sketch.md"
+  ],
+  "sourceFingerprint": "3bbcbdedabbd9e0153524182a669f7c07416b805a2baa1b5a75ce5ec8ee68e7c",
+  "contentHash": "02b51d62aeabedbd8a0da29712d813c1842b6f7d30ceec2ae27bc607b65bef18"
+}

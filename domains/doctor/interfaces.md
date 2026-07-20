@@ -25,7 +25,7 @@
 | `ReasoningInterface` | Verifier-loop engine; contraindications enter as `constraints` | `unresolvedConstraints` in the result is the safety mechanism, not an error channel |
 | `PlanningInterface` | Differential workup plans over the workflow graphs | Revision on new results (labs, imaging) is the normal loop |
 | `SpeechInterface` | Ambient dictation, hands-busy operation | On-device STT strongly preferred |
-| `VisionInterface` | Chart, wound, and report image analysis behind specialist models | Size limits and typed rejections per the vision contract |
+| `VisionInterface` | Chart, wound, report, and prescription-sketch image analysis behind specialist models | Size limits and typed rejections per the vision contract. Prescription extraction responseSchema is data under `packages/bindings-vision/schemas/prescription-sketch.v1.json`; see [`data/vision-document-profiles.json`](data/vision-document-profiles.json). Nullable drug/dose/frequency — never invent medications or diagnoses. |
 | `ToolInterface` | See [`tools.md`](tools.md) | Interaction checker is the most-invoked tool in the pack |
 
 ## Subject identity

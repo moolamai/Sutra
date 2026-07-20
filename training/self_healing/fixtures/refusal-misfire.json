@@ -1,0 +1,45 @@
+{
+  "id": "refusal-misfire",
+  "kind": "cluster_eligible",
+  "subjectId": "subj.fixture.refusal",
+  "deviceId": "dev.fixture",
+  "locality": "self-hosted",
+  "expect": {
+    "primaryClass": "refusal_misfire",
+    "disposition": "auto_eligible",
+    "lookupOk": true,
+    "policySurface": "routing_budget",
+    "minSupport": 4
+  },
+  "trajectories": [
+    {
+      "subjectId": "subj.fixture.refusal",
+      "deviceId": "dev.fixture",
+      "locality": "self-hosted",
+      "turnId": "turn.ref.0",
+      "evidenceCode": "refusal_on_benign"
+    },
+    {
+      "subjectId": "subj.fixture.refusal",
+      "deviceId": "dev.fixture",
+      "locality": "self-hosted",
+      "turnId": "turn.ref.1",
+      "evidenceCode": "over_refusal"
+    },
+    {
+      "subjectId": "subj.fixture.refusal",
+      "deviceId": "dev.fixture",
+      "locality": "self-hosted",
+      "turnId": "turn.ref.2",
+      "evidenceCode": "hack.refusal_on_benign"
+    },
+    {
+      "subjectId": "subj.fixture.refusal",
+      "deviceId": "dev.fixture",
+      "locality": "self-hosted",
+      "turnId": "turn.ref.3",
+      "evidenceCode": "refusal_on_benign"
+    }
+  ],
+  "telemetryEvents": []
+}

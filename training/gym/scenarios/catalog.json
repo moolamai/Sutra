@@ -1,0 +1,216 @@
+{
+  "scenarioCount": 7,
+  "scenarios": [
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.golden.correction-loop.frame_sequence",
+      "scenarioId": "correction-loop",
+      "sliceTags": [
+        "a_p6_golden",
+        "a_p6_golden.terminal.TURN_COMPLETE"
+      ],
+      "smokeKind": "gym_env",
+      "smokeSeed": 42,
+      "sourceKind": "a_p6_golden",
+      "sourceRelPath": "training/gym/scenarios/golden/tasks/correction-loop.json",
+      "subjectId": "anika-k"
+    },
+    {
+      "domainPack": "lawyer",
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.guidance.lawyer.scope_of_practice",
+      "scenarioId": "guidance/lawyer/lawyer-scope-refusal",
+      "sliceTags": [
+        "b8_guidance",
+        "b8_guidance.lawyer",
+        "b8_guidance.terminal.TURN_COMPLETE"
+      ],
+      "smokeKind": "episode_task_load",
+      "smokeSeed": 2002,
+      "sourceKind": "b8_guidance",
+      "sourceRelPath": "training/gym/scenarios/guidance/tasks/lawyer-scope-refusal.json",
+      "subjectId": "gym-guidance-lawyer"
+    },
+    {
+      "domainPack": "teacher",
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.guidance.teacher.tone",
+      "scenarioId": "guidance/teacher/teacher-guidance-tone",
+      "sliceTags": [
+        "b8_guidance",
+        "b8_guidance.teacher",
+        "b8_guidance.terminal.TURN_COMPLETE"
+      ],
+      "smokeKind": "episode_task_load",
+      "smokeSeed": 2001,
+      "sourceKind": "b8_guidance",
+      "sourceRelPath": "training/gym/scenarios/guidance/tasks/teacher-guidance-tone.json",
+      "subjectId": "gym-guidance-teacher"
+    },
+    {
+      "expectedTerminalFrame": "HARNESS_ERROR",
+      "oracleCheckId": "oracle.golden.harness-error-terminal.frame_sequence",
+      "scenarioId": "harness-error-terminal",
+      "sliceTags": [
+        "a_p6_golden",
+        "a_p6_golden.terminal.HARNESS_ERROR"
+      ],
+      "smokeKind": "gym_env",
+      "smokeSeed": 42,
+      "sourceKind": "a_p6_golden",
+      "sourceRelPath": "training/gym/scenarios/golden/tasks/harness-error-terminal.json",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.golden.meter-tick.frame_sequence",
+      "scenarioId": "meter-tick",
+      "sliceTags": [
+        "a_p6_golden",
+        "a_p6_golden.terminal.TURN_COMPLETE"
+      ],
+      "smokeKind": "gym_env",
+      "smokeSeed": 42,
+      "sourceKind": "a_p6_golden",
+      "sourceRelPath": "training/gym/scenarios/golden/tasks/meter-tick.json",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.golden.thought-answer-basic.frame_sequence",
+      "scenarioId": "thought-answer-basic",
+      "sliceTags": [
+        "a_p6_golden",
+        "a_p6_golden.terminal.TURN_COMPLETE"
+      ],
+      "smokeKind": "gym_env",
+      "smokeSeed": 42,
+      "sourceKind": "a_p6_golden",
+      "sourceRelPath": "training/gym/scenarios/golden/tasks/thought-answer-basic.json",
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.golden.tool-call-fence.frame_sequence",
+      "scenarioId": "tool-call-fence",
+      "sliceTags": [
+        "a_p6_golden",
+        "a_p6_golden.terminal.TURN_COMPLETE"
+      ],
+      "smokeKind": "gym_env",
+      "smokeSeed": 42,
+      "sourceKind": "a_p6_golden",
+      "sourceRelPath": "training/gym/scenarios/golden/tasks/tool-call-fence.json",
+      "subjectId": "anika-k"
+    }
+  ],
+  "schemaVersion": "gym-scenario-catalog.v1",
+  "sliceCount": 7,
+  "slices": [
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.golden.correction-loop.frame_sequence",
+      "scenarioCount": 5,
+      "scenarioIds": [
+        "correction-loop",
+        "harness-error-terminal",
+        "meter-tick",
+        "thought-answer-basic",
+        "tool-call-fence"
+      ],
+      "sliceId": "a_p6_golden",
+      "smokeKind": "gym_env",
+      "smokeScenarioId": "correction-loop",
+      "smokeSeed": 42,
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "HARNESS_ERROR",
+      "oracleCheckId": "oracle.golden.harness-error-terminal.frame_sequence",
+      "scenarioCount": 1,
+      "scenarioIds": [
+        "harness-error-terminal"
+      ],
+      "sliceId": "a_p6_golden.terminal.HARNESS_ERROR",
+      "smokeKind": "gym_env",
+      "smokeScenarioId": "harness-error-terminal",
+      "smokeSeed": 42,
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.golden.correction-loop.frame_sequence",
+      "scenarioCount": 4,
+      "scenarioIds": [
+        "correction-loop",
+        "meter-tick",
+        "thought-answer-basic",
+        "tool-call-fence"
+      ],
+      "sliceId": "a_p6_golden.terminal.TURN_COMPLETE",
+      "smokeKind": "gym_env",
+      "smokeScenarioId": "correction-loop",
+      "smokeSeed": 42,
+      "subjectId": "anika-k"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.guidance.lawyer.scope_of_practice",
+      "scenarioCount": 2,
+      "scenarioIds": [
+        "guidance/lawyer/lawyer-scope-refusal",
+        "guidance/teacher/teacher-guidance-tone"
+      ],
+      "sliceId": "b8_guidance",
+      "smokeKind": "episode_task_load",
+      "smokeScenarioId": "guidance/lawyer/lawyer-scope-refusal",
+      "smokeSeed": 2002,
+      "subjectId": "gym-guidance-lawyer"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.guidance.lawyer.scope_of_practice",
+      "scenarioCount": 1,
+      "scenarioIds": [
+        "guidance/lawyer/lawyer-scope-refusal"
+      ],
+      "sliceId": "b8_guidance.lawyer",
+      "smokeKind": "episode_task_load",
+      "smokeScenarioId": "guidance/lawyer/lawyer-scope-refusal",
+      "smokeSeed": 2002,
+      "subjectId": "gym-guidance-lawyer"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.guidance.teacher.tone",
+      "scenarioCount": 1,
+      "scenarioIds": [
+        "guidance/teacher/teacher-guidance-tone"
+      ],
+      "sliceId": "b8_guidance.teacher",
+      "smokeKind": "episode_task_load",
+      "smokeScenarioId": "guidance/teacher/teacher-guidance-tone",
+      "smokeSeed": 2001,
+      "subjectId": "gym-guidance-teacher"
+    },
+    {
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "oracleCheckId": "oracle.guidance.lawyer.scope_of_practice",
+      "scenarioCount": 2,
+      "scenarioIds": [
+        "guidance/lawyer/lawyer-scope-refusal",
+        "guidance/teacher/teacher-guidance-tone"
+      ],
+      "sliceId": "b8_guidance.terminal.TURN_COMPLETE",
+      "smokeKind": "episode_task_load",
+      "smokeScenarioId": "guidance/lawyer/lawyer-scope-refusal",
+      "smokeSeed": 2002,
+      "subjectId": "gym-guidance-lawyer"
+    }
+  ],
+  "sources": [
+    "training/gym/scenarios/golden",
+    "training/gym/scenarios/guidance",
+    "fixtures/golden-turns"
+  ]
+}

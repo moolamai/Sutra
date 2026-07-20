@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/hold-hesitation-boundary",
+  "title": "Hold at hesitation spike boundary",
+  "description": "hesitationMs=14999 (just below SPIKE 15000); mid-band mastery → hysteretic hold, not remediate.",
+  "subjectId": "subj.eval.teacher.hold.boundary",
+  "activeConceptId": "math.ratios",
+  "mode": "exploratory",
+  "masterySeed": {
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": {
+        "dev-eval-teacher": 5
+      },
+      "beta": {
+        "dev-eval-teacher": 5
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": {
+        "dev-eval-teacher": 1
+      },
+      "beta": {
+        "dev-eval-teacher": 20
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    }
+  },
+  "frictionHistory": [],
+  "turnFriction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 14999,
+    "inputVelocity": 1.5,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "001700000000000:000011:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "hold",
+    "targetConceptId": "math.ratios",
+    "mode": "exploratory",
+    "rationaleKeywords": [
+      "nominal",
+      "14999",
+      "Ratios"
+    ]
+  },
+  "tags": [
+    "hold",
+    "hysteresis",
+    "hesitation-spike"
+  ]
+}

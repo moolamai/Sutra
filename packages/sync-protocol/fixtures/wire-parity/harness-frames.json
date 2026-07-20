@@ -1,0 +1,75 @@
+{
+  "frames": [
+    {
+      "type": "SESSION_START",
+      "sequenceIndex": 0,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "protocolVersion": "1.0.0",
+      "pinnedAt": "2026-07-15T00:00:00.000Z"
+    },
+    {
+      "type": "THOUGHT_DELTA",
+      "sequenceIndex": 1,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "delta": "consider ratio parts…"
+    },
+    {
+      "type": "ANSWER_DELTA",
+      "sequenceIndex": 2,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "delta": "A ratio compares quantities."
+    },
+    {
+      "type": "TOOL_STATUS",
+      "sequenceIndex": 3,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "toolCallId": "tool-1",
+      "status": "running"
+    },
+    {
+      "type": "ADVISORY_ATTACH",
+      "sequenceIndex": 4,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "advisory": {
+        "code": "CLOCK_SKEW_CLAMPED",
+        "detail": "clamped remote physical"
+      }
+    },
+    {
+      "type": "METER_TICK",
+      "sequenceIndex": 5,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "tick": {
+        "inputTokens": 12,
+        "outputTokens": 4,
+        "cachedInputTokens": 2,
+        "latencyMs": 35,
+        "modelId": "slm-local",
+        "locality": "on-device",
+        "aborted": false
+      }
+    },
+    {
+      "type": "TURN_COMPLETE",
+      "sequenceIndex": 6,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "turnId": "turn-1"
+    },
+    {
+      "type": "HARNESS_ERROR",
+      "sequenceIndex": 7,
+      "correlationId": "corr-1",
+      "subjectId": "anika-k",
+      "code": "STREAM_TRUNCATED",
+      "message": "peer closed before TURN_COMPLETE",
+      "recoverable": true
+    }
+  ]
+}

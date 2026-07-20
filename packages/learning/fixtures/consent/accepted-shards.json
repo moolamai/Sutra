@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "consent-gate.v1",
+  "purpose": "Every accepted corpus shard fixture must carry a known consent class",
+  "shards": [
+    {
+      "shardId": "fx-consented-teacher",
+      "contentHash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "consentClass": "consented",
+      "subjectId": "anika-k",
+      "deviceId": "dev-consent-fx",
+      "locality": "on-device"
+    },
+    {
+      "shardId": "fx-public-curriculum",
+      "contentHash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "consentClass": "public",
+      "deviceId": "dev-consent-fx",
+      "locality": "self-hosted"
+    },
+    {
+      "shardId": "fx-synthetic-teacher",
+      "contentHash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "consentClass": "synthetic",
+      "deviceId": "dev-consent-fx",
+      "locality": "self-hosted"
+    },
+    {
+      "shardId": "fx-government-statute",
+      "contentHash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "consentClass": "government",
+      "deviceId": "dev-consent-fx",
+      "locality": "self-hosted"
+    }
+  ]
+}

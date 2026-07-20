@@ -23,7 +23,7 @@ How the education domain binds each contract from `@moolam/contracts`. Nothing h
 | `ReasoningInterface` | Chain-of-thought with a verification pass on worked solutions | The trace doubles as the "show your working" artifact for facilitators |
 | `PlanningInterface` | The task router over the track's prerequisite DAG | Loop-back on weak prerequisites is the core pedagogically relevant behavior |
 | `SpeechInterface` | Indic-language STT/TTS (on-device where possible) | Voice-first matters for early readers and low-literacy contexts |
-| `VisionInterface` | Handwriting and worksheet OCR | Photographed homework is a primary input channel |
+| `VisionInterface` | Handwriting and worksheet OCR | Photographed homework is a primary input channel. Extraction responseSchema profiles (CBSE worksheet + textbook page) are data under `packages/bindings-vision/schemas/`; see [`data/vision-document-profiles.json`](data/vision-document-profiles.json). |
 | `ToolInterface` | See [`tools.md`](tools.md) | All read/compute; no write-class tools in this domain |
 
 ## Subject identity

@@ -14,6 +14,6 @@ Runtime components (all domain-agnostic):
     crdt_merge     — the join-semilattice merge (Python twin of the TS engine)
 """
 
-__version__ = "0.1.0"
+__version__ = "1.1.0"
 
 PROTOCOL_VERSION = "1.0.0"

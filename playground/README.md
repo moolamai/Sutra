@@ -17,7 +17,8 @@ pnpm --filter @moolam/playground dev   # http://localhost:3000
 
 ## Where the logic lives
 
-- `app/console/engine.ts`: the in-browser twin of the routing and evidence-folding rules, importing `@moolam/sync-protocol` directly.
+- `app/console/engine.ts`: in-browser twin of routing/evidence folding; task graph + τ come from `@moolam/domain-loader` (`teacher-cbse-slice`, same committed pack as cloud).
+- `app/console/route_core.mjs`: pure route decision shared with parity tests.
 - `app/console/ProtocolConsole.tsx`: the console UI (light theme default, dark toggle).
 
 Everything the console does runs through the same published packages an application would use. It demonstrates the product; it is not part of the product. The plain-language walkthrough is in [`docs/OVERVIEW.md`](../docs/OVERVIEW.md).

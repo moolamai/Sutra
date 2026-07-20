@@ -1,0 +1,52 @@
+{
+  "correlationId": "corr-gt-05",
+  "coverage": [
+    "harness_error",
+    "tool_call_fence",
+    "advisory_attach"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedFrames": [
+    {
+      "correlationId": "corr-gt-05",
+      "pinnedAt": "2026-07-15T00:00:00.000Z",
+      "protocolVersion": "1.0.0",
+      "sequenceIndex": 0,
+      "subjectId": "anika-k",
+      "type": "SESSION_START"
+    },
+    {
+      "correlationId": "corr-gt-05",
+      "sequenceIndex": 1,
+      "status": "running",
+      "subjectId": "anika-k",
+      "toolCallId": "c1",
+      "type": "TOOL_STATUS"
+    },
+    {
+      "advisory": {
+        "code": "CLOCK_SKEW_CLAMPED",
+        "detail": "clamped remote physical"
+      },
+      "correlationId": "corr-gt-05",
+      "sequenceIndex": 2,
+      "subjectId": "anika-k",
+      "type": "ADVISORY_ATTACH"
+    },
+    {
+      "code": "STREAM_TRUNCATED",
+      "correlationId": "corr-gt-05",
+      "message": "peer closed before TURN_COMPLETE",
+      "recoverable": true,
+      "sequenceIndex": 3,
+      "subjectId": "anika-k",
+      "type": "HARNESS_ERROR"
+    }
+  ],
+  "id": "harness-error-terminal",
+  "input": [
+    "```tool_call\n{\"toolName\":\"lookup\",\"arguments\":{\"query\":\"ratio\"},\"callId\":\"c1\"}\n```",
+    "<stream truncated>"
+  ],
+  "subjectId": "anika-k"
+}

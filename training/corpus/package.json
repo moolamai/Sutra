@@ -1,0 +1,58 @@
+{
+  "name": "@moolam/training-corpus",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Versioned corpus manifest schema + validate-on-write boundary for the training corpus factory.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/build.js",
+  "types": "./dist/build.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/build.d.ts",
+      "import": "./dist/build.js"
+    },
+    "./license-ledger": {
+      "types": "./dist/license_ledger.d.ts",
+      "import": "./dist/license_ledger.js"
+    },
+    "./domain-packs": {
+      "types": "./dist/domain_packs/assemble_pack_sft.d.ts",
+      "import": "./dist/domain_packs/assemble_pack_sft.js"
+    },
+    "./mix-policy": {
+      "types": "./dist/mix_policy.d.ts",
+      "import": "./dist/mix_policy.js"
+    },
+    "./sft-warmstart": {
+      "types": "./dist/sft_warmstart.d.ts",
+      "import": "./dist/sft_warmstart.js"
+    }
+  },
+  "files": [
+    "dist",
+    "manifest_schema.json",
+    "provenance_schema.json",
+    "fixtures",
+    "domain_packs"
+  ],
+  "dependencies": {
+    "@moolam/learning": "workspace:*",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @moolam/learning run build && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/manifest_schema.test.mjs tests/corpus_builder.test.mjs tests/rebuild_regression.test.mjs tests/decontaminate.test.mjs tests/decontam_ci_gate.test.mjs tests/license_ledger.test.mjs tests/provenance_audit.test.mjs tests/pack_sft_lanes.test.mjs tests/pack_sft_curriculum.test.mjs tests/pack_sft_size_quality.test.mjs tests/mix_policy.test.mjs tests/mix_policy_lint.test.mjs tests/mix_policy_ratify.test.mjs tests/sft_warmstart.test.mjs tests/sft_anchor_gate.test.mjs",
+    "prove:rebuild": "pnpm run build && node ./scripts/prove-rebuild.mjs",
+    "prove:decontam": "pnpm run build && node ./scripts/prove-decontam.mjs",
+    "prove:mix-policy": "pnpm run build && node ./scripts/prove-mix-policy.mjs",
+    "prove:provenance": "pnpm run build && node ./scripts/prove-provenance.mjs",
+    "build:corpus": "pnpm run build && node ./scripts/build-corpus.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  }
+}

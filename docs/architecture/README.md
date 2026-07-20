@@ -6,6 +6,8 @@ Sutra is layered infrastructure. Each layer depends only on the layers above it,
 
 Full diagram set (repository map, edge/cloud, cognitive pipeline, sync, memory, domains, SDK layering): [`diagrams/README.md`](diagrams/README.md).
 
+STRIDE threat model (trust boundaries, data-flow diagrams, boundary inventory): [`security/THREAT-MODEL.md`](../../security/THREAT-MODEL.md).
+
 ## The layers
 
 | Layer | Package | Responsibility |

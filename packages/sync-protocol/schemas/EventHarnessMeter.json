@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "at": {
+      "anyOf": [
+        {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$",
+          "type": "string"
+        }
+      ]
+    },
+    "payload": {
+      "properties": {
+        "aborted": {
+          "type": "boolean"
+        },
+        "cachedInputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deviceId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "inputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "latencyMs": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "locality": {
+          "enum": [
+            "external-api",
+            "on-device",
+            "self-hosted"
+          ],
+          "type": "string"
+        },
+        "modelId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "outputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sessionId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "subjectId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "aborted",
+        "cachedInputTokens",
+        "inputTokens",
+        "latencyMs",
+        "locality",
+        "modelId",
+        "outputTokens",
+        "subjectId"
+      ],
+      "type": "object"
+    },
+    "type": {
+      "const": "harness.meter",
+      "type": "string"
+    }
+  },
+  "required": [
+    "at",
+    "payload",
+    "type"
+  ],
+  "title": "EventHarnessMeter",
+  "type": "object",
+  "x-event-catalog-version": "1.3.0",
+  "x-event-type": "harness.meter",
+  "x-protocol-version": "1.0.0"
+}

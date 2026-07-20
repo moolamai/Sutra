@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "research.intake.trainer-flags.v1",
+  "description": "Red fixture — orphan trainer flag / fork without RFC ref (must fail CI lint).",
+  "flags": [
+    {
+      "flagId": "trainer.grpo.orphan_group_override",
+      "enabled": true,
+      "summary": "Enabled without rfcRef — orphan trainer flag."
+    },
+    {
+      "flagId": "trainer.fork.adhoc_grpo",
+      "enabled": true,
+      "orphanTrainerFork": true,
+      "summary": "One-off trainer fork marker without RFC — void."
+    }
+  ]
+}

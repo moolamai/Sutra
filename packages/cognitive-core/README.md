@@ -33,7 +33,7 @@ const out = await core.turn({
 });
 ```
 
-Applications should normally import through `@moolam/sdk` instead.
+Applications should normally import through `sutra-sdk` instead.
 
 ## Contributing notes
 

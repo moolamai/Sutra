@@ -1,0 +1,10 @@
+{
+  "modelId": "phi-large-int8-over",
+  "contextWindow": 4096,
+  "quantization": "int8",
+  "memoryFootprintMiB": 4096,
+  "languages": ["en-IN"],
+  "embedDim": 8,
+  "graphInputs": ["input_ids"],
+  "graphOutputs": ["logits", "embeddings"]
+}

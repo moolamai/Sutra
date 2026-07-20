@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-provenance-v1",
+  "packId": "pack.teacher.cbse-slice",
+  "packVersion": "1.0.0",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "domain": "teacher",
+  "sliceId": "cbse-syllabus-slice",
+  "sourcePaths": [
+    "domains/teacher/data/cbse-syllabus-slice.md"
+  ],
+  "sourceFingerprint": "d1ea6ac7544c556b47934ad7af60ece2a5789049f1e0a7f8fc65906b85889fcc",
+  "contentHash": "a358a047777187bf8368463d109fa6bee875d5df9f35296efa6940375559bce7"
+}

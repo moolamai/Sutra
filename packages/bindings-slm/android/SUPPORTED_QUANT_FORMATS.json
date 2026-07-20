@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "bindings-slm.onnx-quant-formats.v1",
+  "adapter": "onnx",
+  "pinnedOnnxRuntimeMobileVersion": "1.17.3",
+  "supportedQuantFormats": [
+    {
+      "id": "int8",
+      "description": "INT8 quantized ONNX export (primary mid-range Android path)",
+      "certified": true
+    },
+    {
+      "id": "int4",
+      "description": "INT4 / INT4-AWQ style quantized ONNX export (memory-constrained devices)",
+      "certified": true
+    }
+  ],
+  "unsupported": [
+    {
+      "id": "fp16",
+      "reason": "Exceeds typical mid-range peak-RSS budget for NFR-01 class devices"
+    },
+    {
+      "id": "fp32",
+      "reason": "Not a mobile-sovereign quant; reject at model-card / load planner"
+    }
+  ],
+  "notes": "memoryFootprintMiB on the model card must reflect peak RSS, not bare weight file size. load() refuses when footprint exceeds the mid-range device ceiling."
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@moolam/training-pipeline",
+  "version": "0.1.2",
+  "private": true,
+  "description": "Published C4 async training pipeline — trajectory queue, staleness, GRPO + SFT warmstart, checkpoint lineage, micro-run fixtures.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    "./queue_transport": "./queue_transport.ts",
+    "./local_queue": "./local_queue/index.ts",
+    "./importance_ratio": "./importance_ratio.ts",
+    "./staleness_control": "./staleness_control.ts",
+    "./grpo_trainer": "./grpo_trainer.ts",
+    "./lora_config": "./lora_config.ts",
+    "./sft_warmstart": "./sft_warmstart.ts",
+    "./lineage_registry": "./lineage_registry.ts",
+    "./lineage_schema.json": "./lineage_schema.json",
+    "./batch_scheduler": "./batch_scheduler.ts",
+    "./batch_config.json": "./batch_config.json",
+    "./micro_run/load_fixtures": "./micro_run/load_fixtures.mjs",
+    "./micro_run/orchestrate": "./micro_run/orchestrate.mjs"
+  },
+  "scripts": {
+    "test": "pnpm --filter @moolam/training-corpus run test && pnpm run fixtures:test && pnpm run micro-run:test && pnpm run batch:test",
+    "fixtures:check": "node micro_run/load_fixtures.mjs",
+    "fixtures:prove": "node micro_run/prove_fixtures.mjs",
+    "fixtures:test": "node --test micro_run/tests/micro_run_fixtures.test.mjs",
+    "micro-run": "node micro_run/orchestrate.mjs",
+    "micro-run:prove": "node micro_run/prove_micro_run.mjs",
+    "micro-run:test": "node --test micro_run/tests/micro_run_orchestrator.test.mjs micro_run/tests/micro_run_ci.test.mjs",
+    "batch:test": "pnpm --filter @moolam/learning run build && pnpm --filter @moolam/learning exec node --test tests/batch_scheduler.test.mjs tests/batch_training_window.test.mjs && node --test batch_e2e/tests/batch_e2e.test.mjs",
+    "batch:prove": "pnpm --filter @moolam/learning run build && node batch_e2e/prove_batch_e2e.mjs"
+  },
+  "dependencies": {
+    "sutra-bindings-slm": "workspace:*",
+    "@moolam/learning": "workspace:*",
+    "@moolam/training-corpus": "workspace:*"
+  }
+}

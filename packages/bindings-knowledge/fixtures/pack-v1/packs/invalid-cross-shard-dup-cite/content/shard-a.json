@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "shardId": "shard.a",
+  "passages": [
+    {
+      "passageId": "pass.a",
+      "content": "First shard passage.",
+      "citation": {
+        "citationId": "cite.shared",
+        "sourceId": "src.ncert.class8.math",
+        "locator": "Ch.1"
+      },
+      "asOf": "2024-06-01T00:00:00.000Z"
+    }
+  ]
+}

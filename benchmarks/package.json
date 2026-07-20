@@ -9,9 +9,23 @@
     "memory-retrieval": "node memory_retrieval.bench.mjs",
     "sync-roundtrip": "node sync_roundtrip.bench.mjs",
     "core-loop": "node core_loop.bench.mjs",
-    "all": "node crdt_merge.bench.mjs && node memory_retrieval.bench.mjs && node sync_roundtrip.bench.mjs && node core_loop.bench.mjs"
+    "router": "node router.bench.mjs",
+    "agent-turn": "node agent_turn.bench.mjs",
+    "sync-convergence": "node load/sync_convergence.bench.mjs",
+    "load-soak": "node load/soak.mjs",
+    "sync-chaos": "node chaos/sync_chaos.mjs",
+    "degradation-drills": "node chaos/degradation_drills.mjs",
+    "all": "node crdt_merge.bench.mjs && node memory_retrieval.bench.mjs && node sync_roundtrip.bench.mjs && node core_loop.bench.mjs && node router.bench.mjs && node agent_turn.bench.mjs && node load/sync_convergence.bench.mjs",
+    "gates:validate": "node gates/check.mjs --validate",
+    "gates:check": "node gates/check.mjs",
+    "gates:check:baseline": "node gates/check.mjs --baseline gates/baseline.json",
+    "ci:gate": "node gates/check.mjs --baseline gates/baseline.json",
+    "baseline:record": "node gates/record_baseline.mjs",
+    "baseline:record:dry": "node gates/record_baseline.mjs --dry-run",
+    "prove:gate": "node --test gates/prove_gate.test.mjs",
+    "test": "node --test gates/thresholds.test.mjs gates/check.runner.test.mjs gates/check.baseline.test.mjs gates/ci_job.test.mjs gates/record_baseline.test.mjs gates/prove_gate.test.mjs gates/router.bench.test.mjs gates/agent_turn.bench.test.mjs gates/sync_convergence.bench.test.mjs gates/concurrent_load.test.mjs gates/soak_leak.test.mjs gates/sync_chaos.test.mjs gates/sync_chaos_partition.test.mjs gates/sync_chaos_checkpoint.test.mjs gates/sync_chaos_invariants.test.mjs gates/degradation_drills.test.mjs gates/degradation_registry_crossref.test.mjs gates/wire_python.test.mjs"
   },
   "dependencies": {
-    "@moolam/sdk": "workspace:*"
+    "sutra-sdk": "workspace:*"
   }
 }

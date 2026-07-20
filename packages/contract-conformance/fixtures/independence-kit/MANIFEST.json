@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "independence-kit.manifest.v1",
+  "kitVersion": "1.0.0",
+  "note": "GENERATED — do not hand-edit. Source: sync-protocol fixtures + wire bundle + CERTIFICATION-CHECKLIST.",
+  "obligations": {
+    "sync": [
+      "SYNC-01.1",
+      "SYNC-01.2"
+    ],
+    "harness": [
+      "harness-frames",
+      "golden-turns",
+      "tool-envelope",
+      "degradation-registry"
+    ],
+    "binding": [
+      "CK-03.1",
+      "CK-03.2",
+      "CK-03.3"
+    ],
+    "locality": [
+      "CK-03.L1",
+      "CK-03.L2"
+    ]
+  },
+  "contents": {
+    "checklist": "CERTIFICATION-CHECKLIST.md",
+    "wire": [
+      "wire/bundle.json"
+    ],
+    "sync": [
+      "sync/wire-parity/",
+      "sync/golden-joins/",
+      "sync/golden-turns/",
+      "sync/tool-envelope/",
+      "sync/advisories/",
+      "sync/degradation-registry/"
+    ]
+  },
+  "sovereignty": {
+    "subjectScoped": true,
+    "noRawContentInReports": true,
+    "crossSubjectFixture": "sync/golden-joins/20-subject-isolation-refused.json"
+  }
+}

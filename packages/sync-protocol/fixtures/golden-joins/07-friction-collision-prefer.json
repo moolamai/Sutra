@@ -1,0 +1,133 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": true,
+        "capturedAt": "000000001000000:000000:edge-fric",
+        "conceptId": "v-ref",
+        "hesitationMs": 9,
+        "inputVelocity": 1,
+        "outcome": "incorrect",
+        "revisionCount": 1
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-collide"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": true,
+        "capturedAt": "000000001000000:000000:edge-fric",
+        "conceptId": "v-ref",
+        "hesitationMs": 9,
+        "inputVelocity": 1,
+        "outcome": "incorrect",
+        "revisionCount": 1
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-collide"
+  },
+  "id": "07-friction-collision-prefer",
+  "kind": "friction-collision",
+  "note": "Same capturedAt, distinct payloads — lexicographic prefer (order-independent)",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000001000000:000000:edge-fric",
+        "conceptId": "a00",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-collide"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": true,
+        "capturedAt": "000000001000000:000000:edge-fric",
+        "conceptId": "v-ref",
+        "hesitationMs": 9,
+        "inputVelocity": 1,
+        "outcome": "incorrect",
+        "revisionCount": 1
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-collide"
+  },
+  "subjectId": "subj-collide"
+}

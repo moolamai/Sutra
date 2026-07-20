@@ -1,9 +1,17 @@
 # teacher-basic
 
-The cognitive core configured as an education mentor. Compare this file with `../lawyer-basic/main.mjs`: the `CognitiveCore`, the loop, and every contract are identical; only the profile (charter, refusals) and the knowledge corpus differ. That delta is the entire cost of a new domain.
+The cognitive core configured as an education mentor. Knowledge is loaded as
+**data** from `knowledge-packs/teacher-cbse-slice/` via
+`PackKnowledgeConnector` — packages never import `domains/teacher`.
+
+Compare with `../lawyer-basic/main.mjs`: the `CognitiveCore`, the loop, and
+every contract are identical; only the profile (charter, refusals) and the
+knowledge pack path differ.
 
 ```bash
 pnpm teacher-basic
 ```
 
-See `domains/teacher/` for the full domain configuration guidance.
+Domain authoring guidance still lives under `domains/teacher/`; the runtime
+consumes only the validated pack under `knowledge-packs/`.
+

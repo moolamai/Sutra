@@ -62,7 +62,7 @@ sutra/
 ├── design/                   # Implementation philosophy per subsystem
 ├── rfcs/                     # Accepted design proposals + template
 ├── infra/                    # docker-compose self-host stack
-├── docs/                     # Layered docs, ADRs, OVERVIEW, PRD_MATRIX, ROADMAP
+├── docs/                     # Layered docs, ADRs, OVERVIEW, PRD_MATRIX, ROADMAP (internal: stages, Dev Framework — gitignored)
 └── .github/                  # Issue templates, PR template, CI
 ```
 
@@ -243,6 +243,12 @@ The wire contract and the cognitive contracts are load-bearing for every downstr
 5. Accepted RFCs land as numbered documents in `rfcs/` and are summarized in the protocol changelog when implemented.
 
 Wire-format changes are **additive-only** at every stage; nothing is ever removed or repurposed on the wire. See PRD SYNC-01.
+
+**Protocol changelog:** when an accepted RFC (or other wire edit) lands in code,
+add a bullet under `## [Unreleased]` in
+[`packages/sync-protocol/CHANGELOG.md`](packages/sync-protocol/CHANGELOG.md)
+in the same PR. Do not invent a version section until release cut. The **0.1.0**
+baseline documents the full initial wire surface.
 
 ## 10. Documentation contributions
 

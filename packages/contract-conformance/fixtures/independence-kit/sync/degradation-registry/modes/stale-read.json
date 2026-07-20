@@ -1,0 +1,31 @@
+{
+  "mode": "STALE_READ",
+  "subjectId": "anika-k",
+  "deviceId": "edge-aaaa",
+  "surface": "storage",
+  "operation": "read",
+  "behavior": {
+    "mode": "STALE_READ",
+    "description": "Serve last-known-good read with freshnessMarker; never fabricate data",
+    "allowsFabrication": false,
+    "allowsSilentWriteRetry": false,
+    "readPolicy": "stale-with-marker",
+    "writePolicy": "hard-stop-rollback",
+    "requiresFreshnessMarker": true,
+    "signalCode": "DEGRADE_STALE_READ"
+  },
+  "stalePayload": {
+    "value": { "conceptId": "math.ratios" },
+    "freshnessMarker": {
+      "capturedAt": "000001700000000:000001:edge-aaaa",
+      "source": "last-known-good"
+    }
+  },
+  "forbidden": {
+    "fabricated": true,
+    "freshnessMarker": {
+      "capturedAt": "2026-07-15T10:00:00.000Z",
+      "source": "local-cache"
+    }
+  }
+}

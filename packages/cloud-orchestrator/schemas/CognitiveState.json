@@ -1,0 +1,189 @@
+{
+  "$defs": {
+    "def_49bf58ecc107": {
+      "properties": {
+        "alpha": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "object"
+        },
+        "beta": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "object"
+        },
+        "conceptId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lastExercisedAt": {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "alpha",
+        "beta",
+        "conceptId",
+        "lastExercisedAt"
+      ],
+      "type": "object"
+    },
+    "def_6151e97c610f": {
+      "properties": {
+        "ageBand": {
+          "enum": [
+            "adolescent",
+            "adult",
+            "child"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "minLength": 2,
+          "type": "string"
+        },
+        "track": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "updatedAt": {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ageBand",
+        "language",
+        "track",
+        "updatedAt"
+      ],
+      "type": "object"
+    },
+    "def_a42fdd998f91": {
+      "properties": {
+        "assistanceRequested": {
+          "type": "boolean"
+        },
+        "capturedAt": {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        },
+        "conceptId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "hesitationMs": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "inputVelocity": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "outcome": {
+          "enum": [
+            "correct",
+            "incorrect",
+            "partial",
+            "ungraded"
+          ],
+          "type": "string"
+        },
+        "revisionCount": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assistanceRequested",
+        "capturedAt",
+        "conceptId",
+        "hesitationMs",
+        "inputVelocity",
+        "outcome",
+        "revisionCount"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "activeConceptId": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "deviceIds": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "frictionLog": {
+      "items": {
+        "$ref": "#/$defs/def_a42fdd998f91"
+      },
+      "type": "array"
+    },
+    "mastery": {
+      "additionalProperties": {
+        "$ref": "#/$defs/def_49bf58ecc107"
+      },
+      "type": "object"
+    },
+    "mode": {
+      "enum": [
+        "diagnostic",
+        "exploratory",
+        "guided",
+        "prerequisite-remediation",
+        "reinforcement"
+      ],
+      "type": "string"
+    },
+    "profile": {
+      "$ref": "#/$defs/def_6151e97c610f"
+    },
+    "protocolVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "stateVector": {
+      "additionalProperties": {
+        "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "subjectId": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "activeConceptId",
+    "deviceIds",
+    "frictionLog",
+    "mastery",
+    "mode",
+    "profile",
+    "protocolVersion",
+    "stateVector",
+    "subjectId"
+  ],
+  "title": "CognitiveState",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

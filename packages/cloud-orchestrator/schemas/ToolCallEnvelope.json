@@ -1,0 +1,50 @@
+{
+  "$defs": {
+    "def_824423abbcbd": {
+      "properties": {
+        "arguments": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "callId": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "toolName": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "arguments",
+        "toolName"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/def_824423abbcbd"
+    },
+    {
+      "items": {
+        "$ref": "#/$defs/def_824423abbcbd"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "type": "array"
+    }
+  ],
+  "title": "ToolCallEnvelope",
+  "x-protocol-version": "1.0.0"
+}

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "bindings-speech.indic-languages.v1",
+  "engine": "whisper.cpp-class",
+  "pinnedRevision": "whisper.cpp-class-v1",
+  "description": "BCP-47 languages actually supported by the acoustic+language models for the Indic STT fixture pack. Load declares this set as SpeechInterface.supportedLanguages — never aspirational.",
+  "languages": ["hi-IN", "en-IN", "ta-IN"],
+  "fallbackLanguage": "en-IN"
+}

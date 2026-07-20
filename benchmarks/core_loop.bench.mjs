@@ -2,7 +2,7 @@
 // Measures the reasoning-latency floor the infrastructure itself adds on
 // top of whatever models/tools a deployment binds. Should stay well under
 // a millisecond.
-import { CognitiveCore } from "@moolam/sdk";
+import { CognitiveCore } from "sutra-sdk";
 import { bench } from "./_shared/bench.mjs";
 
 const instantBindings = {

@@ -1,0 +1,203 @@
+{
+  "$id": "https://moolam.ai/schemas/trajectory/v1.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "B9 metadata-grade turn trajectory + optional C0 training fields (policyCheckpointHash, rolloutSeed, precisionFormat, executionState, routerReplayMap). Additive evolution; dense SLMs may omit routerReplayMap. Structured metadata only — never raw learner content bodies.",
+  "properties": {
+    "capturedAt": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "consent": {
+      "additionalProperties": false,
+      "description": "Consent record; export requires optedIn === true (sovereign boundary)",
+      "properties": {
+        "consentClass": {
+          "enum": [
+            "personal",
+            "product-improve",
+            "research"
+          ],
+          "type": "string"
+        },
+        "optedIn": {
+          "type": "boolean"
+        },
+        "recordedAt": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "consentClass",
+        "optedIn",
+        "recordedAt"
+      ],
+      "type": "object"
+    },
+    "deviceId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "executionState": {
+      "additionalProperties": false,
+      "description": "Last attempted command + terminal status (stream abort must not omit)",
+      "properties": {
+        "commandExecuted": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "statusCode": {
+          "anyOf": [
+            {
+              "maximum": 9999,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "commandExecuted",
+        "statusCode"
+      ],
+      "type": "object"
+    },
+    "locality": {
+      "enum": [
+        "on-device",
+        "self-hosted"
+      ],
+      "type": "string"
+    },
+    "policyCheckpointHash": {
+      "description": "Exact adapter/base checkpoint hash — never the floating token 'latest'",
+      "maxLength": 128,
+      "minLength": 8,
+      "pattern": "^[A-Za-z0-9:_+-]+$",
+      "type": "string"
+    },
+    "precisionFormat": {
+      "enum": [
+        "bf16",
+        "fp16",
+        "fp32",
+        "int4",
+        "int8",
+        "nf4"
+      ],
+      "type": "string"
+    },
+    "rolloutSeed": {
+      "description": "Gym / fleet rollout seed (uint32) for IMPALA lineage — opaque metadata, not utterance text",
+      "maximum": 4294967295,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "routerReplayMap": {
+      "additionalProperties": {
+        "maxLength": 256,
+        "minLength": 1,
+        "type": "string"
+      },
+      "description": "Forward-compat: dense on-device SLMs may omit; parsers must accept absence",
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "trajectory.v1",
+      "type": "string"
+    },
+    "sessionId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "stages": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "opCode": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "stage": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "aborted",
+              "error",
+              "ok",
+              "skipped"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage"
+        ],
+        "type": "object"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "type": "array"
+    },
+    "subjectId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "toolCallIds": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 32,
+      "type": "array"
+    },
+    "turnId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "capturedAt",
+    "consent",
+    "locality",
+    "schemaVersion",
+    "sessionId",
+    "stages",
+    "subjectId",
+    "turnId"
+  ],
+  "title": "TurnTrajectoryRecord",
+  "type": "object",
+  "x-forward-compat": {
+    "routerReplayMap": {
+      "denseSlmMayOmit": true,
+      "note": "Dense on-device SLMs omit routerReplayMap; parsers accept absence. Additive evolution only.",
+      "required": false
+    }
+  },
+  "x-invariants": {
+    "additiveEvolutionOnly": true,
+    "consentRequired": true,
+    "floatingCheckpointForbidden": true,
+    "keystrokesForbidden": true
+  },
+  "x-trajectory-schema-version": "trajectory.v1"
+}

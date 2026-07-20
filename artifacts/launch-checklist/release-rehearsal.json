@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "launch-checklist.report.v1",
+  "event": "launch_checklist.completed",
+  "subjectId": "system:launch-readiness",
+  "deviceId": "MSI",
+  "recordedAt": "2026-07-16T22:18:56.499Z",
+  "outcome": "red",
+  "counts": {
+    "pass": 21,
+    "fail": 3,
+    "skip": 0
+  },
+  "results": [
+    {
+      "id": "track-a-p0",
+      "track": "A",
+      "phase": "P0",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p1",
+      "track": "A",
+      "phase": "P1",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p2",
+      "track": "A",
+      "phase": "P2",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p3",
+      "track": "A",
+      "phase": "P3",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p4",
+      "track": "A",
+      "phase": "P4",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p5",
+      "track": "A",
+      "phase": "P5",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p6",
+      "track": "A",
+      "phase": "P6",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-a-p7",
+      "track": "A",
+      "phase": "P7",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b0",
+      "track": "B",
+      "phase": "B0",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b1",
+      "track": "B",
+      "phase": "B1",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b2",
+      "track": "B",
+      "phase": "B2",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b3",
+      "track": "B",
+      "phase": "B3",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b4",
+      "track": "B",
+      "phase": "B4",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b5",
+      "track": "B",
+      "phase": "B5",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b6",
+      "track": "B",
+      "phase": "B6",
+      "outcome": "fail",
+      "failureClass": "gate_regression",
+      "violations": [
+        {
+          "gateId": "TASK-B-B6-MOBIADAP-ONNXMOBI-001",
+          "taskPath": "./b6-native-bindings/mobile-adapters/onnx-mobile/TASK-B-B6-MOBIADAP-ONNXMOBI-001.md",
+          "message": "B/B6 gate TASK-B-B6-MOBIADAP-ONNXMOBI-001 is not complete"
+        }
+      ]
+    },
+    {
+      "id": "track-b-b7",
+      "track": "B",
+      "phase": "B7",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b8",
+      "track": "B",
+      "phase": "B8",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "track-b-b9",
+      "track": "B",
+      "phase": "B9",
+      "outcome": "fail",
+      "failureClass": "gate_regression",
+      "violations": [
+        {
+          "gateId": "TASK-B-B9-LAUNGATE-LAUNARTI-003",
+          "taskPath": "./b9-learning-loop-launch/launch-gate/launch-artifacts/TASK-B-B9-LAUNGATE-LAUNARTI-003.md",
+          "message": "B/B9 gate TASK-B-B9-LAUNGATE-LAUNARTI-003 is not complete"
+        }
+      ]
+    },
+    {
+      "id": "conformance",
+      "track": "B",
+      "phase": "B0",
+      "outcome": "fail",
+      "failureClass": "subcheck_failure",
+      "durationMs": 27153,
+      "exitCode": 1,
+      "violations": [
+        {
+          "gateId": "conformance",
+          "message": "B0 gate conformance exited 1"
+        }
+      ]
+    },
+    {
+      "id": "guidance-eval",
+      "track": "B",
+      "phase": "B8",
+      "outcome": "pass",
+      "failureClass": null,
+      "durationMs": 4579,
+      "exitCode": 0,
+      "violations": []
+    },
+    {
+      "id": "consent-trajectory",
+      "track": "B",
+      "phase": "B9",
+      "outcome": "pass",
+      "failureClass": null,
+      "durationMs": 17142,
+      "exitCode": 0,
+      "violations": []
+    },
+    {
+      "id": "certification-desktop",
+      "track": "B",
+      "phase": "B6",
+      "subjectId": "cert.desktop.llamacpp",
+      "deviceId": "ci-desktop-cpu",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "certification-android-mid",
+      "track": "B",
+      "phase": "B6",
+      "subjectId": "cert.android.onnx",
+      "deviceId": "ci-android-mid-range",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    },
+    {
+      "id": "certification-apple-silicon",
+      "track": "B",
+      "phase": "B6",
+      "subjectId": "cert.apple.mlx",
+      "deviceId": "ci-apple-silicon",
+      "outcome": "pass",
+      "failureClass": null,
+      "violations": []
+    }
+  ],
+  "failures": [
+    {
+      "gateId": "TASK-B-B6-MOBIADAP-ONNXMOBI-001",
+      "taskPath": "./b6-native-bindings/mobile-adapters/onnx-mobile/TASK-B-B6-MOBIADAP-ONNXMOBI-001.md",
+      "message": "B/B6 gate TASK-B-B6-MOBIADAP-ONNXMOBI-001 is not complete"
+    },
+    {
+      "gateId": "TASK-B-B9-LAUNGATE-LAUNARTI-003",
+      "taskPath": "./b9-learning-loop-launch/launch-gate/launch-artifacts/TASK-B-B9-LAUNGATE-LAUNARTI-003.md",
+      "message": "B/B9 gate TASK-B-B9-LAUNGATE-LAUNARTI-003 is not complete"
+    },
+    {
+      "gateId": "conformance",
+      "message": "B0 gate conformance exited 1"
+    }
+  ]
+}

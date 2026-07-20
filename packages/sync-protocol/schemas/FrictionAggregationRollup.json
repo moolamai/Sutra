@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "concepts": {
+      "items": {
+        "properties": {
+          "assistanceRequestedCount": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "conceptId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "hesitationMsMax": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "hesitationMsSum": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "inputVelocitySum": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "outcomes": {
+            "properties": {
+              "correct": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "incorrect": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "partial": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "ungraded": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "correct",
+              "incorrect",
+              "partial",
+              "ungraded"
+            ],
+            "type": "object"
+          },
+          "revisionCountSum": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "sampleCount": {
+            "maximum": 4096,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assistanceRequestedCount",
+          "conceptId",
+          "hesitationMsMax",
+          "hesitationMsSum",
+          "inputVelocitySum",
+          "outcomes",
+          "revisionCountSum",
+          "sampleCount"
+        ],
+        "type": "object"
+      },
+      "maxItems": 512,
+      "type": "array"
+    },
+    "consentRecordId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "deviceId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "locality": {
+      "enum": [
+        "on-device",
+        "self-hosted"
+      ],
+      "type": "string"
+    },
+    "rolledUpAt": {
+      "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+      "type": "string"
+    },
+    "sampleCount": {
+      "maximum": 4096,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "schemaVersion": {
+      "const": "aggregation.v1",
+      "type": "string"
+    },
+    "subjectId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "concepts",
+    "consentRecordId",
+    "deviceId",
+    "locality",
+    "rolledUpAt",
+    "sampleCount",
+    "schemaVersion",
+    "subjectId"
+  ],
+  "title": "FrictionAggregationRollup",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

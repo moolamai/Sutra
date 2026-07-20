@@ -1,0 +1,163 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000002000000:000000:dev-a",
+        "conceptId": "c.1",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-compact2"
+  },
+  "compactedSampleTimestamps": [
+    "000000002000000:000000:dev-a"
+  ],
+  "expectError": null,
+  "expectedAfterPruneRemerge": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000002000000:000000:dev-a",
+        "conceptId": "c.1",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-compact2"
+  },
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000002000000:000000:dev-a",
+        "conceptId": "c.1",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-compact2"
+  },
+  "id": "17-compaction-prune-then-merge-idempotent",
+  "kind": "compaction",
+  "note": "After prune of announced keys, remereging pruned replica is a no-op",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000002000000:000000:dev-a",
+        "conceptId": "c.1",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-compact2"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-b"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000002000000:000000:dev-a",
+        "conceptId": "c.1",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-compact2"
+  },
+  "subjectId": "subj-compact2"
+}

@@ -1,0 +1,56 @@
+{
+  "law": "commutative",
+  "note": "G-Counter shard id toString must not resolve via Object.prototype (pre-fix produced NaN/null asymmetrically)",
+  "left": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "a0-",
+    "deviceIds": ["toString", "_aa-", "0-0_"],
+    "activeConceptId": null,
+    "mode": "exploratory",
+    "mastery": {
+      "a.0": {
+        "conceptId": "a.0",
+        "alpha": {},
+        "beta": { "toString": 0 },
+        "lastExercisedAt": "000000000000000:000000:dev-x"
+      }
+    },
+    "frictionLog": [],
+    "profile": {
+      "ageBand": "child",
+      "track": "a0a",
+      "language": "en-IN",
+      "updatedAt": "000000000000000:000000:A0aA"
+    },
+    "stateVector": { "session": "000000000000000:000000:A0aA" }
+  },
+  "right": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "a0-",
+    "deviceIds": ["toString", "_aa-", "0-0_"],
+    "activeConceptId": null,
+    "mode": "exploratory",
+    "mastery": {
+      "a.0": {
+        "conceptId": "a.0",
+        "alpha": { "toString": 0, "_aa-": 0 },
+        "beta": { "toString": 0 },
+        "lastExercisedAt": "000000000000000:000000:dev-x"
+      },
+      "a..": {
+        "conceptId": "a..",
+        "alpha": { "toString": 0 },
+        "beta": { "_aa-": 0, "0-0_": 0 },
+        "lastExercisedAt": "000000000000000:000000:dev-x"
+      }
+    },
+    "frictionLog": [],
+    "profile": {
+      "ageBand": "child",
+      "track": "a-a",
+      "language": "en-IN",
+      "updatedAt": "000000000000000:000000:aaaA"
+    },
+    "stateVector": { "session": "000000000000000:000000:aaaA" }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "training.license-ledger.v1",
+  "manifestId": "corpus.audit.accepted",
+  "catalog": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "spdxOrLabel": "CC-BY-4.0"
+    }
+  ],
+  "entries": [
+    {
+      "schemaVersion": "training.shard-provenance.v1",
+      "shardId": "shard.audit.und",
+      "sourceId": "src.audit.und",
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "consentClass": "synthetic",
+      "syntheticFlag": true,
+      "governmentFlag": false,
+      "locality": "on-device",
+      "laneCode": "teacher"
+    },
+    {
+      "schemaVersion": "training.shard-provenance.v1",
+      "shardId": "shard.audit.ret",
+      "sourceId": "src.audit.ret",
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "consentClass": "synthetic",
+      "syntheticFlag": true,
+      "governmentFlag": false,
+      "locality": "on-device",
+      "laneCode": "teacher"
+    }
+  ]
+}

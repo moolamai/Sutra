@@ -1,21 +1,27 @@
-"""Dependency-light smoke test: contract models, CRDT merge algebra, and
-the graph planner.
+"""Smoke test: CRDT merge, graph planner, and cloud run_turn with
+DeterministicFakeProvider — no network, no API keys.
 
-Run:  python smoke_test.py   (needs only pydantic)
+Run:  python smoke_test.py
 """
 
 import sys
 
 sys.path.insert(0, "src")
 
+from sutra_orchestrator import PROTOCOL_VERSION
+from sutra_orchestrator.agent_runtime import AgentRuntime
 from sutra_orchestrator.contract_models import (
+    AgentTurnRequest,
     CognitiveState,
     ConceptMastery,
     FrictionSample,
     SubjectProfile,
 )
 from sutra_orchestrator.crdt_merge import merge_states
+from sutra_orchestrator.model_provider import DeterministicFakeProvider
 from sutra_orchestrator.planner import Goal, GraphPlanner, PlanRevisionEvent
+from sutra_orchestrator.sync_service import InMemoryMasterStateStore
+from sutra_orchestrator.task_router import TaskRouter, demo_task_graph
 
 
 def hlc(ms: int, logical: int, device: str) -> str:
@@ -24,6 +30,7 @@ def hlc(ms: int, logical: int, device: str) -> str:
 
 def make_state(device: str, alpha: float, session_ms: int) -> CognitiveState:
     return CognitiveState(
+        protocolVersion=PROTOCOL_VERSION,  # type: ignore[arg-type]
         subjectId="anika-k",
         deviceIds=[device],
         activeConceptId="math.ratios",
@@ -96,3 +103,89 @@ assert "looped back" in plan.rationale, "invalidating revision must loop back an
 assert planner.next_step(plan) is not None
 
 print("Graph planner: topological order, loop-back revision OK")
+
+# AgentRuntime.run_turn via DeterministicFakeProvider.
+# Reply is model text (not a [directive] stub); plan revise changes fake digest.
+smoke_subject = "smoke-subject-7"
+smoke_device = "smoke-edge-aaaa"
+store = InMemoryMasterStateStore()
+store.put(
+    CognitiveState(
+        protocolVersion=PROTOCOL_VERSION,  # type: ignore[arg-type]
+        subjectId=smoke_subject,
+        deviceIds=[smoke_device],
+        activeConceptId="math.ratios",
+        mode="exploratory",
+        mastery={
+            "math.ratios": ConceptMastery(
+                conceptId="math.ratios",
+                alpha={smoke_device: 2.0},
+                beta={smoke_device: 2.0},
+                lastExercisedAt=hlc(3_000_000, 0, smoke_device),
+            ),
+            "math.fractions": ConceptMastery(
+                conceptId="math.fractions",
+                alpha={smoke_device: 5.0},
+                beta={smoke_device: 1.0},
+                lastExercisedAt=hlc(3_000_000, 1, smoke_device),
+            ),
+        },
+        frictionLog=[],
+        profile=SubjectProfile(
+            ageBand="child",
+            track="cbse-class-7-maths",
+            language="hi-IN",
+            updatedAt=hlc(3_000_000, 2, smoke_device),
+        ),
+        stateVector={"session": hlc(3_000_000, 3, smoke_device)},
+    )
+)
+fake = DeterministicFakeProvider()
+runtime = AgentRuntime(
+    TaskRouter(demo_task_graph(), redis_url=None),
+    store,
+    model_provider=fake,
+)
+
+smoke_friction = FrictionSample(
+    conceptId="math.ratios",
+    hesitationMs=900,
+    inputVelocity=3.0,
+    revisionCount=0,
+    assistanceRequested=False,
+    outcome="correct",
+    capturedAt=hlc(3_000_000, 4, smoke_device),
+)
+turn_req = AgentTurnRequest(
+    protocolVersion=PROTOCOL_VERSION,  # type: ignore[arg-type]
+    subjectId=smoke_subject,
+    sessionId="smoke-sess-1",
+    utterance="Explain ratios simply.",
+    friction=smoke_friction,
+)
+
+reply_a = runtime.run_turn(turn_req)
+assert reply_a.reply.startswith("[fake:"), "run_turn must return model text"
+assert "[directive]" not in reply_a.reply, "directive stub must be gone"
+assert fake.last_prompt is not None
+assert "active_step:" in fake.last_prompt
+assert "rationale:" in fake.last_prompt
+assert "[plan]" in fake.last_prompt
+prompt_a = fake.last_prompt
+
+reply_b = runtime.run_turn(
+    AgentTurnRequest(
+        protocolVersion=PROTOCOL_VERSION,  # type: ignore[arg-type]
+        subjectId=smoke_subject,
+        sessionId="smoke-sess-2",
+        utterance="Explain ratios simply.",
+        friction=smoke_friction,
+    )
+)
+prompt_b = fake.last_prompt
+assert prompt_b is not None and prompt_a != prompt_b, "plan revise must change prompt"
+assert reply_a.reply != reply_b.reply, "plan context must change fake output deterministically"
+persisted = store.get(smoke_subject)
+assert persisted is not None and persisted.activeConceptId == reply_b.nextConceptId
+
+print("Cloud turn: fake provider model text + plan-grounded digests OK")

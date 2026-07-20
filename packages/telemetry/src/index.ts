@@ -6,4 +6,7 @@
  * reusable by any host that speaks the sync protocol.
  */
 
+export * from "./aggregation.js";
 export * from "./collector.js";
+export * from "./trajectory_format.js";
+export * from "./trajectory_writer.js";

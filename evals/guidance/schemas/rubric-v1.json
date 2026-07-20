@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moolam.ai/schemas/guidance-eval-rubric-v1.json",
+  "title": "Guidance eval rubric v1",
+  "description": "Partial-scoring weights for guidance-eval scenarios. Aggregate score is a weighted sum in [0,1]; CI fails when suite mean falls below failBelow.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "weights",
+    "keywordMatch",
+    "failBelow",
+    "bounds"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "guidance-eval.rubric.v1"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "routeAction",
+        "targetConceptId",
+        "mode",
+        "rationaleKeywords"
+      ],
+      "description": "Must sum to 1.0 (±1e-9). Partial credit: rationaleKeywords uses matched/required fraction.",
+      "properties": {
+        "routeAction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "targetConceptId": { "type": "number", "minimum": 0, "maximum": 1 },
+        "mode": { "type": "number", "minimum": 0, "maximum": 1 },
+        "rationaleKeywords": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "keywordMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["caseInsensitive"],
+      "properties": {
+        "caseInsensitive": { "type": "boolean" },
+        "requireAll": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, rationaleKeywords component is 1 only when every keyword matches; else fraction matched."
+        }
+      }
+    },
+    "failBelow": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum aggregate suite score; CI / runner fails below this (EVALCIGATE commits threshold.json that must not exceed this)."
+    },
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxScenarios", "maxFrictionHistory"],
+      "properties": {
+        "maxScenarios": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "maxFrictionHistory": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        }
+      }
+    },
+    "seedDefault": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    }
+  }
+}

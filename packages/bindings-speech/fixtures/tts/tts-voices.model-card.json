@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "bindings-speech.tts-model-card.v1",
+  "engine": "local-tts-v1",
+  "locality": "on-device",
+  "description": "Indic TTS voice coverage model card. Language → voice mapping is authoritative for SpeechInterface.supportedLanguages; aspirational languages are forbidden.",
+  "fallbackLanguage": "en-IN",
+  "fallbackPolicy": {
+    "unsupportedBcp47": "Route to fallbackLanguage; emit telemetry outcome=fallback and usedFallback=true. Never throw when fallback is declared. Never silently substitute English without that signal.",
+    "emptyText": "Typed LocalTtsError (validation) before synthesis starts.",
+    "mixedScript": "Devanagari+Latin (and other mixed-script) input synthesizes on the effective voice without crash; language selection still follows requested BCP-47 with declared fallback — it does not auto-switch mid-utterance."
+  },
+  "coverage": [
+    {
+      "language": "hi-IN",
+      "voiceId": "indic-hi-f1",
+      "sampleRateHz": 16000,
+      "script": "Devanagari",
+      "role": "primary-indic"
+    },
+    {
+      "language": "en-IN",
+      "voiceId": "indic-en-f1",
+      "sampleRateHz": 16000,
+      "script": "Latin",
+      "role": "fallback-english"
+    },
+    {
+      "language": "ta-IN",
+      "voiceId": "indic-ta-f1",
+      "sampleRateHz": 16000,
+      "script": "Tamil",
+      "role": "additional-indic"
+    }
+  ],
+  "observability": {
+    "event": "bindings_speech.tts",
+    "neverEmit": "raw synthesis text bodies",
+    "requiredFields": ["subjectId", "deviceId", "outcome"]
+  },
+  "voicesManifestRelpath": "fixtures/tts/voices.json"
+}

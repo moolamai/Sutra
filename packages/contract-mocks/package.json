@@ -1,0 +1,33 @@
+{
+  "name": "@moolam/contract-mocks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Typed in-memory reference implementations of @moolam/contracts (memory, model, reasoning, …). The conformant floor for examples, Playground, and the conformance gate.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/memory_model_reasoning.test.mjs tests/knowledge_tool_planning.test.mjs tests/speech_vision_runtime.test.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@moolam/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@moolam/contract-conformance": "workspace:*",
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

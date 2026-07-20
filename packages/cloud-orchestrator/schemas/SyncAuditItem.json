@@ -1,0 +1,81 @@
+{
+  "$defs": {
+    "def_7870904d37c7": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CLOCK_SKEW_CLAMPED",
+            "DEPRECATED_FIELD_PRESENT",
+            "DUPLICATE_SAMPLE_DROPPED",
+            "STATE_VECTOR_REGRESSION",
+            "UNKNOWN_CONCEPT_QUARANTINED"
+          ],
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "detail"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "advisories": {
+      "items": {
+        "$ref": "#/$defs/def_7870904d37c7"
+      },
+      "type": "array"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "deviceId": {
+      "minLength": 4,
+      "type": "string"
+    },
+    "protocolVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "stateVectorAfter": {
+      "additionalProperties": {
+        "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "stateVectorBefore": {
+      "additionalProperties": {
+        "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "subjectId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "syncAttemptId": {
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "advisories",
+    "createdAt",
+    "deviceId",
+    "protocolVersion",
+    "stateVectorAfter",
+    "stateVectorBefore",
+    "subjectId",
+    "syncAttemptId"
+  ],
+  "title": "SyncAuditItem",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

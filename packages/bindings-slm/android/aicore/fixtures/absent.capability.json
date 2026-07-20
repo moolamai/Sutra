@@ -1,0 +1,8 @@
+{
+  "aicorePresent": false,
+  "onDeviceGenerationAvailable": false,
+  "memoryClass": "absent",
+  "models": [],
+  "absenceReason": "aicore_absent",
+  "detail": "AICore / MediaPipe LLM API not present"
+}

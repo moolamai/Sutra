@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "bindings-vision.ck06-fixtures.v1",
+  "description": "Committed oversize + schema fixtures for VisionInterface B0 obligations (CK-06.1 size gate, CK-06.2 schema-valid JSON). Fixture bodies are synthetic probes — never learner worksheet photos.",
+  "engine": "local-vlm-v1",
+  "fixtures": [
+    {
+      "id": "image-over-limit",
+      "kind": "oversize-image",
+      "obligationId": "CK-06.1",
+      "mimeType": "image/png",
+      "imageRelpath": "images/over-limit.bin",
+      "byteLength": 80,
+      "maxInputBytes": 64,
+      "instruction": "probe.ck06.oversize",
+      "expect": {
+        "outcome": "typed_size_reject",
+        "processedCountDelta": 0
+      }
+    },
+    {
+      "id": "valid-schema-answer",
+      "kind": "schema-valid-answer",
+      "obligationId": "CK-06.2",
+      "mimeType": "image/png",
+      "imageRelpath": "images/within-limit.bin",
+      "byteLength": 16,
+      "maxInputBytes": 64,
+      "instruction": "probe.ck06.schema.valid",
+      "schemaRelpath": "schemas/probe-response.schema.json",
+      "answerRelpath": "answers/valid-schema.json",
+      "expect": {
+        "outcome": "schema_valid_json"
+      }
+    },
+    {
+      "id": "model-returned-invalid-json",
+      "kind": "schema-invalid-answer",
+      "obligationId": "CK-06.2",
+      "mimeType": "image/png",
+      "imageRelpath": "images/within-limit.bin",
+      "byteLength": 16,
+      "maxInputBytes": 64,
+      "instruction": "probe.ck06.schema.invalid",
+      "schemaRelpath": "schemas/probe-response.schema.json",
+      "answerRelpath": "answers/invalid-prose.txt",
+      "expect": {
+        "outcome": "typed_schema_reject",
+        "neverReturnProseAsAnswer": true
+      }
+    }
+  ]
+}

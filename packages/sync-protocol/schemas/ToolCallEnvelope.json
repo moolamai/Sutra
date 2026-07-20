@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "anyOf": [
+    {
+      "items": {
+        "properties": {
+          "arguments": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "callId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "toolName": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "arguments",
+          "toolName"
+        ],
+        "type": "object"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "type": "array"
+    },
+    {
+      "properties": {
+        "arguments": {
+          "additionalProperties": {},
+          "type": "object"
+        },
+        "callId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "toolName": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "arguments",
+        "toolName"
+      ],
+      "type": "object"
+    }
+  ],
+  "title": "ToolCallEnvelope",
+  "x-protocol-version": "1.0.0"
+}

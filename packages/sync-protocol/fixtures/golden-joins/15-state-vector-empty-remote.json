@@ -1,0 +1,94 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "mode": "000000000000009:000009:dev-a",
+      "session": "000000000000009:000009:dev-a"
+    },
+    "subjectId": "subj-sv3"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "mode": "000000000000009:000009:dev-a",
+      "session": "000000000000009:000009:dev-a"
+    },
+    "subjectId": "subj-sv3"
+  },
+  "id": "15-state-vector-empty-remote",
+  "kind": "state-vector",
+  "note": "Remote empty stateVector does not erase local clocks",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "mode": "000000000000009:000009:dev-a",
+      "session": "000000000000009:000009:dev-a"
+    },
+    "subjectId": "subj-sv3"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000001:000000:dev-b"
+    },
+    "subjectId": "subj-sv3"
+  },
+  "subjectId": "subj-sv3"
+}

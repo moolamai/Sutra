@@ -1,8 +1,17 @@
 {
   "name": "@moolam/telemetry",
-  "version": "0.1.0",
-  "description": "Cognitive friction telemetry: interaction observation folded into durable, protocol-level friction samples. Shared by edge and cloud hosts.",
+  "version": "1.1.0",
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. Cognitive friction telemetry: interaction observation folded into durable, protocol-level friction samples. Shared by edge and cloud hosts.",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/telemetry#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/telemetry"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,11 +21,13 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test tests/collector.test.mjs",
+    "test": "node --test tests/collector.test.mjs tests/aggregation.test.mjs tests/aggregation_consent_rollup.test.mjs tests/trajectory_format.test.mjs tests/trajectory_format_fixtures.test.mjs tests/trajectory_writer.test.mjs tests/trajectory_writer_load.test.mjs",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {

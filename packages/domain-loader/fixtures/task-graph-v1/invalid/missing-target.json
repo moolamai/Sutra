@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "invalid-missing-target",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "math.ratios", "title": "Ratios" }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "math.ratios",
+      "toConceptId": "math.fractions",
+      "type": "prerequisite"
+    }
+  ]
+}

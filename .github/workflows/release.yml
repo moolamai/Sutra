@@ -1,0 +1,292 @@
+name: Release npm packages
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  pull_request:
+    paths:
+      - ".github/workflows/release.yml"
+      - ".changeset/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "scripts/check-changeset-config.mjs"
+      - "scripts/run-changeset-version.mjs"
+      - "scripts/check-package-publish-readiness.mjs"
+      - "scripts/run-changeset-publish.mjs"
+      - "scripts/check-release-provenance.mjs"
+      - "scripts/check-pack-integrity.mjs"
+      - "scripts/run-pypi-publish.mjs"
+      - "scripts/verify-pypi-rehearsal-install.mjs"
+      - "scripts/generate-release-sbom.mjs"
+      - "scripts/check-release-sbom.mjs"
+      - "scripts/verify-artifact-signing.mjs"
+      - "scripts/check-production-publish-gate.mjs"
+      - "rfcs/0001-protocol-1.0-freeze.md"
+      - "rfcs/appendix/production-publish-gate.json"
+      - "security/SBOM/**"
+      - "packages/cloud-orchestrator/pyproject.toml"
+  workflow_dispatch:
+    inputs:
+      allow_prod_publish:
+        description: Allow production registry publish
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release pipeline (changeset + pack + publish)
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+      NPM_SCRATCH_REGISTRY_URL: ${{ vars.NPM_SCRATCH_REGISTRY_URL }}
+      NPM_PROD_REGISTRY_URL: ${{ vars.NPM_PROD_REGISTRY_URL }}
+      NPM_ALLOW_PROD_PUBLISH: ${{ vars.NPM_ALLOW_PROD_PUBLISH }}
+      PYPI_ALLOW_PROD_PUBLISH: ${{ vars.PYPI_ALLOW_PROD_PUBLISH }}
+      PYPI_TEST_UPLOAD_URL: ${{ vars.PYPI_TEST_UPLOAD_URL }}
+      PYPI_PROD_UPLOAD_URL: ${{ vars.PYPI_PROD_UPLOAD_URL }}
+      PYPI_TEST_SIMPLE_URL: ${{ vars.PYPI_TEST_SIMPLE_URL }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      TEST_PYPI_API_TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python build tooling
+        run: pip install build twine hatchling
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Protocol 1.0 freeze → production publish gate
+        id: freeze_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/check-production-publish-gate.mjs
+          UNLOCKED=$(node --input-type=module -e "import { readFileSync } from 'node:fs'; const g = JSON.parse(readFileSync('rfcs/appendix/production-publish-gate.json','utf8')); process.stdout.write(g.unlocked === true ? 'true' : 'false');")
+          echo "unlocked=${UNLOCKED}" >> "$GITHUB_OUTPUT"
+          echo "FREEZE_RFC_UNLOCKED=${UNLOCKED}" >> "$GITHUB_ENV"
+
+      - name: Resolve publish mode and registry target
+        id: release_target
+        shell: bash
+        run: |
+          set -euo pipefail
+          EVENT_NAME="${{ github.event_name }}"
+          REF_NAME="${{ github.ref_name }}"
+          ALLOW_PROD="${{ github.event.inputs.allow_prod_publish || 'false' }}"
+          if [[ "${ALLOW_PROD}" != "true" && "${NPM_ALLOW_PROD_PUBLISH:-false}" == "true" ]]; then
+            ALLOW_PROD="true"
+          fi
+          # Freeze RFC acceptance is the hard unlock — vars alone cannot open production.
+          FREEZE_UNLOCKED="${FREEZE_RFC_UNLOCKED:-false}"
+          if [[ "${ALLOW_PROD}" == "true" && "${FREEZE_UNLOCKED}" != "true" ]]; then
+            echo "::warning::Production publish requested but FREEZE_RFC_UNLOCKED=${FREEZE_UNLOCKED}; forcing scratch registries"
+            ALLOW_PROD="false"
+          fi
+          PYPI_ALLOW_PROD="${PYPI_ALLOW_PROD_PUBLISH:-false}"
+          if [[ "${PYPI_ALLOW_PROD}" == "true" && "${FREEZE_UNLOCKED}" != "true" ]]; then
+            PYPI_ALLOW_PROD="false"
+          fi
+
+          MODE="dry-run"
+          PUBLISH_ENABLED="false"
+          PROVENANCE_ENABLED="false"
+          REGISTRY="${NPM_SCRATCH_REGISTRY_URL:-https://npm.pkg.github.com}"
+          PYPI_PUBLISH_ENABLED="false"
+          PYPI_REGISTRY="testpypi"
+          PYPI_UPLOAD_URL="${PYPI_TEST_UPLOAD_URL:-https://test.pypi.org/legacy/}"
+
+          if [[ "${EVENT_NAME}" == "push" ]]; then
+            PUBLISH_ENABLED="true"
+            PYPI_PUBLISH_ENABLED="true"
+            MODE="publish"
+            if [[ "${REF_NAME}" == *"-rc."* || "${REF_NAME}" == *"-rehearsal."* ]]; then
+              REGISTRY="${NPM_SCRATCH_REGISTRY_URL:-https://npm.pkg.github.com}"
+              PROVENANCE_ENABLED="false"
+              PYPI_REGISTRY="testpypi"
+              PYPI_UPLOAD_URL="${PYPI_TEST_UPLOAD_URL:-https://test.pypi.org/legacy/}"
+            elif [[ "${ALLOW_PROD}" == "true" ]]; then
+              REGISTRY="${NPM_PROD_REGISTRY_URL:-https://registry.npmjs.org}"
+              PROVENANCE_ENABLED="true"
+              if [[ "${PYPI_ALLOW_PROD}" == "true" ]]; then
+                PYPI_REGISTRY="pypi"
+                PYPI_UPLOAD_URL="${PYPI_PROD_UPLOAD_URL:-https://upload.pypi.org/legacy/}"
+              else
+                PYPI_REGISTRY="testpypi"
+                PYPI_UPLOAD_URL="${PYPI_TEST_UPLOAD_URL:-https://test.pypi.org/legacy/}"
+              fi
+            else
+              REGISTRY="${NPM_SCRATCH_REGISTRY_URL:-https://npm.pkg.github.com}"
+              PROVENANCE_ENABLED="false"
+              PYPI_REGISTRY="testpypi"
+              PYPI_UPLOAD_URL="${PYPI_TEST_UPLOAD_URL:-https://test.pypi.org/legacy/}"
+            fi
+          fi
+
+          echo "event=${EVENT_NAME}" >> "$GITHUB_OUTPUT"
+          echo "mode=${MODE}" >> "$GITHUB_OUTPUT"
+          echo "publish_enabled=${PUBLISH_ENABLED}" >> "$GITHUB_OUTPUT"
+          echo "registry=${REGISTRY}" >> "$GITHUB_OUTPUT"
+          echo "allow_prod=${ALLOW_PROD}" >> "$GITHUB_OUTPUT"
+          echo "freeze_rfc_unlocked=${FREEZE_UNLOCKED}" >> "$GITHUB_OUTPUT"
+          echo "provenance_enabled=${PROVENANCE_ENABLED}" >> "$GITHUB_OUTPUT"
+          echo "pypi_publish_enabled=${PYPI_PUBLISH_ENABLED}" >> "$GITHUB_OUTPUT"
+          echo "pypi_registry=${PYPI_REGISTRY}" >> "$GITHUB_OUTPUT"
+          echo "pypi_upload_url=${PYPI_UPLOAD_URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate changeset config gate
+        run: pnpm changeset:config
+
+      - name: Version bump preview (PR)
+        if: github.event_name == 'pull_request'
+        run: node scripts/run-changeset-version.mjs --dry-run
+
+      - name: Apply version bump (tag push)
+        if: steps.release_target.outputs.publish_enabled == 'true'
+        run: pnpm changeset:version
+
+      - name: Version lockstep gate (post-bump)
+        if: steps.release_target.outputs.publish_enabled == 'true'
+        run: pnpm version:lockstep
+
+      - name: Build workspace
+        run: pnpm turbo build
+
+      - name: Verify publish tarballs
+        run: pnpm publish:pack
+
+      - name: Record post-pack integrity manifest
+        run: pnpm publish:integrity:record
+
+      - name: Configure npm registry
+        run: |
+          echo "registry=${{ steps.release_target.outputs.registry }}" >> "$GITHUB_ENV"
+          echo "PROVENANCE_ENABLED=${{ steps.release_target.outputs.provenance_enabled }}" >> "$GITHUB_ENV"
+          pnpm config set registry "${{ steps.release_target.outputs.registry }}"
+
+      - name: Configure npm OIDC credentials (provenance)
+        if: steps.release_target.outputs.provenance_enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          scope: "@moolam"
+
+      - name: Changeset publish dry-run (PR)
+        if: github.event_name == 'pull_request'
+        run: node scripts/run-changeset-publish.mjs --dry-run
+
+      - name: PyPI wheel build and twine check (PR dry-run)
+        if: github.event_name == 'pull_request'
+        run: node scripts/run-pypi-publish.mjs --dry-run
+
+      - name: Verify pack integrity before upload
+        run: pnpm publish:integrity:verify
+
+      - name: Generate CycloneDX SBOMs (npm workspace + Python)
+        run: node scripts/generate-release-sbom.mjs
+
+      - name: Release SBOM wiring gate
+        run: node scripts/check-release-sbom.mjs
+
+      - name: Verify artifact signing policy
+        run: node scripts/verify-artifact-signing.mjs --mode=policy
+
+      - name: Verify artifact signing before production upload
+        if: |
+          steps.release_target.outputs.provenance_enabled == 'true' ||
+          steps.release_target.outputs.pypi_registry == 'pypi'
+        env:
+          PROVENANCE_ENABLED: ${{ steps.release_target.outputs.provenance_enabled }}
+          registry: ${{ steps.release_target.outputs.registry }}
+          PYPI_REGISTRY: ${{ steps.release_target.outputs.pypi_registry }}
+          SIGNING_REQUIRE_DIGESTS: "true"
+        run: node scripts/verify-artifact-signing.mjs --mode=production
+
+      - name: Changeset publish (tag push)
+        if: steps.release_target.outputs.publish_enabled == 'true'
+        env:
+          PROVENANCE_ENABLED: ${{ steps.release_target.outputs.provenance_enabled }}
+        run: node scripts/run-changeset-publish.mjs
+
+      - name: PyPI publish sutra-sdk (tag push)
+        if: steps.release_target.outputs.pypi_publish_enabled == 'true'
+        env:
+          PYPI_PUBLISH_ENABLED: "true"
+          PYPI_ALLOW_PROD_PUBLISH: ${{ vars.PYPI_ALLOW_PROD_PUBLISH }}
+        run: node scripts/run-pypi-publish.mjs
+
+      - name: Rehearsal install verification (scratch registry)
+        if: |
+          steps.release_target.outputs.publish_enabled == 'true' &&
+          (contains(github.ref_name, '-rehearsal.') || contains(github.ref_name, '-rc.'))
+        env:
+          REHEARSAL_VERSION: ${{ github.ref_name }}
+        run: node scripts/verify-rehearsal-install.mjs --from-registry
+
+      - name: PyPI rehearsal install verification (TestPyPI)
+        if: |
+          steps.release_target.outputs.pypi_publish_enabled == 'true' &&
+          (contains(github.ref_name, '-rehearsal.') || contains(github.ref_name, '-rc.'))
+        env:
+          REHEARSAL_VERSION: ${{ github.ref_name }}
+        run: node scripts/verify-pypi-rehearsal-install.mjs --from-testpypi
+
+      - name: Attach CycloneDX SBOMs to GitHub Release
+        if: steps.release_target.outputs.publish_enabled == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ github.ref_name }}"
+          test -f artifacts/sbom/npm-workspace.cdx.json
+          test -f artifacts/sbom/sutra-sdk-python.cdx.json
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag
+          fi
+          gh release upload "$TAG" artifacts/sbom/*.cdx.json --clobber
+
+      - name: Upload release artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            CHANGELOG.md
+            .changeset/*.md
+            packages/*/CHANGELOG.md
+            packages/*/package.json
+            artifacts/rehearsal-release/rehearsal-run.json
+            artifacts/pypi-rehearsal-release/rehearsal-run.json
+            artifacts/release-pack-integrity/manifest.json
+            artifacts/sbom/*.cdx.json
+            packages/cloud-orchestrator/dist/*

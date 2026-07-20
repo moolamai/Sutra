@@ -1,0 +1,25 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "sutra-sdk",
+  "entryPoints": [
+    "../packages/sdk/dist/index.d.ts",
+    "../packages/contracts/dist/index.d.ts",
+    "../packages/cognitive-core/dist/index.d.ts",
+    "../packages/runtime/dist/index.d.ts",
+    "../packages/telemetry/dist/index.d.ts",
+    "../packages/sync-protocol/dist/index.d.ts",
+    "../packages/edge-agent/dist/index.d.ts"
+  ],
+  "entryPointStrategy": "resolve",
+  "tsconfig": "../packages/sdk/tsconfig.json",
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "api",
+  "readme": "none",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "skipErrorChecking": true,
+  "githubPages": false,
+  "hideGenerator": true,
+  "disableSources": false
+}

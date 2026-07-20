@@ -1,0 +1,26 @@
+{
+  "manifestId": "corpus.audit.stable-hash",
+  "consentClass": "synthetic",
+  "locality": "on-device",
+  "catalog": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "spdxOrLabel": "CC-BY-4.0",
+      "licenseClass": "open"
+    }
+  ],
+  "shards": [
+    {
+      "shardId": "shard.audit.hash.a",
+      "sourceId": "src.audit.hash.a",
+      "licenseId": "lic.cc-by-4.0",
+      "laneCode": "teacher"
+    },
+    {
+      "shardId": "shard.audit.hash.b",
+      "sourceId": "src.audit.hash.b",
+      "licenseId": "lic.cc-by-4.0",
+      "laneCode": "teacher"
+    }
+  ]
+}

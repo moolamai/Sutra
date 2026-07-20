@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "task-graph-golden.v1",
+  "description": "Golden task-graph packs: valid DAG, cyclic reject, missing-node reject (plus self-loop).",
+  "cases": [
+    {
+      "id": "valid-dag",
+      "file": "valid-dag.json",
+      "kind": "accept",
+      "expect": {
+        "status": 0,
+        "minConcepts": 3,
+        "minEdges": 2
+      }
+    },
+    {
+      "id": "cyclic-reject",
+      "file": "cyclic-reject.json",
+      "kind": "reject",
+      "expect": {
+        "status": 1,
+        "failureClass": "cycle",
+        "obligation": "domain_loader.task_graph.cycle",
+        "cyclePathCloses": true
+      }
+    },
+    {
+      "id": "missing-node-reject",
+      "file": "missing-node-reject.json",
+      "kind": "reject",
+      "expect": {
+        "status": 1,
+        "failureClass": "missing_edge_endpoint",
+        "obligation": "domain_loader.task_graph.missing_edge_endpoint"
+      }
+    },
+    {
+      "id": "self-loop-reject",
+      "file": "self-loop-reject.json",
+      "kind": "reject",
+      "expect": {
+        "status": 1,
+        "failureClass": "self_loop",
+        "obligation": "domain_loader.task_graph.self_loop",
+        "cyclePathCloses": true
+      }
+    }
+  ]
+}

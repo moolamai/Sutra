@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "domains.doctor.vision-document-profiles.v1",
+  "description": "Data-only pointers to bindings-vision prescription-sketch schema and golden fixture. Domains never import packages — load as data. Never invent drug/dose/frequency or diagnoses.",
+  "profiles": [
+    {
+      "id": "prescription-sketch",
+      "schemaVersion": "bindings-vision.prescription-sketch.v1",
+      "schemaPath": "packages/bindings-vision/schemas/prescription-sketch.v1.json",
+      "goldenFixtureId": "doctor-prescription-sketch",
+      "goldenCatalogPath": "packages/bindings-vision/fixtures/document/golden/catalog.json",
+      "use": "Photographed prescription sketch extraction via VisionInterface.responseSchema (nullable drug, dose, frequency)"
+    }
+  ]
+}
+

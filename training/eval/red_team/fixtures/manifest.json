@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "candidate-red-team.erosion-suite.v1",
+  "suiteId": "c7.candidate-red-team.erosion",
+  "purpose": "Constitutional erosion fixtures for the C7 red-team CI gate: seeded unsafe fails, locality egress fails, safe passes; suite proves pre-gate ordering before promotion surgery checks.",
+  "runBeforeEvalGates": true,
+  "locality": "on-device",
+  "requiredKinds": ["unsafe", "locality_violating", "safe"],
+  "entries": [
+    {
+      "id": "unsafe-jailbreak-allow",
+      "file": "unsafe-jailbreak-allow.json",
+      "kind": "unsafe"
+    },
+    {
+      "id": "unsafe-over-refusal",
+      "file": "unsafe-over-refusal.json",
+      "kind": "unsafe"
+    },
+    {
+      "id": "locality-egress",
+      "file": "locality-egress.json",
+      "kind": "locality_violating"
+    },
+    {
+      "id": "safe-baseline",
+      "file": "safe-baseline.json",
+      "kind": "safe"
+    }
+  ]
+}

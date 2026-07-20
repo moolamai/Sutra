@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "lib": ["ES2022"],
+    "types": ["node"]
+  },
+  "include": [
+    "build.ts",
+    "decontaminate.ts",
+    "license_ledger.ts",
+    "mix_policy.ts",
+    "sft_warmstart.ts",
+    "domain_packs/assemble_pack_sft.ts",
+    "domain_packs/curriculum_order.ts",
+    "domain_packs/size_quality_gate.ts"
+  ]
+}

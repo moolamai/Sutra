@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "fixtureKind": "telemetry-trajectory-format-golden",
+  "committedSchema": "schemas/TurnTrajectoryV1.json",
+  "goldens": [
+    {
+      "id": "perceive-reason-act-on-device",
+      "file": "golden/perceive-reason-act-on-device.json",
+      "locality": "on-device",
+      "expectStageCount": 3,
+      "expectToolCallCount": 1
+    },
+    {
+      "id": "chunked-stages-self-hosted",
+      "file": "golden/chunked-stages-self-hosted.json",
+      "locality": "self-hosted",
+      "expectStageCount": 4,
+      "expectToolCallCount": 0
+    }
+  ],
+  "violations": [
+    {
+      "id": "forbidden-keystrokes",
+      "file": "violations/forbidden-keystrokes.json",
+      "expectedFailureClass": "keystroke_forbidden",
+      "forbiddenKey": "keystrokes"
+    }
+  ]
+}

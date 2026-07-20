@@ -1,0 +1,16 @@
+{
+  "id": "nfr.core-loop.bench.v1",
+  "kind": "nfr",
+  "pinnedSeed": 3001,
+  "benchEntry": "benchmarks/core_loop.bench.mjs",
+  "budgets": {
+    "maxMs": 5000,
+    "maxRssMb": 512
+  },
+  "cases": [
+    {
+      "caseId": "core-loop-hot-path",
+      "iterations": 50
+    }
+  ]
+}

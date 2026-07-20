@@ -1,0 +1,95 @@
+name: Registry maintenance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deprecate-npm:
+    name: Deprecate renamed npm packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure npm registry (npmjs.org)
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NPM_TOKEN:-}" ]; then
+            echo "::error::NPM_TOKEN secret is required for deprecate-npm"
+            exit 1
+          fi
+          cat > "${HOME}/.npmrc" <<EOF
+          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          registry=https://registry.npmjs.org/
+          EOF
+
+      - name: Deprecate superseded @moolam/* package names
+        run: |
+          set -euo pipefail
+          deprecate_package() {
+            local name="$1"
+            local message="$2"
+            local existing=""
+            existing="$(npm view "${name}" deprecated --registry https://registry.npmjs.org 2>/dev/null || true)"
+            if [ -n "${existing}" ] && [ "${existing}" != "undefined" ]; then
+              echo "skip ${name}: already deprecated (${existing})"
+              return 0
+            fi
+            npm deprecate "${name}@*" "${message}" --registry https://registry.npmjs.org
+          }
+          deprecate_package @moolam/sdk "Renamed: install sutra-sdk instead"
+          deprecate_package @moolam/bindings-slm "Renamed: install sutra-bindings-slm instead"
+          deprecate_package @moolam/bindings-speech "Renamed: install sutra-bindings-speech instead"
+          deprecate_package @moolam/bindings-vision "Renamed: install sutra-bindings-vision instead"
+          deprecate_package @moolam/bindings-knowledge "Renamed: install sutra-bindings-knowledge instead"
+
+  publish-github-packages:
+    name: Mirror sutra-sdk to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+
+      - name: Pack npm release and publish @moolamai/sutra-sdk mirror
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION="$(node -p "require('./packages/sdk/package.json').version")"
+          WORKDIR="$(mktemp -d)"
+          cd "${WORKDIR}"
+          npm pack "sutra-sdk@${VERSION}" --registry https://registry.npmjs.org
+          TARBALL="$(ls -1 sutra-sdk-*.tgz | head -n1)"
+          mkdir unpacked
+          tar -xzf "${TARBALL}" -C unpacked
+          PKG_DIR="unpacked/package"
+          export PKG_DIR
+          node <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+          const pkgJsonPath = path.join(process.env.PKG_DIR, "package.json");
+          const p = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
+          p.name = "@moolamai/sutra-sdk";
+          p.description = "Mirror of sutra-sdk (install from npmjs.org)";
+          p.publishConfig = { registry: "https://npm.pkg.github.com", access: "public" };
+          p.repository = p.repository || {};
+          p.repository.url = "git+https://github.com/moolamai/sutra.git";
+          fs.writeFileSync(pkgJsonPath, `${JSON.stringify(p, null, 2)}\n`);
+          NODE
+          cat > "${HOME}/.npmrc" <<EOF
+          @moolamai:registry=https://npm.pkg.github.com
+          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+          EOF
+          if npm view "@moolamai/sutra-sdk@${VERSION}" version --registry https://npm.pkg.github.com >/dev/null 2>&1; then
+            echo "skip publish: @moolamai/sutra-sdk@${VERSION} already on GitHub Packages"
+          else
+            cd "${PKG_DIR}"
+            npm publish --access public --registry https://npm.pkg.github.com
+          fi

@@ -1,0 +1,459 @@
+name: Nightly certification & benchmarks
+
+on:
+  schedule:
+    - cron: "30 21 * * *"
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "packages/bindings-*/**"
+      - "knowledge-packs/**"
+      - "benchmarks/**"
+      - "training/**"
+      - ".github/workflows/ci-nightly.yml"
+
+concurrency:
+  group: nightly-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  training-extended:
+    name: Training extended gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Training corpus byte-identical rebuild prove
+        run: pnpm --filter @moolam/training-corpus prove:rebuild
+
+      - name: Training corpus decontamination CI gate
+        run: pnpm --filter @moolam/training-corpus prove:decontam
+
+      - name: Training corpus mix policy lint prove
+        run: pnpm --filter @moolam/training-corpus prove:mix-policy
+
+      - name: C4 micro-run orchestrator (SFT→rollout→GRPO→lineage→candidate)
+        run: |
+          pnpm --filter @moolam/training-pipeline micro-run:test
+          pnpm --filter @moolam/training-pipeline micro-run
+          pnpm --filter @moolam/training-pipeline micro-run:prove
+
+      - name: C4 offline batch collector (B9 export → queue → threshold)
+        run: |
+          pnpm --filter @moolam/training-pipeline batch:test
+          pnpm --filter @moolam/training-pipeline batch:prove
+
+      - name: Training distillation teacher traces
+        run: pnpm --filter @moolam/training-distillation test
+
+  python-extended:
+    name: Python extended tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: packages/cloud-orchestrator
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package with dev extras
+        run: pip install -e ".[dev]"
+
+      - name: Pytest slow + compose suites
+        run: pytest -q --tb=short -m "slow or compose"
+
+  certifications:
+    name: Certifications
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build packages (bindings + conformance)
+        run: pnpm build
+
+
+      - name: Run desktop certify (report artifact + tee DIFF log)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/llama-cpp-desktop-cert
+          pnpm --filter sutra-bindings-slm run ci:certify 2>&1 | tee artifacts/llama-cpp-desktop-cert/certify.log
+        env:
+          CI: true
+
+
+      - name: Prove offline-edge llama.cpp turn (CognitiveCore, network denied)
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm --filter @moolam/examples run offline-edge:llamacpp 2>&1 | tee -a artifacts/llama-cpp-desktop-cert/offline-turn.log
+        env:
+          CI: true
+
+
+      - name: Upload llama.cpp certification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: llama-cpp-desktop-cert-${{ github.run_id }}
+          path: artifacts/llama-cpp-desktop-cert/
+          if-no-files-found: warn
+
+
+      - name: Build packages (bindings-slm + conformance)
+        run: pnpm build
+
+
+      - name: Run Android ONNX certify (report artifact + tee DIFF log)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/onnx-mobile-android-cert
+          pnpm --filter sutra-bindings-slm run ci:certify:android 2>&1 | tee artifacts/onnx-mobile-android-cert/certify.log
+        env:
+          CI: true
+
+
+      - name: Upload ONNX mobile Android certification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: onnx-mobile-android-cert-${{ github.run_id }}
+          path: artifacts/onnx-mobile-android-cert/
+          if-no-files-found: warn
+
+
+      - name: Build packages (bindings-slm + conformance)
+        run: pnpm build
+
+
+      - name: Run Apple silicon MLX certify (report artifact + tee DIFF log)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/mlx-apple-silicon-cert
+          pnpm --filter sutra-bindings-slm run ci:certify:apple-silicon 2>&1 | tee artifacts/mlx-apple-silicon-cert/certify.log
+        env:
+          CI: true
+
+
+      - name: Upload MLX Apple silicon certification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mlx-apple-silicon-cert-${{ github.run_id }}
+          path: artifacts/mlx-apple-silicon-cert/
+          if-no-files-found: warn
+
+
+      - name: Build packages (bindings-slm + conformance)
+        run: pnpm build
+
+
+      - name: Validate cert profile registry + report schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f packages/bindings-slm/certification/registry.json
+          test -f packages/bindings-slm/certification/schemas/certification.report.schema.json
+          pnpm --filter sutra-bindings-slm exec node --test tests/cert_registry_schema.test.mjs
+
+
+      - name: Run unified certify harness (report artifact + tee DIFF log)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/binding-certify-harness
+          pnpm --filter sutra-bindings-slm run ci:certify:harness 2>&1 | tee artifacts/binding-certify-harness/certify.log
+          # Committed orchestration artifact from unified harness
+          cp -f packages/bindings-slm/certification/reports/certification.report.json \
+            artifacts/binding-certify-harness/certification.report.json
+          cp -f packages/bindings-slm/certification/registry.json \
+            artifacts/binding-certify-harness/registry.json
+          cp -f packages/bindings-slm/certification/schemas/certification.report.schema.json \
+            artifacts/binding-certify-harness/certification.report.schema.json
+        env:
+          CI: true
+
+
+      - name: Prove one-command certify (llama.cpp + ONNX android-mid)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/binding-certify-harness/one-command
+          pnpm --filter sutra-bindings-slm run ci:prove:one-command 2>&1 \
+            | tee artifacts/binding-certify-harness/one-command/prove.log
+          test -f packages/bindings-slm/certification/proofs/one-command.proof.json
+          cp -f packages/bindings-slm/certification/proofs/one-command.proof.json \
+            artifacts/binding-certify-harness/one-command.proof.json
+          # Committable per-adapter reports from the prove run
+          if [[ -d packages/bindings-slm/certification/proofs/reports ]]; then
+            cp -rf packages/bindings-slm/certification/proofs/reports \
+              artifacts/binding-certify-harness/one-command/reports
+          fi
+        env:
+          CI: true
+
+
+      - name: Upload binding certification harness report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: binding-certify-harness-${{ github.run_id }}
+          path: artifacts/binding-certify-harness/
+          if-no-files-found: warn
+
+
+      - name: Build packages (bindings-speech + conformance)
+        run: pnpm build
+
+
+      - name: Run Indic speech conformance (STT+TTS CK-05 + fixtures + NFR-07)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/speech-conformance-cert
+          pnpm --filter sutra-bindings-speech run ci:certify:speech 2>&1 \
+            | tee artifacts/speech-conformance-cert/certify.log
+          test -f artifacts/speech-conformance-cert/speech.cert.json
+          cp -f packages/bindings-speech/certification/profile.json \
+            artifacts/speech-conformance-cert/profile.json
+          cp -f packages/bindings-speech/certification/schemas/speech.cert.report.schema.json \
+            artifacts/speech-conformance-cert/speech.cert.report.schema.json
+          cp -f packages/bindings-speech/certification/device-profiles/mid-range-android.json \
+            artifacts/speech-conformance-cert/mid-range-android.json
+          cp -f packages/bindings-speech/certification/voice-rtt.baseline.json \
+            artifacts/speech-conformance-cert/voice-rtt.baseline.json
+          # NFR-07 must be present and green in the report
+          node -e "const r=require('./artifacts/speech-conformance-cert/speech.cert.json'); if(!r.voiceRtt||!r.voiceRtt.ok||r.voiceRtt.nfrId!=='NFR-07'){console.error('NFR-07 voiceRtt missing/fail', r.voiceRtt); process.exit(1)}"
+        env:
+          CI: true
+
+
+      - name: Prove speech cert red→green (CK-05 + NFR-07 seeded)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/speech-conformance-cert/prove
+          pnpm --filter sutra-bindings-speech run ci:prove:speech-cert 2>&1 \
+            | tee artifacts/speech-conformance-cert/prove/prove.log
+          test -f packages/bindings-speech/certification/reports/speech.cert.json
+          cp -f packages/bindings-speech/certification/reports/speech.cert.json \
+            artifacts/speech-conformance-cert/prove/speech.cert.json
+          grep -q "NFR-07" artifacts/speech-conformance-cert/prove/prove.log
+        env:
+          CI: true
+
+
+      - name: Speech cert CI wiring unit tests
+        run: pnpm --filter sutra-bindings-speech exec node --test tests/speech_cert_ci.test.mjs
+        env:
+          CI: true
+
+
+      - name: Upload speech conformance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: speech-conformance-cert-${{ github.run_id }}
+          path: artifacts/speech-conformance-cert/
+          if-no-files-found: warn
+
+
+      - name: Build packages (bindings-vision + conformance)
+        run: pnpm build
+
+
+      - name: Run document golden suite (CK-06 + teacher/doctor rubric)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/vision-document-golden
+          pnpm --filter sutra-bindings-vision run ci:certify:document-golden 2>&1 \
+            | tee artifacts/vision-document-golden/certify.log
+          test -f artifacts/vision-document-golden/document.golden.json
+          cp -f packages/bindings-vision/fixtures/document/golden/catalog.json \
+            artifacts/vision-document-golden/catalog.json
+          cp -f packages/bindings-vision/fixtures/document/golden/rubric.json \
+            artifacts/vision-document-golden/rubric.json
+        env:
+          CI: true
+
+
+      - name: Prove document golden red→green (seeded expected drift)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/vision-document-golden/prove
+          pnpm --filter sutra-bindings-vision run ci:prove:document-golden 2>&1 \
+            | tee artifacts/vision-document-golden/prove/prove.log
+          grep -q "pass" artifacts/vision-document-golden/prove/prove.log
+        env:
+          CI: true
+
+
+      - name: Document golden CI wiring unit tests
+        run: pnpm --filter sutra-bindings-vision exec node --test tests/document_golden.test.mjs
+        env:
+          CI: true
+
+
+      - name: Upload vision document golden report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vision-document-golden-${{ github.run_id }}
+          path: artifacts/vision-document-golden/
+          if-no-files-found: warn
+
+
+      - name: Build packages (bindings-knowledge)
+        run: pnpm build
+
+
+      - name: Validate flagship packs + domains fingerprint freshness
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/knowledge-flagship-packs
+          pnpm --filter sutra-bindings-knowledge run ci:flagship-packs 2>&1 \
+            | tee artifacts/knowledge-flagship-packs/gate.log
+          # Explicit per-pack validate-pack (knowledge-packs/** contract)
+          pnpm --filter sutra-bindings-knowledge validate-pack -- \
+            --pack ../../knowledge-packs/teacher-cbse-slice 2>&1 \
+            | tee -a artifacts/knowledge-flagship-packs/gate.log
+          pnpm --filter sutra-bindings-knowledge validate-pack -- \
+            --pack ../../knowledge-packs/doctor-formulary-sketch 2>&1 \
+            | tee -a artifacts/knowledge-flagship-packs/gate.log
+          pnpm --filter sutra-bindings-knowledge run check:pack 2>&1 \
+            | tee -a artifacts/knowledge-flagship-packs/freshness.log
+          test -f knowledge-packs/teacher-cbse-slice/provenance.json
+          test -f knowledge-packs/doctor-formulary-sketch/provenance.json
+        env:
+          CI: true
+
+
+      - name: Prove flagship pack gate red→green (stale + uncited)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/knowledge-flagship-packs/prove
+          pnpm --filter sutra-bindings-knowledge run ci:prove:flagship-packs 2>&1 \
+            | tee artifacts/knowledge-flagship-packs/prove/prove.log
+          grep -q '"outcome":"ok"' artifacts/knowledge-flagship-packs/prove/prove.log
+        env:
+          CI: true
+
+
+      - name: Flagship packs CI wiring unit tests
+        run: pnpm --filter sutra-bindings-knowledge exec node --test --test-concurrency=1 tests/flagship_packs_ci.test.mjs
+        env:
+          CI: true
+
+
+      - name: Upload knowledge flagship pack gate logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-flagship-packs-${{ github.run_id }}
+          path: artifacts/knowledge-flagship-packs/
+          if-no-files-found: warn
+
+
+  benchmarks-guidance:
+    name: Benchmarks & guidance
+    runs-on: ubuntu-latest
+    # NFR microbench gate — absolute ceilings + baseline relative tolerance.
+    # Consumes committed benchmarks/gates/baseline.json only — CI never rewrites
+    # the baseline (refresh via `pnpm --filter @moolam/benchmarks baseline:record` + PR).
+    # Single-threaded microbenches — no matrix / parallel shards (CPU contention → false positives).
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install cloud-orchestrator (Python benches for gate)
+        working-directory: packages/cloud-orchestrator
+        run: pip install -e .
+
+
+      - name: Build packages (required before benches resolve sutra-sdk)
+        run: pnpm build
+
+
+      - name: Benchmark gate unit tests (includes prove-gate red/green)
+        run: pnpm --filter @moolam/benchmarks test
+        env:
+          CI: true
+
+
+      - name: Run benchmark gate (baseline relative + absolute ceilings)
+        # tee keeps the measured/budget/headroom table + DIFF in the job log on breach.
+        # Includes Node *.bench.mjs and Python runtime benches from thresholds.json.
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/benchmarks
+          pnpm --filter @moolam/benchmarks run ci:gate 2>&1 | tee artifacts/benchmarks/gate.log
+        env:
+          CI: true
+          PYTHON: python
+
+
+      - name: Upload benchmark gate log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-gate-${{ github.run_id }}
+          path: artifacts/benchmarks/
+          if-no-files-found: warn
+
+      - name: Guidance routing-quality eval gate
+        run: pnpm guidance:eval
+
+      - name: Prove gate red→green (seeded threshold + route drift)
+        run: pnpm guidance:eval:prove

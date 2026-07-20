@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "critic.calibration-set.v1",
+  "setId": "human-label.calibration.v1",
+  "heldOut": true,
+  "excludeFromTrainingCorpora": true,
+  "pinnedSeed": 7701,
+  "defaultAgreementThreshold": 0.85,
+  "locality": "on-device",
+  "entries": [
+    {
+      "id": "teacher.en.edge.accepted.01",
+      "file": "entries/teacher-en-edge-accepted-01.json",
+      "contentHash": "sha256:2e6ec5b8873327cef380798ed4a0e0cb55d964e33cb1214fa7ce52ab7aa44e0a",
+      "sliceTags": {
+        "domainPack": "teacher",
+        "language": "en",
+        "binding": "edge"
+      },
+      "humanOutcomeSignal": "ACCEPTED",
+      "locality": "on-device"
+    },
+    {
+      "id": "teacher.en.edge.rejected.01",
+      "file": "entries/teacher-en-edge-rejected-01.json",
+      "contentHash": "sha256:3293574bef71d24d9638037b4155ff70f9dee6d7d586ce83cca57b40b1e82a81",
+      "sliceTags": {
+        "domainPack": "teacher",
+        "language": "en",
+        "binding": "edge"
+      },
+      "humanOutcomeSignal": "REJECTED",
+      "locality": "on-device"
+    },
+    {
+      "id": "teacher.en.edge.discarded.01",
+      "file": "entries/teacher-en-edge-discarded-01.json",
+      "contentHash": "sha256:d3690ff786ca9c685497c15a0ca87644b9cc0a2e227f8b9e2d315c077b867826",
+      "sliceTags": {
+        "domainPack": "teacher",
+        "language": "en",
+        "binding": "edge"
+      },
+      "humanOutcomeSignal": "DISCARDED",
+      "locality": "on-device"
+    },
+    {
+      "id": "doctor.en.edge.accepted.01",
+      "file": "entries/doctor-en-edge-accepted-01.json",
+      "contentHash": "sha256:d90ff195c97f404d053335e01d733cafa4e0d65e0b33c8c202f39b61773acf6c",
+      "sliceTags": {
+        "domainPack": "doctor",
+        "language": "en",
+        "binding": "edge"
+      },
+      "humanOutcomeSignal": "ACCEPTED",
+      "locality": "self-hosted"
+    },
+    {
+      "id": "doctor.en.edge.rejected.01",
+      "file": "entries/doctor-en-edge-rejected-01.json",
+      "contentHash": "sha256:f2820c68ff7f60e099eb01d5c39791413625c24882093d576a0c714472713300",
+      "sliceTags": {
+        "domainPack": "doctor",
+        "language": "en",
+        "binding": "edge"
+      },
+      "humanOutcomeSignal": "REJECTED",
+      "locality": "self-hosted"
+    }
+  ]
+}

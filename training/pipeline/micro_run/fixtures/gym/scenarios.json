@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "micro-run.gym-scenarios.v1",
+  "setId": "c4.micro-run.gym.v1",
+  "subjectId": "subj.micro.run",
+  "deviceId": "dev.micro.run",
+  "locality": "on-device",
+  "taskCount": 3,
+  "scenarios": [
+    {
+      "scenarioId": "thought-answer-micro",
+      "file": "tasks/thought-answer-micro.json",
+      "promptId": "prompt.micro.thought-answer",
+      "sourceId": "thought-answer-basic",
+      "subjectId": "subj.micro.run"
+    },
+    {
+      "scenarioId": "tool-call-micro",
+      "file": "tasks/tool-call-micro.json",
+      "promptId": "prompt.micro.tool-call",
+      "sourceId": "tool-call-fence",
+      "subjectId": "subj.micro.run"
+    },
+    {
+      "scenarioId": "correction-micro",
+      "file": "tasks/correction-micro.json",
+      "promptId": "prompt.micro.correction",
+      "sourceId": "correction-loop",
+      "subjectId": "subj.micro.run"
+    }
+  ]
+}

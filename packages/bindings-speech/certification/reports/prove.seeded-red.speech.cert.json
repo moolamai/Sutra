@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "bindings-speech.speech-cert.report.v1",
+  "profileId": "indic-speech-ci",
+  "outcome": "fail",
+  "subjectId": "cert.speech.indic",
+  "deviceId": "ci-speech-ubuntu",
+  "exitCode": 1,
+  "bindings": [
+    {
+      "binding": "stt",
+      "engine": "whisper.cpp-class",
+      "outcome": "fail",
+      "exitCode": 1,
+      "passed": 1,
+      "failed": 1,
+      "verdicts": [
+        {
+          "obligationId": "CK-05.1",
+          "outcome": "fail",
+          "mustText": "`transcribe` MUST stream partial segments (`isFinal: false`) so the agent can begin reasoning before the utterance completes.",
+          "message": "transcribe() must emit at least one isFinal:false partial before a final segment"
+        },
+        {
+          "obligationId": "CK-05.2",
+          "outcome": "pass",
+          "mustText": "Implementations MUST declare supported languages; the core routes unsupported languages to fallback providers rather than failing."
+        }
+      ]
+    },
+    {
+      "binding": "tts",
+      "engine": "local-tts-v1",
+      "outcome": "fail",
+      "exitCode": 1,
+      "passed": 1,
+      "failed": 1,
+      "verdicts": [
+        {
+          "obligationId": "CK-05.1",
+          "outcome": "pass",
+          "mustText": "`transcribe` MUST stream partial segments (`isFinal: false`) so the agent can begin reasoning before the utterance completes."
+        },
+        {
+          "obligationId": "CK-05.2",
+          "outcome": "fail",
+          "mustText": "Implementations MUST declare supported languages; the core routes unsupported languages to fallback providers rather than failing.",
+          "message": "unsupported language must fallback, not fail: unsupported language: xx-PROBE-UNSUPPORTED"
+        }
+      ]
+    }
+  ],
+  "indicFixtures": {
+    "outcome": "pass",
+    "utteranceCount": 0,
+    "failures": []
+  },
+  "voiceRtt": null,
+  "failures": [
+    "stt CK-05.1: transcribe() must emit at least one isFinal:false partial before a final segment",
+    "tts CK-05.2: unsupported language must fallback, not fail: unsupported language: xx-PROBE-UNSUPPORTED"
+  ],
+  "telemetry": {
+    "event": "bindings_speech.speech_cert",
+    "subjectId": "cert.speech.indic",
+    "deviceId": "ci-speech-ubuntu",
+    "outcome": "fail",
+    "bindingCount": 2,
+    "fixtureCount": 0
+  }
+}

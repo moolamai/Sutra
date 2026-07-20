@@ -1,0 +1,34 @@
+{
+  "correlationId": "corr-gt-05",
+  "coverage": [
+    "harness_error",
+    "tool_call_fence",
+    "advisory_attach"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedOutcomes": [
+    {
+      "checkId": "oracle.golden.harness-error-terminal.frame_sequence.identity",
+      "frameCount": 4,
+      "kind": "frame_sequence",
+      "verifiable": true
+    },
+    {
+      "checkId": "oracle.golden.harness-error-terminal.frame_sequence.terminal",
+      "expected": "HARNESS_ERROR",
+      "kind": "terminal_frame",
+      "verifiable": true
+    }
+  ],
+  "expectedTerminalFrame": "HARNESS_ERROR",
+  "frameCount": 4,
+  "locality": "on-device",
+  "oracleCheckId": "oracle.golden.harness-error-terminal.frame_sequence",
+  "pinnedAt": "2026-07-15T00:00:00.000Z",
+  "scenarioId": "harness-error-terminal",
+  "schemaVersion": "gym-golden-episode.v1",
+  "sourceId": "harness-error-terminal",
+  "sourceKind": "a_p6_golden",
+  "sourceRelPath": "packages/runtime-harness/fixtures/golden-turns/harness-error-terminal.json",
+  "subjectId": "anika-k"
+}

@@ -1,0 +1,391 @@
+{
+  "kind": "conformance-coverage-report",
+  "reportVersion": "1.0.0",
+  "generatedAt": "2026-07-16T20:04:52.919Z",
+  "subjectId": "ci-freeze-coverage",
+  "deviceId": "ci",
+  "summary": {
+    "interfaces": 13,
+    "declared": 34,
+    "passed": 34,
+    "failed": 0,
+    "coveragePercent": 100,
+    "exitCode": 0
+  },
+  "interfaces": [
+    {
+      "contract": "SyncRequest (wire shape)",
+      "suite": "packages/contract-conformance/tests/wire_shape.test.mjs",
+      "declared": 2,
+      "passed": 2,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "SYNC-01.1",
+          "outcome": "pass",
+          "contract": "SyncRequest",
+          "mustText": "Every implementation-produced SyncRequest MUST validate against the frozen SyncRequest JSON Schema (SYNC-01).",
+          "durationMs": 4
+        },
+        {
+          "id": "SYNC-01.2",
+          "outcome": "pass",
+          "contract": "SyncRequest",
+          "mustText": "SyncRequest.edgeState.subjectId MUST equal the obligation subject scope (subject isolation).",
+          "durationMs": 1
+        }
+      ]
+    },
+    {
+      "contract": "MemoryInterface",
+      "suite": "packages/contract-conformance/tests/memory_obligations.test.mjs",
+      "declared": 3,
+      "passed": 3,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-02.1",
+          "outcome": "pass",
+          "contract": "MemoryInterface",
+          "mustText": "`remember` MUST be durable before resolving.",
+          "durationMs": 1
+        },
+        {
+          "id": "CK-02.2",
+          "outcome": "pass",
+          "contract": "MemoryInterface",
+          "mustText": "`recall` MUST apply kind-aware decay: \"correction\" items never decay.",
+          "durationMs": 24
+        },
+        {
+          "id": "CK-02.3",
+          "outcome": "pass",
+          "contract": "MemoryInterface",
+          "mustText": "Implementations MUST be safe under concurrent subjects (multi-tenant).",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "contract": "ModelInterface",
+      "suite": "packages/contract-conformance/tests/model_obligations.test.mjs",
+      "declared": 3,
+      "passed": 3,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-03.1",
+          "outcome": "pass",
+          "contract": "ModelInterface",
+          "mustText": "`embed` dimension MUST be stable per provider instance.",
+          "durationMs": 0
+        },
+        {
+          "id": "CK-03.2",
+          "outcome": "pass",
+          "contract": "ModelInterface",
+          "mustText": "Streaming MUST yield deltas, not cumulative text.",
+          "durationMs": 1
+        },
+        {
+          "id": "CK-03.3",
+          "outcome": "pass",
+          "contract": "ModelInterface",
+          "mustText": "Providers MUST surface `locality` truthfully — sovereign deployments gate which localities are permitted per data class.",
+          "durationMs": 1
+        }
+      ]
+    },
+    {
+      "contract": "ModelInterface locality policy",
+      "suite": "packages/contract-conformance/tests/locality_policy.test.mjs",
+      "declared": 2,
+      "passed": 2,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-03.L1",
+          "outcome": "pass",
+          "contract": "ModelInterface",
+          "mustText": "Providers MUST surface `locality` truthfully — sovereign deployments gate which localities are permitted per data class.",
+          "durationMs": 27
+        },
+        {
+          "id": "CK-03.L2",
+          "outcome": "pass",
+          "contract": "ModelInterface",
+          "mustText": "Providers MUST surface `locality` truthfully — sovereign deployments gate which localities are permitted per data class.",
+          "durationMs": 4
+        }
+      ]
+    },
+    {
+      "contract": "ReasoningInterface",
+      "suite": "packages/contract-conformance/tests/reasoning_obligations.test.mjs",
+      "declared": 2,
+      "passed": 2,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-04.1",
+          "outcome": "pass",
+          "contract": "ReasoningInterface",
+          "mustText": "Every conclusion MUST carry its trace; an empty `steps` array is a contract violation, not a valid fast path.",
+          "durationMs": 2
+        },
+        {
+          "id": "CK-04.2",
+          "outcome": "pass",
+          "contract": "ReasoningInterface",
+          "mustText": "Unverifiable constraints MUST go to `unresolvedConstraints` — the engine never pretends to have checked what it has not.",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "contract": "SpeechInterface",
+      "suite": "packages/contract-conformance/tests/speech_obligations.test.mjs",
+      "declared": 2,
+      "passed": 2,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-05.1",
+          "outcome": "pass",
+          "contract": "SpeechInterface",
+          "mustText": "`transcribe` MUST stream partial segments (`isFinal: false`) so the agent can begin reasoning before the utterance completes.",
+          "durationMs": 1
+        },
+        {
+          "id": "CK-05.2",
+          "outcome": "pass",
+          "contract": "SpeechInterface",
+          "mustText": "Implementations MUST declare supported languages; the core routes unsupported languages to fallback providers rather than failing.",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "contract": "VisionInterface",
+      "suite": "packages/contract-conformance/tests/vision_obligations.test.mjs",
+      "declared": 2,
+      "passed": 2,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-06.1",
+          "outcome": "pass",
+          "contract": "VisionInterface",
+          "mustText": "Implementations MUST reject inputs above their declared size limits with a typed error rather than degrading silently.",
+          "durationMs": 1
+        },
+        {
+          "id": "CK-06.2",
+          "outcome": "pass",
+          "contract": "VisionInterface",
+          "mustText": "When `responseSchema` is provided, `answer` MUST be valid JSON for it.",
+          "durationMs": 1
+        }
+      ]
+    },
+    {
+      "contract": "ToolInterface",
+      "suite": "packages/contract-conformance/tests/tool_obligations.test.mjs",
+      "declared": 3,
+      "passed": 3,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-07.1",
+          "outcome": "pass",
+          "contract": "ToolInterface",
+          "mustText": "`invoke` MUST validate arguments against the descriptor schema and return status \"error\" (not throw) on violation.",
+          "durationMs": 2
+        },
+        {
+          "id": "CK-07.2",
+          "outcome": "pass",
+          "contract": "ToolInterface",
+          "mustText": "\"write\"/\"critical\" invocations MUST be recorded to the audit sink before execution begins (write-ahead audit).",
+          "durationMs": 2
+        },
+        {
+          "id": "CK-07.3",
+          "outcome": "pass",
+          "contract": "ToolInterface",
+          "mustText": "Implementations MUST enforce the deadline; a hung tool cannot hang the agent.",
+          "durationMs": 44
+        }
+      ]
+    },
+    {
+      "contract": "PlanningInterface",
+      "suite": "packages/contract-conformance/tests/planning_obligations.test.mjs",
+      "declared": 2,
+      "passed": 2,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-08.1",
+          "outcome": "pass",
+          "contract": "PlanningInterface",
+          "mustText": "Plans MUST be cyclic-capable: `revise` may route BACK to earlier goals when evidence shows a foundation is weak (the loop-back property, valid in any domain).",
+          "durationMs": 1
+        },
+        {
+          "id": "CK-08.2",
+          "outcome": "pass",
+          "contract": "PlanningInterface",
+          "mustText": "Every revision MUST update `rationale`; silent plan mutation is a contract violation.",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "contract": "KnowledgeConnectorInterface",
+      "suite": "packages/contract-conformance/tests/knowledge_obligations.test.mjs",
+      "declared": 3,
+      "passed": 3,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-09.1",
+          "outcome": "pass",
+          "contract": "KnowledgeConnectorInterface",
+          "mustText": "Every passage MUST carry a resolvable `citation` - uncited knowledge is inadmissible to the ReasoningInterface by core policy.",
+          "durationMs": 0
+        },
+        {
+          "id": "CK-09.2",
+          "outcome": "pass",
+          "contract": "KnowledgeConnectorInterface",
+          "mustText": "Connectors MUST answer `retrieve` from bundled indexes when offline if their locality is \"bundled-offline\"; degraded results beat none.",
+          "durationMs": 1
+        },
+        {
+          "id": "CK-09.3",
+          "outcome": "pass",
+          "contract": "KnowledgeConnectorInterface",
+          "mustText": "`asOf` MUST be truthful; the reasoning layer weighs staleness.",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "contract": "CAST cold-start",
+      "suite": "packages/contract-conformance/tests/cast_obligations.test.mjs",
+      "declared": 1,
+      "passed": 1,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CAST-05.1",
+          "outcome": "pass",
+          "contract": "ColdStartRouterInterface",
+          "mustText": "While any task-graph root concept lacks an assessed posterior seed (≥3 friction samples), the router MUST NOT emit routeAction `advance`; new subjects MUST remain in `diagnostic` mode until every root concept has been assessed.",
+          "durationMs": 1
+        }
+      ]
+    },
+    {
+      "contract": "Runtime lifecycle",
+      "suite": "packages/contract-conformance/tests/runtime_obligations.test.mjs",
+      "declared": 6,
+      "passed": 6,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "RT-01.1",
+          "outcome": "pass",
+          "contract": "LifecycleAware",
+          "mustText": "`initialize` MUST be idempotent; hosts may call it defensively.",
+          "durationMs": 1
+        },
+        {
+          "id": "RT-01.2",
+          "outcome": "pass",
+          "contract": "LifecycleAware",
+          "mustText": "`dispose` MUST flush durable state before resolving; a disposed component that lost acknowledged writes is a contract violation.",
+          "durationMs": 0
+        },
+        {
+          "id": "RT-02.1",
+          "outcome": "pass",
+          "contract": "SchedulerInterface",
+          "mustText": "Tasks with equal `runAtMs` MUST execute in submission order (stable).",
+          "durationMs": 11
+        },
+        {
+          "id": "RT-02.2",
+          "outcome": "pass",
+          "contract": "SchedulerInterface",
+          "mustText": "A failed task MUST NOT prevent later tasks from running.",
+          "durationMs": 15
+        },
+        {
+          "id": "RT-03.1",
+          "outcome": "pass",
+          "contract": "EventBusInterface",
+          "mustText": "`publish` MUST NOT throw because a subscriber threw; subscriber errors are isolated and reported through the bus's own error event.",
+          "durationMs": 0
+        },
+        {
+          "id": "RT-04.1",
+          "outcome": "pass",
+          "contract": "StorageDriver",
+          "mustText": "`execute` MUST be durable before resolving (write-ahead discipline).",
+          "durationMs": 1
+        }
+      ]
+    },
+    {
+      "contract": "Refusal composition (CK-10)",
+      "suite": "packages/contract-conformance/tests/refusal_decline.test.mjs",
+      "declared": 3,
+      "passed": 3,
+      "failed": 0,
+      "coveragePercent": 100,
+      "obligations": [
+        {
+          "id": "CK-10.1",
+          "outcome": "pass",
+          "contract": "CognitiveCore",
+          "mustText": "Refusals MUST enter deliberate() as constraints; violations MUST surface in unresolvedConstraints and the core MUST decline rather than answer.",
+          "durationMs": 2
+        },
+        {
+          "id": "CK-10.2",
+          "outcome": "pass",
+          "contract": "CognitiveCore",
+          "mustText": "Refusals MUST enter deliberate() as constraints; violations MUST surface in unresolvedConstraints and the core MUST decline rather than answer.",
+          "durationMs": 2
+        },
+        {
+          "id": "CK-10.3",
+          "outcome": "pass",
+          "contract": "CognitiveCore",
+          "mustText": "Refusals MUST enter deliberate() as constraints; violations MUST surface in unresolvedConstraints and the core MUST decline rather than answer.",
+          "durationMs": 0
+        }
+      ]
+    }
+  ],
+  "notes": {
+    "method": "covered published obligations ÷ declared published obligations × 100",
+    "sovereignty": "Every suite run is scoped by subjectId; report never includes raw learner content",
+    "fieldPilotBlocker": "FP-002 (Indic STT classroom noise) Closed — hi-classroom-noise fixture + fp002_classroom_noise.test.mjs",
+    "bTrackSuite": "suite column links B-track obligation test modules under packages/contract-conformance/tests/"
+  }
+}

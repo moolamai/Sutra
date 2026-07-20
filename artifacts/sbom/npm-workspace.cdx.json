@@ -1,0 +1,128 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:7da39f8f-88d5-4e4b-9be2-39064276cc3d",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-20T03:43:47.600Z",
+    "tools": [
+      {
+        "vendor": "moolam",
+        "name": "generate-release-sbom",
+        "version": "0.1.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "moolamai-sutra-npm",
+      "version": "0.1.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "@moolam/cognitive-core",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/cognitive-core@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/cognitive-core@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/contract-conformance",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/contract-conformance@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/contract-conformance@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/contracts",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/contracts@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/contracts@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/edge-agent",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/edge-agent@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/edge-agent@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/learning",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/learning@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/learning@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/observability",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/observability@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/observability@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/runtime",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/runtime@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/runtime@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/runtime-harness",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/runtime-harness@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/runtime-harness@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/sync-protocol",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/sync-protocol@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/sync-protocol@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "@moolam/telemetry",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40moolam/telemetry@1.0.0",
+      "bomRef": "pkg:npm/%40moolam/telemetry@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "sutra-bindings-knowledge",
+      "version": "1.0.0",
+      "purl": "pkg:npm/sutra-bindings-knowledge@1.0.0",
+      "bomRef": "pkg:npm/sutra-bindings-knowledge@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "sutra-bindings-slm",
+      "version": "1.0.0",
+      "purl": "pkg:npm/sutra-bindings-slm@1.0.0",
+      "bomRef": "pkg:npm/sutra-bindings-slm@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "sutra-bindings-speech",
+      "version": "1.0.0",
+      "purl": "pkg:npm/sutra-bindings-speech@1.0.0",
+      "bomRef": "pkg:npm/sutra-bindings-speech@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "sutra-bindings-vision",
+      "version": "1.0.0",
+      "purl": "pkg:npm/sutra-bindings-vision@1.0.0",
+      "bomRef": "pkg:npm/sutra-bindings-vision@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "sutra-sdk",
+      "version": "1.0.0",
+      "purl": "pkg:npm/sutra-sdk@1.0.0",
+      "bomRef": "pkg:npm/sutra-sdk@1.0.0"
+    }
+  ]
+}

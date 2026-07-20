@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "training.corpus-manifest.v1",
+  "manifestId": "corpus.mix-policy.violation.ret",
+  "version": "1.0.0",
+  "title": "Seeded RET-in-weights violation",
+  "consentClass": "synthetic",
+  "laneCodes": ["teacher"],
+  "knowledgeModes": ["UND", "RET"],
+  "sources": [
+    {
+      "sourceId": "src.teacher.und.ratios",
+      "relpath": "fixtures/sources/teacher-und-ratios.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "teacher",
+      "contentHash": "sha256:6e45343a5e2827d7e1f5cc787cff1aa3d7c2c9d57a8943f5861ef0fde5a80182"
+    },
+    {
+      "sourceId": "src.teacher.ret.syllabus",
+      "relpath": "fixtures/sources/teacher-ret-syllabus.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "RET",
+      "laneCode": "teacher",
+      "contentHash": "sha256:6839b5c340060209ab009f5996c5d165b62e32843d28d78a7ca5240f7f6f593a"
+    }
+  ],
+  "filters": [
+    {
+      "filterId": "flt.exclude-unknown-license",
+      "kind": "exclude_unknown_license"
+    },
+    {
+      "filterId": "flt.exclude-eval-overlap",
+      "kind": "exclude_eval_overlap"
+    }
+  ],
+  "dedupReport": {
+    "status": "pending",
+    "algorithm": "sha256"
+  },
+  "licenseLedger": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "spdxOrLabel": "CC-BY-4.0",
+      "licenseClass": "open"
+    }
+  ],
+  "weightTrainingPolicy": {
+    "excludeKnowledgeModes": ["MEM"],
+    "requireKnownLicense": true
+  },
+  "determinism": {
+    "canonicalSort": true,
+    "contentAddressedShards": true,
+    "forbidWallClockInShardBytes": true
+  }
+}

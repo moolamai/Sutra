@@ -10,8 +10,9 @@
 // Compare with teacher-basic/ and lawyer-basic/: same CognitiveCore, different
 // configuration. This example uses agronomy (not yet a domains/ spec) to show
 // the pattern from scratch.
-import { CognitiveCore } from "@moolam/sdk";
-import { makeMemory, makeModel, makeReasoning, makeKnowledge, makePlanning } from "../_shared/mocks.mjs";
+import { CognitiveCore } from "sutra-sdk";
+import { makeMemory, makeModel, makeReasoning, makeKnowledge, makePlanning } from "@moolam/contract-mocks";
+
 
 // --- 1. AgentProfile: who the agent is and what it must refuse ---
 const profile = {

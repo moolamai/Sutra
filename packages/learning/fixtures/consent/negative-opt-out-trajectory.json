@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-opt-out",
+  "turnId": "turn-opt-out",
+  "deviceId": "dev-consent-fx",
+  "capturedAt": "2026-07-15T18:00:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": false,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T18:00:00.000Z"
+  },
+  "stages": [{ "stage": "act", "status": "ok" }]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "cross-subject-denied",
+  "kind": "refuse",
+  "subjectId": "subj.fixture.owner",
+  "deviceId": "dev.fixture",
+  "locality": "on-device",
+  "expect": {
+    "obligation": "failure_patterns.cross_subject_denied"
+  },
+  "trajectories": [
+    {
+      "subjectId": "subj.fixture.intruder",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.xsubj.0",
+      "correctionDepth": 8,
+      "correctionExhausted": true
+    }
+  ],
+  "telemetryEvents": []
+}

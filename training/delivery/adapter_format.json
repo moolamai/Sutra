@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/training/adapter-delta-manifest.v1.json",
+  "title": "Adapter delta manifest v1",
+  "description": "Versioned LoRA/QLoRA adapter delta release artifact: content-addressed blob binding, base-model hash pin, precisionFormat, LoRA rank/alpha, and lineageRef to a complete C4 checkpoint.lineage.v1 registry row. SlmRuntime load verifies contentHash and baseModelHash before applying weights — mismatch/corruption is a typed init error with no silent fallback to the unadapted base.",
+  "schemaVersion": "adapter.delta.manifest.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "contentHash",
+    "baseModelHash",
+    "precisionFormat",
+    "loraRank",
+    "loraAlpha",
+    "lineageRef",
+    "adapterBlobRef",
+    "subjectId",
+    "deviceId",
+    "locality"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "adapter.delta.manifest.v1"
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 of adapter blob bytes (content-addressed id)."
+    },
+    "baseModelHash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "description": "Exact base model / checkpoint hash this delta binds to. Floating token 'latest' is forbidden."
+    },
+    "precisionFormat": {
+      "type": "string",
+      "enum": ["fp32", "fp16", "bf16", "int8", "int4", "nf4"],
+      "description": "Quantization / precision tag; must match runtime precisionFormat (QLoRA vs full-precision LoRA)."
+    },
+    "loraRank": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 256
+    },
+    "loraAlpha": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1024
+    },
+    "lineageRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Pointer to a complete C4 checkpoint.lineage.v1 registry row (runId + checkpointHash + completeness pins).",
+      "required": [
+        "schemaVersion",
+        "runId",
+        "checkpointHash",
+        "corpusManifestHash",
+        "criticVersions"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "checkpoint.lineage.v1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "checkpointHash": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 128
+        },
+        "corpusManifestHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "criticVersions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "description": "Completeness gate: at least one C3 critic pin on the referenced lineage row.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["rubricId", "rubricVersion", "contentHash"],
+            "properties": {
+              "rubricId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "rubricVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "contentHash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "adapterBlobRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Content-addressed or local-cache blob locator for adapter weights (never raw learner text)."
+    },
+    "subjectId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "deviceId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "locality": {
+      "type": "string",
+      "enum": ["on-device", "self-hosted"]
+    }
+  }
+}

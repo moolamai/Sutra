@@ -1,0 +1,51 @@
+{
+  "name": "@moolam/runtime-harness",
+  "version": "1.1.0",
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. Runtime harness core: streaming turn host, token parser, sandbox seam, and abort pipeline. Consumes frozen A P6 harness frame contracts from @moolam/sync-protocol; does not redefine wire shapes.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/runtime-harness#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/runtime-harness"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "fixtures"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && pnpm --filter @moolam/cognitive-core run build && pnpm --filter @moolam/learning run build && node --test tests/streaming_turn_host_scaffold.test.mjs tests/streaming_turn_host_emitter.test.mjs tests/stream_frame_buffer.test.mjs tests/last_event_id_resume.test.mjs tests/replay_reconnect_integration.test.mjs tests/tool_call_parser.test.mjs tests/tool_call_parser_tag_fragments.test.mjs tests/tool_call_parser_deadline.test.mjs tests/golden_turn_loader.test.mjs tests/golden_turn_replay.test.mjs tests/golden_turn_chunk_fuzz.test.mjs tests/malformed_fence_golden.test.mjs tests/golden_replay_operator_doc.test.mjs tests/sandbox_seam.test.mjs tests/sandbox_seam_schema.test.mjs tests/sandbox_seam_deadline_kill.test.mjs tests/correction_loop.test.mjs tests/correction_loop_host.test.mjs tests/correction_cap_escalation.test.mjs tests/abort_pipeline.test.mjs tests/abort_pipeline_rollback.test.mjs tests/abort_pipeline_audit.test.mjs tests/turn_meter.test.mjs tests/turn_meter_emit.test.mjs tests/golden_meter_reconcile.test.mjs tests/budget_manager.test.mjs tests/budget_gate_host.test.mjs tests/budget_exceeded_integration.test.mjs tests/prompt_cache_assembly.test.mjs tests/prompt_cache_bindings_hash.test.mjs tests/prompt_cache_determinism.test.mjs tests/prompt_cache_store.test.mjs tests/prompt_cache_meter_wire.test.mjs tests/context_budget_manager.test.mjs tests/context_budget_truncation.test.mjs tests/context_budget_threshold.test.mjs tests/compaction_summary.test.mjs tests/compaction_trigger.test.mjs tests/compaction_retention_golden.test.mjs tests/session_store.test.mjs tests/session_rehydrate.test.mjs tests/session_rehydrate_integration.test.mjs tests/degradation_registry_load.test.mjs tests/degradation_registry_invoke.test.mjs tests/degradation_registry_behavior.test.mjs tests/approval_surface.test.mjs tests/outcome_signal_e2e.test.mjs tests/production_turn_loop.test.mjs tests/remediation_policy.test.mjs tests/remediation_executor.test.mjs && node --experimental-strip-types --test tests/remediation_fixtures_integration.test.mjs",
+    "golden:malformed": "pnpm run build && node --test tests/malformed_fence_golden.test.mjs",
+    "golden:sync": "node scripts/sync-a-p6-golden-turns.mjs",
+    "golden:check": "node scripts/sync-a-p6-golden-turns.mjs --check",
+    "golden:replay": "pnpm run build && node --test tests/golden_turn_replay.test.mjs",
+    "golden:fuzz": "pnpm run build && node --test tests/golden_turn_chunk_fuzz.test.mjs",
+    "test:degradation-drills": "pnpm exec turbo run build --filter=@moolam/runtime-harness && node --test test/degradation_drills/model_down.test.mjs test/degradation_drills/sync_down.test.mjs test/degradation_drills/tool_down.test.mjs",
+    "degradation-drills:check": "pnpm run build && node test/degradation_drills/registry_alignment_gate.mjs --check",
+    "degradation-drills:prove": "pnpm run build && node test/degradation_drills/registry_alignment_gate.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@moolam/contracts": "workspace:*",
+    "@moolam/learning": "workspace:*",
+    "@moolam/sync-protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

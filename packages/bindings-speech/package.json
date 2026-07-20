@@ -1,0 +1,55 @@
+{
+  "name": "sutra-bindings-speech",
+  "version": "1.1.0",
+  "description": "Local Indic speech bindings (whisper.cpp-class STT + local TTS) behind SpeechInterface.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/bindings-speech#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/bindings-speech"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "speech-cert": "./bin/speech-cert.mjs"
+  },
+  "files": [
+    "dist",
+    "fixtures",
+    "certification",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/stt_binding.test.mjs tests/indic_fixtures.test.mjs tests/fp002_classroom_noise.test.mjs tests/edge_stt_harness.test.mjs tests/tts_binding.test.mjs tests/tts_voice_coverage.test.mjs tests/speech_cert_ci.test.mjs tests/voice_rtt.test.mjs",
+    "certify:speech": "pnpm run build && node ./certification/run-speech-cert.mjs",
+    "ci:certify:speech": "node ./certification/run-speech-cert.mjs --report-out ../../artifacts/speech-conformance-cert/speech.cert.json",
+    "prove:speech-cert": "pnpm run build && node ./certification/prove-speech-cert.mjs",
+    "ci:prove:speech-cert": "node ./certification/prove-speech-cert.mjs",
+    "fixtures:indic": "node ./scripts/generate-indic-fixtures.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@moolam/cognitive-core": "workspace:*",
+    "@moolam/contract-conformance": "workspace:*",
+    "@moolam/contracts": "workspace:*",
+    "@moolam/edge-agent": "workspace:*",
+    "@moolam/sync-protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

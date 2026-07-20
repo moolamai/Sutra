@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/bindings-knowledge.pack-v1.json",
+  "title": "Knowledge pack v1 (manifest + content shard)",
+  "description": "Versioned knowledge-pack format: manifest (id, version, asOf, sources, languages) and content shards. Packs are data artifacts — packages never import domains/. Every passage citation MUST resolve through the manifest source table. asOf is stamped at build time and must not postdate the build clock.",
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "$defs": {
+    "isoDateOrDateTime": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 64,
+      "description": "ISO-8601 date or date-time (truthful asOf / builtAt)."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceId", "title", "domain", "locality", "coverage"],
+      "properties": {
+        "sourceId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "domain": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "locality": {
+          "type": "string",
+          "enum": ["bundled-offline", "self-hosted", "external-api"]
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from", "to"],
+          "properties": {
+            "from": { "$ref": "#/$defs/isoDateOrDateTime" },
+            "to": { "$ref": "#/$defs/isoDateOrDateTime" }
+          }
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["citationId", "sourceId", "locator"],
+      "properties": {
+        "citationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Stable id unique within the pack; resolvable via sourceId in the manifest source table."
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "MUST match a sourceId in the pack manifest sources[] table."
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "description": "Human/machine citation locator (ISBN+page, URL, guideline §, etc.)."
+        }
+      }
+    },
+    "passage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passageId", "content", "citation", "asOf"],
+      "properties": {
+        "passageId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32000,
+          "description": "Passage body; bounded for scalability."
+        },
+        "citation": { "$ref": "#/$defs/citation" },
+        "asOf": {
+          "$ref": "#/$defs/isoDateOrDateTime",
+          "description": "Publication/effective date; must not postdate pack builtAt / check clock."
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "packId",
+        "version",
+        "asOf",
+        "builtAt",
+        "locality",
+        "languages",
+        "sources",
+        "contentShards"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "bindings-knowledge.pack-v1"
+        },
+        "packId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Pack semver or revision string."
+        },
+        "title": { "type": "string", "maxLength": 256 },
+        "asOf": {
+          "$ref": "#/$defs/isoDateOrDateTime",
+          "description": "Pack-level asOf stamp at build time (truthful staleness)."
+        },
+        "builtAt": {
+          "$ref": "#/$defs/isoDateOrDateTime",
+          "description": "Build clock; asOf must not postdate this."
+        },
+        "locality": {
+          "type": "string",
+          "enum": ["bundled-offline", "self-hosted"]
+        },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": { "type": "string", "minLength": 2, "maxLength": 32 }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/source" }
+        },
+        "contentShards": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["shardId", "relpath"],
+            "properties": {
+              "shardId": { "type": "string", "minLength": 1, "maxLength": 128 },
+              "relpath": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Path relative to the pack root (e.g. content/shard-001.json)."
+              }
+            }
+          }
+        }
+      }
+    },
+    "contentShard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "shardId", "passages"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "bindings-knowledge.pack-v1"
+        },
+        "shardId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "passages": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "items": { "$ref": "#/$defs/passage" }
+        }
+      }
+    },
+    "vectorIdMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional passage-id map for vector rows. Orphan passageIds fail at build. When dimensions+dtype are set, embeddings.bin is required and must match entry count × dimensions × dtype bytes; every vectorIndex must address a unique row.",
+      "required": ["schemaVersion", "entries"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "bindings-knowledge.pack-v1"
+        },
+        "dimensions": {
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 4096,
+          "description": "Embedding width. Required with dtype to activate the embeddings.bin layer."
+        },
+        "dtype": {
+          "type": "string",
+          "enum": ["float32"],
+          "description": "Element type for embeddings.bin (little-endian row-major)."
+        },
+        "embeddingsRelpath": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "Path relative to pack root (default: vectors/embeddings.bin)."
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8192,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["passageId"],
+            "properties": {
+              "passageId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "MUST resolve to a cited passageId present in content shards."
+              },
+              "vectorIndex": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8191,
+                "description": "Row index into embeddings.bin; required when dimensions/dtype are set."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/manifest" },
+    { "$ref": "#/$defs/contentShard" },
+    { "$ref": "#/$defs/vectorIdMap" }
+  ]
+}
+
