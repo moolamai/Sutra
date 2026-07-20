@@ -44,6 +44,10 @@ export interface VisualAnalysisResult {
  *  1. Implementations MUST reject inputs above their declared size limits
  *     with a typed error rather than degrading silently.
  *  2. When `responseSchema` is provided, `answer` MUST be valid JSON for it.
+ *
+ * Typed size-limit errors SHOULD expose `name` / `code` / `kind` tokens
+ * matching size / oversized / max.?bytes / input.?too.?large so hosts and
+ * conformance probes can classify them without parsing free text alone.
  */
 export interface VisionInterface {
   readonly maxInputBytes: number;

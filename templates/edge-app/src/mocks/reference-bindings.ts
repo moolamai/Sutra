@@ -1,0 +1,179 @@
+/**
+ * Reference binding floor for smoke and local development.
+ * Patterns mirror @moolam/contract-mocks / examples/_shared/mocks.mjs —
+ * typed in-memory stubs that compile without manual edits.
+ */
+import type {
+  KnowledgeConnectorDescribe,
+  KnowledgeConnectorInterface,
+  KnowledgePassage,
+  MemoryInterface,
+  MemoryItem,
+  ModelInterface,
+  PlanningInterface,
+  ReasoningInterface,
+  ToolInterface,
+} from "sutra-sdk";
+
+export type ReferenceBindingOptions = {
+  subjectId: string;
+  persona?: string;
+};
+
+export function makeMemory(opts: ReferenceBindingOptions): MemoryInterface {
+  const rows = new Map<string, MemoryItem>();
+  const subjectId = opts.subjectId;
+  let seq = 0;
+  return {
+    async remember(item) {
+      if (item.subjectId !== subjectId) {
+        throw new Error("memory remember rejected: subjectId mismatch");
+      }
+      const stored: MemoryItem = { ...item, id: `mem-${++seq}` };
+      rows.set(stored.id, stored);
+      return stored;
+    },
+    async recall(query) {
+      if (query.subjectId !== subjectId) return [];
+      return [...rows.values()]
+        .filter((row) => row.subjectId === subjectId)
+        .slice(0, query.limit ?? 8)
+        .map((item) => ({ item, score: 1 }));
+    },
+    async associate() {},
+    async forget(id) {
+      rows.delete(id);
+    },
+    async compact() {
+      return 0;
+    },
+  };
+}
+
+export function makeModel(opts: ReferenceBindingOptions): ModelInterface {
+  const persona = opts.persona ?? "edge-companion";
+  const descriptor = {
+    modelId: "mock-slm",
+    contextWindow: 4096,
+    locality: "on-device" as const,
+    modalities: ["text"] as ("text" | "vision" | "audio")[],
+  };
+  return {
+    descriptor,
+    async embed(text) {
+      return Float32Array.from(text.split("").map((ch) => ch.charCodeAt(0) % 7));
+    },
+    async generate(messages) {
+      const user = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
+      return {
+        text: `[${persona}] (re: ${user.slice(0, 48)})`,
+        finishReason: "stop" as const,
+      };
+    },
+    async *generateStream(messages) {
+      const result = await this.generate(messages);
+      yield result.text;
+    },
+  };
+}
+
+export function makeReasoning(): ReasoningInterface {
+  return {
+    async deliberate(request) {
+      return {
+        conclusion: `reasoned:${request.proposition.slice(0, 32)}`,
+        confidence: 0.9,
+        steps: [
+          {
+            kind: "inference",
+            statement: "reference reasoning trace",
+            evidenceRefs: [],
+          },
+        ],
+        unresolvedConstraints: [],
+      };
+    },
+  };
+}
+
+export function makePlanning(): PlanningInterface {
+  return {
+    async compose(goals, context) {
+      void context;
+      const first = goals[0];
+      return {
+        planId: "plan-edge-smoke",
+        steps: [
+          {
+            stepId: "step-1",
+            goalId: first?.goalId ?? "goal-edge",
+            action: "Respond to subject on-device",
+            dependsOn: [],
+            status: "active",
+          },
+        ],
+        rationale: "edge reference planning stub",
+      };
+    },
+    async revise(plan, _event) {
+      return { ...plan, rationale: `${plan.rationale} (revised)` };
+    },
+    nextStep(plan) {
+      return plan.steps.find((s) => s.status === "active") ?? null;
+    },
+  };
+}
+
+export function makeKnowledge(opts: ReferenceBindingOptions): KnowledgeConnectorInterface {
+  const sourceId = "teacher-cbse-slice";
+  const corpus: KnowledgePassage[] = [
+    {
+      sourceId,
+      citation: `${sourceId}#1`,
+      content: "Reference knowledge passage for edge smoke tests.",
+      score: 1,
+      asOf: "2024-06-01",
+    },
+  ];
+  const sources = [
+    {
+      sourceId,
+      title: sourceId,
+      domain: "education-mathematics",
+      locality: "bundled-offline" as const,
+      coverage: { from: "2020-01-01", to: "2026-01-01" },
+    },
+  ];
+  return {
+    get sources() {
+      return sources;
+    },
+    async retrieve(query) {
+      void query;
+      void opts;
+      return corpus;
+    },
+    describe(): KnowledgeConnectorDescribe {
+      return {
+        packId: sourceId,
+        locality: "bundled-offline",
+        asOf: "2024-06-01",
+        sources,
+      };
+    },
+  };
+}
+
+export function makeNoTools(): ToolInterface {
+  return {
+    list: () => [],
+    async invoke(invocation, _deadlineMs) {
+      return {
+        invocationId: invocation.invocationId,
+        status: "error",
+        output: "no tools configured",
+        latencyMs: 0,
+      };
+    },
+  };
+}

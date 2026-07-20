@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "domains.teacher.vision-document-profiles.v1",
+  "description": "Data-only pointers to bindings-vision document extraction schemas and golden fixtures for worksheet / textbook photos. Domains never import packages — load as data.",
+  "profiles": [
+    {
+      "id": "cbse-worksheet",
+      "schemaVersion": "bindings-vision.cbse-worksheet.v1",
+      "schemaPath": "packages/bindings-vision/schemas/cbse-worksheet.v1.json",
+      "goldenFixtureId": "teacher-cbse-worksheet",
+      "goldenCatalogPath": "packages/bindings-vision/fixtures/document/golden/catalog.json",
+      "use": "Photographed CBSE-style worksheet layout extraction via VisionInterface.responseSchema"
+    },
+    {
+      "id": "textbook-page",
+      "schemaVersion": "bindings-vision.textbook-page.v1",
+      "schemaPath": "packages/bindings-vision/schemas/textbook-page.v1.json",
+      "goldenFixtureId": "teacher-textbook-page",
+      "goldenCatalogPath": "packages/bindings-vision/fixtures/document/golden/catalog.json",
+      "use": "Photographed textbook / workbook page extraction via VisionInterface.responseSchema"
+    }
+  ]
+}
+

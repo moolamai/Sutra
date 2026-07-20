@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "capturedAt": {
+      "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+      "type": "string"
+    },
+    "consentRecordId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "deviceId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "locality": {
+      "enum": [
+        "on-device",
+        "self-hosted"
+      ],
+      "type": "string"
+    },
+    "modelId": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string"
+    },
+    "outcomes": {
+      "properties": {
+        "status": {
+          "enum": [
+            "aborted",
+            "completed",
+            "error",
+            "partial"
+          ],
+          "type": "string"
+        },
+        "terminalStage": {
+          "enum": [
+            "act",
+            "perceive",
+            "reason"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "promptByteLength": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "promptHash": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "responseByteLength": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "responseHash": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "sessionId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "stages": {
+      "items": {
+        "properties": {
+          "chunkIndex": {
+            "maximum": 32,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "endedAt": {
+            "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+            "type": "string"
+          },
+          "opCode": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "stage": {
+            "enum": [
+              "act",
+              "perceive",
+              "reason"
+            ],
+            "type": "string"
+          },
+          "startedAt": {
+            "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "aborted",
+              "error",
+              "ok",
+              "skipped"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "status"
+        ],
+        "type": "object"
+      },
+      "maxItems": 32,
+      "type": "array"
+    },
+    "subjectId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "toolCalls": {
+      "items": {
+        "properties": {
+          "argsByteLength": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "argsHash": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "callId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resultByteLength": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "resultHash": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "aborted",
+              "denied",
+              "error",
+              "ok"
+            ],
+            "type": "string"
+          },
+          "toolName": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "argsHash",
+          "callId",
+          "status",
+          "toolName"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "type": "array"
+    },
+    "trajectoryFormatVersion": {
+      "const": "trajectory.v1",
+      "type": "string"
+    },
+    "turnId": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "capturedAt",
+    "consentRecordId",
+    "deviceId",
+    "locality",
+    "modelId",
+    "outcomes",
+    "promptHash",
+    "responseHash",
+    "stages",
+    "subjectId",
+    "toolCalls",
+    "trajectoryFormatVersion",
+    "turnId"
+  ],
+  "title": "TurnTrajectoryV1",
+  "type": "object",
+  "x-protocol-version": "1.0.0",
+  "x-trajectory-format-version": "trajectory.v1"
+}

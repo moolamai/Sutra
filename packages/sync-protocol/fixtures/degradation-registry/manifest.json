@@ -1,0 +1,24 @@
+{
+  "registryFile": "default-registry.json",
+  "stubVectorsFile": "stub-vectors.json",
+  "modes": [
+    {
+      "mode": "STALE_READ",
+      "file": "modes/stale-read.json",
+      "surface": "storage",
+      "operation": "read"
+    },
+    {
+      "mode": "HARD_STOP_WRITE",
+      "file": "modes/hard-stop-write.json",
+      "surface": "storage",
+      "operation": "write"
+    },
+    {
+      "mode": "QUEUE_AND_WARN",
+      "file": "modes/queue-and-warn.json",
+      "surface": "model",
+      "operation": "read"
+    }
+  ]
+}

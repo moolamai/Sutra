@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "independent-certification.environment.v1",
+  "collectedAt": "2026-07-16T19:52:14.568Z",
+  "subjectId": "cert.indep.a",
+  "deviceId": "ext-ci-1",
+  "runtime": {
+    "node": "22.22.2",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "stacks": {
+    "storage": {
+      "id": "file-jsonl-v1",
+      "shippedInReferenceMonorepo": false,
+      "detail": "artifacts/independent-certification/src/storage.mjs"
+    },
+    "model": {
+      "id": "deterministic-on-device-v1",
+      "shippedInReferenceMonorepo": false,
+      "detail": "artifacts/independent-certification/src/model.mjs"
+    }
+  },
+  "independenceKit": {
+    "package": "@moolam/contract-conformance",
+    "kitVersion": "1.0.0",
+    "monorepoCheckoutRequired": false
+  },
+  "obligationIds": [
+    "SYNC-01.1",
+    "SYNC-01.2",
+    "CK-02.1",
+    "CK-02.2",
+    "CK-02.3",
+    "CK-03.1",
+    "CK-03.2",
+    "CK-03.3",
+    "CK-03.L1",
+    "CK-03.L2"
+  ],
+  "seedMode": "good"
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "eval-slices.v1",
+  "naming": {
+    "pattern": "{domainPackId}/{language}/{bindingId}",
+    "separator": "/",
+    "gateReportField": "failingSlice"
+  },
+  "dimensions": {
+    "domainPackId": [
+      "smoke",
+      "nfr",
+      "wire",
+      "protocol",
+      "guidance",
+      "teacher",
+      "lawyer",
+      "memory"
+    ],
+    "language": ["en"],
+    "bindingId": ["edge", "protocol", "a-p6", "b8"]
+  },
+  "slices": [
+    {
+      "domainPackId": "smoke",
+      "language": "en",
+      "bindingId": "edge",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "nfr",
+      "language": "en",
+      "bindingId": "edge",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "wire",
+      "language": "en",
+      "bindingId": "protocol",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "protocol",
+      "language": "en",
+      "bindingId": "a-p6",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "guidance",
+      "language": "en",
+      "bindingId": "b8",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "teacher",
+      "language": "en",
+      "bindingId": "b8",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "lawyer",
+      "language": "en",
+      "bindingId": "b8",
+      "emptyMarker": false
+    },
+    {
+      "domainPackId": "memory",
+      "language": "en",
+      "bindingId": "b8",
+      "emptyMarker": true,
+      "note": "Explicit empty marker — no guidance evals registered yet"
+    }
+  ]
+}

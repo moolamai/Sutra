@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "domains.teacher.task-graph-concept-ids.v1",
+  "track": "cbse-class-8-maths",
+  "ageFloorYears": 12,
+  "sourceDocs": [
+    "domains/teacher/data/cbse-syllabus-slice.md",
+    "domains/teacher/workflows.md"
+  ],
+  "packPath": "packages/domain-loader/fixtures/packs/teacher-cbse-slice.json",
+  "epicPackPath": "docs/stages/tracks/track-b-cognitive-harness/b8-domain-intelligence/task-graph-packs/teacher-cbse-slice.json",
+  "description": "Authoritative concept inventory for the teacher CBSE-slice task-graph pack. Every pack conceptId must appear here. Packages load the JSON pack as data only — they never import this file.",
+  "concepts": [
+    {
+      "conceptId": "math.fractions",
+      "title": "Fractions",
+      "role": "prerequisite",
+      "notes": "Weak fractions + friction on ratios → prerequisite-remediation to fractions (workflows.md)."
+    },
+    {
+      "conceptId": "math.ratios",
+      "title": "Ratios",
+      "role": "core",
+      "notes": "Comparing quantities by division; syllabus pass.ratio.compare."
+    },
+    {
+      "conceptId": "math.equivalent_ratios",
+      "title": "Equivalent ratios",
+      "role": "core",
+      "notes": "Scaling both sides; syllabus pass.ratio.equivalent."
+    },
+    {
+      "conceptId": "math.percentages",
+      "title": "Percentages",
+      "role": "core",
+      "notes": "Ratio with denominator 100; syllabus pass.percent.ratio."
+    },
+    {
+      "conceptId": "math.simple_proportion",
+      "title": "Simple proportion",
+      "role": "core",
+      "notes": "Equality of two ratios; syllabus pass.proportion.simple."
+    },
+    {
+      "conceptId": "math.unitary_method",
+      "title": "Unitary method",
+      "role": "core",
+      "notes": "Value of one unit then scale; syllabus pass.unitary.method."
+    }
+  ],
+  "pedagogicalEdges": [
+    { "from": "math.ratios", "requires": "math.fractions" },
+    { "from": "math.equivalent_ratios", "requires": "math.ratios" },
+    { "from": "math.percentages", "requires": "math.ratios" },
+    { "from": "math.simple_proportion", "requires": "math.ratios" },
+    { "from": "math.simple_proportion", "requires": "math.equivalent_ratios" },
+    { "from": "math.unitary_method", "requires": "math.simple_proportion" }
+  ],
+  "syntheticProbeNodes": []
+}

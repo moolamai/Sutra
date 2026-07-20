@@ -1,0 +1,4 @@
+{
+  "toolName": "lookup",
+  "arguments": ["not", "an", "object"]
+}

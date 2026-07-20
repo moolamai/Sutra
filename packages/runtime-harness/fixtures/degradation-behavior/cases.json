@@ -1,0 +1,176 @@
+{
+  "description": "Per-behavior regression cases for the host degradation registry — stub failure, assert Behavior + signal; metadata only.",
+  "cases": [
+    {
+      "id": "behavior-stale-sync-read",
+      "specId": "degradation-contract",
+      "protects": "Sync read failure serves last-known-good with freshness marker and DEGRADE_STALE_READ; never fabricates.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "sync",
+      "operation": "read",
+      "forcedFailure": {
+        "kind": "timeout",
+        "dependency": "cloud-sync"
+      },
+      "expectedBehavior": "stale_with_marker",
+      "expectedSignalCode": "DEGRADE_STALE_READ",
+      "expectedOk": true,
+      "expectedDegraded": true,
+      "requiresLastKnownGood": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:sync:read:stale-1"
+    },
+    {
+      "id": "behavior-queue-model-read",
+      "specId": "degradation-contract",
+      "protects": "Model read failure queues with DEGRADE_QUEUE_AND_WARN — blocked with advisory, never silent continue.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "model",
+      "operation": "read",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "slm-runtime"
+      },
+      "expectedBehavior": "queue",
+      "expectedSignalCode": "DEGRADE_QUEUE_AND_WARN",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "requiresEnqueue": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:model:read:queue-1"
+    },
+    {
+      "id": "behavior-hard-stop-sync-write",
+      "specId": "degradation-contract",
+      "protects": "Sync write failure hard-stops with rollback and DEGRADE_HARD_STOP_WRITE — never silent retry.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "sync",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "cloud-sync"
+      },
+      "expectedBehavior": "hard_stop",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "requiresRollback": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:sync:write:hard-stop-1"
+    },
+    {
+      "id": "behavior-hard-stop-tool-write",
+      "specId": "degradation-contract",
+      "protects": "Tool write mid-loop failure hard-stops and rolls back uncommitted tool effects.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-bbbb",
+      "dependency": "tool",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "tool-backend"
+      },
+      "register": {
+        "dependency": "tool",
+        "behavior": "hard_stop"
+      },
+      "expectedBehavior": "hard_stop",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "requiresRollback": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:tool:write:hard-stop-1"
+    },
+    {
+      "id": "behavior-hard-stop-unknown-dependency",
+      "specId": "degradation-contract",
+      "protects": "Unknown dependency name defaults to hard_stop (block), never passthrough.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "mystery-adapter",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "dependency_unavailable",
+        "dependency": "mystery-adapter"
+      },
+      "expectedBehavior": "hard_stop",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "requiresRollback": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:mystery:write:hard-stop-1"
+    },
+    {
+      "id": "behavior-hard-stop-partial-failure",
+      "specId": "degradation-contract",
+      "protects": "Partial failure after first durable side effect hard-stops write with rollback — no silent retry.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "sync",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "partial_failure",
+        "dependency": "cloud-sync"
+      },
+      "expectedBehavior": "hard_stop",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "requiresRollback": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:sync:write:partial-1"
+    },
+    {
+      "id": "behavior-stale-blocked-without-lkg",
+      "specId": "degradation-contract",
+      "protects": "Stale-read path without last-known-good hard-stops — never invents a fabricated payload.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "sync",
+      "operation": "read",
+      "forcedFailure": {
+        "kind": "corrupt_response",
+        "dependency": "cloud-sync"
+      },
+      "expectedBehavior": "hard_stop",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:sync:read:no-lkg-1"
+    },
+    {
+      "id": "behavior-hard-stop-model-write",
+      "specId": "degradation-contract",
+      "protects": "Model write failure hard-stops with DEGRADE_HARD_STOP_WRITE — never fabricates a completion.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "dependency": "model",
+      "operation": "write",
+      "forcedFailure": {
+        "kind": "corrupt_response",
+        "dependency": "slm-runtime"
+      },
+      "expectedBehavior": "hard_stop",
+      "expectedSignalCode": "DEGRADE_HARD_STOP_WRITE",
+      "expectedOk": false,
+      "expectedDegraded": true,
+      "requiresRollback": true,
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "idempotencyKey": "anika-k:model:write:hard-stop-1"
+    }
+  ]
+}

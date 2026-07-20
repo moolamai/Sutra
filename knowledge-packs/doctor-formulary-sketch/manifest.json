@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "packId": "pack.doctor.formulary-sketch",
+  "version": "1.0.0",
+  "title": "Doctor formulary sketch (reference data; not clinical advice)",
+  "asOf": "2026-06-01T00:00:00.000Z",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "locality": "bundled-offline",
+  "languages": [
+    "en"
+  ],
+  "sources": [
+    {
+      "sourceId": "src.formulary.sketch.national",
+      "title": "National formulary sketch (bundled offline excerpt)",
+      "domain": "doctor",
+      "locality": "bundled-offline",
+      "coverage": {
+        "from": "2024-01-01",
+        "to": "2026-06-01"
+      }
+    },
+    {
+      "sourceId": "src.formulary.sketch.disclaimer",
+      "title": "Regulatory disclaimer block (companion charter)",
+      "domain": "doctor",
+      "locality": "bundled-offline",
+      "coverage": {
+        "from": "2024-01-01",
+        "to": "2026-06-01"
+      }
+    }
+  ],
+  "contentShards": [
+    {
+      "shardId": "shard.formulary.sketch",
+      "relpath": "content/shard-formulary.json"
+    }
+  ]
+}

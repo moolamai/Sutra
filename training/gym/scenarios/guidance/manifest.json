@@ -1,0 +1,29 @@
+{
+  "domainPacks": [
+    "lawyer",
+    "teacher"
+  ],
+  "scenarios": [
+    {
+      "domainPack": "teacher",
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "file": "tasks/teacher-guidance-tone.json",
+      "oracleCheckId": "oracle.guidance.teacher.tone",
+      "scenarioId": "guidance/teacher/teacher-guidance-tone",
+      "sourceId": "teacher-guidance-tone",
+      "subjectId": "gym-guidance-teacher"
+    },
+    {
+      "domainPack": "lawyer",
+      "expectedTerminalFrame": "TURN_COMPLETE",
+      "file": "tasks/lawyer-scope-refusal.json",
+      "oracleCheckId": "oracle.guidance.lawyer.scope_of_practice",
+      "scenarioId": "guidance/lawyer/lawyer-scope-refusal",
+      "sourceId": "lawyer-scope-refusal",
+      "subjectId": "gym-guidance-lawyer"
+    }
+  ],
+  "schemaVersion": "gym-guidance-episode.v1",
+  "sourceRelPath": "training/eval/fixtures/b8-guidance",
+  "taskCount": 2
+}

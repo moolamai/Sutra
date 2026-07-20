@@ -1,0 +1,14 @@
+{
+  "name": "@moolam-artifacts/independent-certification",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Independent second-implementor certification run (non-reference storage + model).",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "certify": "node scripts/run-certification.mjs",
+    "test": "node --test tests/certification_run.test.mjs"
+  }
+}

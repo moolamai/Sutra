@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "failure-mining-fixtures.v1",
+  "description": "Seeded metadata-only trajectory/telemetry fixtures for failure-mining validation. Never raw learner content.",
+  "fixtures": [
+    { "id": "correction-exhaustion", "file": "correction-exhaustion.json" },
+    { "id": "degradation", "file": "degradation.json" },
+    { "id": "refusal-misfire", "file": "refusal-misfire.json" },
+    { "id": "tool-timeout", "file": "tool-timeout.json" },
+    { "id": "low-support-triage", "file": "low-support-triage.json" },
+    { "id": "cross-subject-denied", "file": "cross-subject-denied.json" }
+  ]
+}

@@ -8,7 +8,8 @@
     "build": "python -m compileall src -q",
     "typecheck": "python -m compileall src -q",
     "dev": "uvicorn sutra_orchestrator.main:app --reload --app-dir src",
-    "test": "pytest -q",
+    "test": "python smoke_test.py && pytest -q",
+    "schemas:export": "python scripts/export_schemas.py",
     "clean": "python -c \"import shutil,glob; [shutil.rmtree(p, ignore_errors=True) for p in glob.glob('**/__pycache__', recursive=True)]\""
   }
 }

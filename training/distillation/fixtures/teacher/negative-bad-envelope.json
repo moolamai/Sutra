@@ -1,0 +1,19 @@
+{
+  "id": "teacher.negative.bad-envelope",
+  "subjectId": "subj.distill.teacher",
+  "deviceId": "dev-distill",
+  "correlationId": "corr-distill-bad",
+  "sessionId": "sess-distill-bad",
+  "turnId": "turn-distill-bad",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-16T00:00:00.000Z"
+  },
+  "pinnedAt": "2026-07-16T00:00:00.000Z",
+  "teacherChunks": [
+    "```tool_call\n{not-valid-json\n```",
+    "should not train on this"
+  ]
+}

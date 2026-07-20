@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "training.pack-sft-distill.v1",
+  "turnId": "distill-teacher-low",
+  "domainCode": "teacher",
+  "curriculumStage": "tool_use",
+  "summary": "Synthetic low-quality teacher distillation stub rejected by critic threshold."
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/checkpoint.lineage.v1.json",
+  "title": "Checkpoint lineage row v1",
+  "description": "Append-only training checkpoint lineage: parent-hash chain, corpus/base pins, hyperparameters, C3 critic versions, SFT|GRPO stage, evalVerdicts slot. Corrections append with supersededBy.",
+  "schemaVersion": "checkpoint.lineage.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "runId",
+    "subjectId",
+    "deviceId",
+    "locality",
+    "checkpointHash",
+    "corpusManifestHash",
+    "baseModelHash",
+    "hyperparameters",
+    "criticVersions",
+    "stage",
+    "evalVerdicts",
+    "recordedAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "checkpoint.lineage.v1"
+    },
+    "runId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "subjectId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "deviceId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "locality": { "type": "string", "enum": ["on-device", "self-hosted"] },
+    "checkpointHash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "description": "Opaque hash of this run's produced checkpoint"
+    },
+    "parentCheckpointHash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "description": "Parent checkpoint hash; omitted only on the genesis SFT anchor"
+    },
+    "corpusManifestHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "baseModelHash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128
+    },
+    "hyperparameters": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "string", "maxLength": 256 },
+          { "type": "number" },
+          { "type": "boolean" }
+        ]
+      },
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "maxProperties": 32
+    },
+    "criticVersions": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 16,
+      "description": "C3 critic version pins. Completeness lint for candidate emission requires ≥1 entry.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rubricId", "rubricVersion", "contentHash"],
+        "properties": {
+          "rubricId": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "rubricVersion": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "contentHash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "stage": { "type": "string", "enum": ["SFT", "GRPO"] },
+    "evalVerdicts": {
+      "type": "array",
+      "maxItems": 32,
+      "description": "Eval verdicts slot (may be empty pending CI fill)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["verdictId", "outcome"],
+        "properties": {
+          "verdictId": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "outcome": {
+            "type": "string",
+            "enum": ["pass", "fail", "skip", "deferred"]
+          },
+          "evidenceHash": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128
+          }
+        }
+      }
+    },
+    "supersededBy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "When this row corrects another, the obsolete runId (append-only — never rewrite the obsolete row)"
+    },
+    "recordedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    }
+  }
+}

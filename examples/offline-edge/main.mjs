@@ -2,8 +2,19 @@
 // model weights. The SlmRuntime and StorageDriver are in-memory mocks; the
 // agent loop, telemetry, mastery folding, and state machine are the real
 // shipped code.
-import { EdgeAgent } from "@moolam/sdk";
-import { embed } from "../_shared/mocks.mjs";
+//
+// Golden inputs from
+// golden-turn.json; assert servedLocally + friction fold + offline sync.
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { EdgeAgent } from "sutra-sdk";
+import { embed } from "@moolam/contract-mocks";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const golden = JSON.parse(
+  readFileSync(join(HERE, "golden-turn.json"), "utf8"),
+);
 
 /** In-memory StorageDriver (see @moolam/contracts StorageDriver). */
 function memoryDriver() {
@@ -25,7 +36,12 @@ function memoryDriver() {
 
 /** Mock SlmRuntime honoring the load/generate/embed contract. */
 const runtime = {
-  descriptor: { modelId: "mock-phi", quantization: "q4", contextWindow: 4096, languages: ["en-IN"] },
+  descriptor: {
+    modelId: "mock-phi",
+    quantization: "q4",
+    contextWindow: 4096,
+    languages: ["en-IN"],
+  },
   load: async () => {},
   generate: async ({ prompt }) => ({
     text: `On-device reply grounded in prompt of ${prompt.length} chars.`,
@@ -36,29 +52,40 @@ const runtime = {
 };
 
 const agent = new EdgeAgent({
-  subjectId: "subject-7",
-  deviceId: "edge-demo-device",
+  subjectId: golden.subjectId,
+  deviceId: golden.deviceId,
   runtime,
   storage: memoryDriver(),
   // no transport: permanently-offline sovereign mode
-  profile: { ageBand: "adult", track: "system-design-l5", language: "en-IN" },
+  profile: golden.profile,
 });
 
 await agent.initialize();
 
-const reply = await agent.agentTurn("Explain consistent hashing simply.", {
-  conceptId: "sd.consistent-hashing",
-  hesitationMs: 900,
-  inputVelocity: 4.1,
-  revisionCount: 0,
-  assistanceRequested: false,
-  outcome: "ungraded",
-  capturedAt: `${String(Date.now()).padStart(15, "0")}:000000:edge-demo-device`,
-});
+const reply = await agent.agentTurn(golden.utterance, { ...golden.friction });
 
 console.log("served locally:", reply.servedLocally);
 console.log("reply         :", reply.text);
 const sync = await agent.syncNow();
 console.log("sync outcome  :", sync.status, "(offline mode has no transport)");
-if (!reply.servedLocally || sync.status !== "offline-mode") throw new Error("offline contract violated");
+
+const mastery = agent.cognitiveState.mastery[golden.expect.conceptId];
+if (!reply.servedLocally || sync.status !== golden.expect.syncStatus) {
+  throw new Error("offline contract violated");
+}
+if (reply.conceptId !== golden.expect.conceptId) {
+  throw new Error(`conceptId mismatch: ${reply.conceptId}`);
+}
+if (!reply.text?.startsWith(golden.expect.replyTextPrefix)) {
+  throw new Error("reply shape / mock grounding violated");
+}
+const keys = Object.keys(reply).sort().join(",");
+const expectedKeys = [...golden.expect.replyKeys].sort().join(",");
+if (keys !== expectedKeys) {
+  throw new Error(`AgentReply keys drifted: ${keys}`);
+}
+if (!mastery || mastery.lastExercisedAt !== golden.friction.capturedAt) {
+  throw new Error("friction fold missing after golden turn");
+}
+
 console.log("offline-edge OK");

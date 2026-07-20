@@ -1,0 +1,17 @@
+{
+  "name": "@moolam/conformance-cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independence-kit verifier and thin wrapper around @moolam/contract-conformance for external certification.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "conformance-cli": "./bin/conformance-cli.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/verify_kit.test.mjs"
+  }
+}

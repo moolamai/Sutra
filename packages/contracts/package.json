@@ -1,8 +1,17 @@
 {
   "name": "@moolam/contracts",
-  "version": "0.1.0",
-  "description": "Pure cognitive contracts: memory, model, reasoning, planning, knowledge, tool, vision, speech, and runtime interfaces. Zero dependencies, zero implementations.",
+  "version": "1.1.0",
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. Pure cognitive contracts: memory, model, reasoning, planning, knowledge, tool, vision, speech, runtime, budget, and degradation interfaces. Zero dependencies, zero implementations.",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/contracts#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/contracts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +21,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",

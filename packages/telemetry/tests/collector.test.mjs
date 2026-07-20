@@ -23,8 +23,24 @@ function memoryDriver() {
         if (row) row.synced = 1;
       }
     },
-    async query() {
-      return [...rows.values()].filter((r) => r.synced === 0).sort((a, b) => (a.captured_at < b.captured_at ? -1 : 1));
+    async query(sql) {
+      if (typeof sql === "string" && sql.includes("COUNT(*)")) {
+        if (sql.includes("synced = 0")) {
+          return [{ n: [...rows.values()].filter((r) => r.synced === 0).length }];
+        }
+        return [{ n: rows.size }];
+      }
+      if (typeof sql === "string" && /LIMIT\s+\d+/i.test(sql) && sql.includes("captured_at")) {
+        const sorted = [...rows.values()].sort((a, b) =>
+          a.captured_at < b.captured_at ? -1 : 1,
+        );
+        if (sorted.length === 0) return [];
+        const row = /DESC/i.test(sql) ? sorted[sorted.length - 1] : sorted[0];
+        return [{ captured_at: row.captured_at }];
+      }
+      return [...rows.values()]
+        .filter((r) => r.synced === 0)
+        .sort((a, b) => (a.captured_at < b.captured_at ? -1 : 1));
     },
   };
 }
@@ -61,3 +77,59 @@ test("events outside an open exercise window are dropped by design", async () =>
   const sample = await collector.submitted("correct", 200);
   assert.equal(sample, null, "no open window means no partial evidence");
 });
+
+test("injectable nowMs seam advances without wall-clock wait", async () => {
+  let now = 1_700_000_000_000;
+  const collector = new CognitiveTelemetryCollector(
+    memoryDriver(),
+    new HlcClock("test-device", () => now),
+    { nowMs: () => now },
+  );
+  await collector.initialize();
+  assert.equal(collector.nowMs(), now);
+  now += 86_400_000;
+  assert.equal(collector.nowMs(), 1_700_000_000_000 + 86_400_000);
+  const sampleTick = collector.hlcClock.tick();
+  assert.equal(Number(sampleTick.slice(0, 15)), now);
+});
+
+test("durableSampleCount is O(1) aggregate — no row materialization", async () => {
+  const driver = memoryDriver();
+  const collector = new CognitiveTelemetryCollector(driver, new HlcClock("test-device"));
+  await collector.initialize();
+  assert.equal(await collector.durableSampleCount(), 0);
+  collector.observe({ type: "prompt-rendered", conceptId: "c1", atMs: 0 });
+  await collector.submitted("correct", 10);
+  collector.observe({ type: "prompt-rendered", conceptId: "c2", atMs: 20 });
+  await collector.submitted("incorrect", 30);
+  assert.equal(await collector.durableSampleCount(), 2);
+});
+
+test("castIntegrityProbe uses aggregates + edge keys (no full table materialization)", async () => {
+  const driver = memoryDriver();
+  const collector = new CognitiveTelemetryCollector(driver, new HlcClock("test-device"));
+  await collector.initialize();
+  collector.observe({ type: "prompt-rendered", conceptId: "c1", atMs: 0 });
+  const a = await collector.submitted("correct", 10);
+  collector.observe({ type: "prompt-rendered", conceptId: "c2", atMs: 20 });
+  const b = await collector.submitted("incorrect", 30);
+  assert.ok(a && b);
+  const probe = await collector.castIntegrityProbe();
+  assert.equal(probe.durableCount, 2);
+  assert.equal(probe.unsyncedCount, 2);
+  assert.equal(probe.earliestCapturedAt, a.capturedAt);
+  assert.equal(probe.latestCapturedAt, b.capturedAt);
+  await collector.markSynced([a.capturedAt]);
+  const after = await collector.castIntegrityProbe();
+  assert.equal(after.durableCount, 2);
+  assert.equal(after.unsyncedCount, 1);
+  assert.ok(collector.approxDurableStoreBytes() > 0);
+  assert.ok(collector.lastPersistLatencyMs() >= 0);
+  assert.ok(
+    CognitiveTelemetryCollector.estimateSampleStoreBytes(a) <=
+      NFR02_STORE_BYTES_HINT,
+  );
+});
+
+/** Aligns with EdgeAgent NFR02_PROOF_THRESHOLDS.storeBytesPerSampleMax. */
+const NFR02_STORE_BYTES_HINT = 512;

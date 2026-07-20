@@ -1,0 +1,124 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "sci.force": {
+        "alpha": {
+          "dev-b": 4
+        },
+        "beta": {
+          "dev-b": 1
+        },
+        "conceptId": "sci.force",
+        "lastExercisedAt": "000000001000000:000001:dev-b"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-empty"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "sci.force": {
+        "alpha": {
+          "dev-b": 4
+        },
+        "beta": {
+          "dev-b": 1
+        },
+        "conceptId": "sci.force",
+        "lastExercisedAt": "000000001000000:000001:dev-b"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-empty"
+  },
+  "id": "02-shard-max-empty-vs-single",
+  "kind": "shard-max",
+  "note": "Empty mastery joins with a single-shard concept",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-empty"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "sci.force": {
+        "alpha": {
+          "dev-b": 4
+        },
+        "beta": {
+          "dev-b": 1
+        },
+        "conceptId": "sci.force",
+        "lastExercisedAt": "000000001000000:000001:dev-b"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-empty"
+  },
+  "subjectId": "subj-empty"
+}

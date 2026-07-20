@@ -1,11 +1,20 @@
 [project]
-name = "sutra-orchestrator"
-version = "0.1.0"
+name = "sutra-sdk"
+version = "1.1.0"
 description = "The Cloud Harness. Reference Cognitive State Machine engine for the Hybrid Cognitive Sync Protocol: FastAPI + LangGraph + pgvector."
 readme = "README.md"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 requires-python = ">=3.12"
 authors = [{ name = "Moolam AI" }]
+keywords = ["moolam", "cognitive", "sync", "fastapi", "langgraph"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
 dependencies = [
     "fastapi>=0.115",
     "uvicorn[standard]>=0.34",
@@ -19,19 +28,47 @@ dependencies = [
     "numpy>=2.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/moolamai/sutra/tree/main/packages/cloud-orchestrator"
+Repository = "https://github.com/moolamai/sutra"
+Documentation = "https://github.com/moolamai/sutra/tree/main/packages/cloud-orchestrator#readme"
+
 [project.optional-dependencies]
-dev = ["pytest>=8", "pytest-asyncio>=0.25", "httpx>=0.28", "ruff>=0.9", "mypy>=1.14"]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.25",
+    "httpx>=0.28",
+    "hypothesis>=6.122",
+    "ruff>=0.9",
+    "mypy>=1.14",
+    "build>=1.2",
+    "twine>=6.0",
+]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/sutra_orchestrator"]
 
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/sutra_orchestrator",
+    "README.md",
+    "pyproject.toml",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "src"]
+markers = [
+    "compose: requires Docker Compose (infra/docker-compose.yml)",
+    "slow: long-running property, load, bench, or compose/durability suites (nightly CI)",
+]
 
 [tool.mypy]
 strict = true

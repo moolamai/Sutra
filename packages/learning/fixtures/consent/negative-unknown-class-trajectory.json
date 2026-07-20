@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "subj.unknown-class",
+  "sessionId": "sess.unknown-class",
+  "turnId": "turn.unknown-class",
+  "deviceId": "dev.consent-fx",
+  "capturedAt": "2026-07-16T12:00:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "not-a-b9-class",
+    "recordedAt": "2026-07-16T12:00:00.000Z"
+  },
+  "stages": [{ "stage": "act", "status": "ok" }],
+  "policyCheckpointHash": "ckpt:sha256:unknownclass01"
+}

@@ -1,0 +1,3 @@
+Source: packages/sync-protocol/fixtures/golden-turns
+Sync: pnpm --filter @moolam/runtime-harness golden:sync
+Do not hand-edit expectedFrames. Human review required before commit.

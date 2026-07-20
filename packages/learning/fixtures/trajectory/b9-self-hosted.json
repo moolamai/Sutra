@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "ravi-m",
+  "sessionId": "sess-b9-002",
+  "turnId": "turn-b9-002",
+  "deviceId": "host-bbbb",
+  "capturedAt": "2026-07-15T19:00:00.000Z",
+  "locality": "self-hosted",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "product-improve",
+    "recordedAt": "2026-07-15T19:00:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "plan",
+      "status": "ok"
+    },
+    {
+      "stage": "act",
+      "opCode": "memory.read",
+      "status": "ok"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "specId": "SYNC-06",
+  "note": "UNKNOWN_CONCEPT_QUARANTINED — mastery concept absent from the known task graph; merge still proceeds; shard bytes preserved for later adoption",
+  "knownConceptIds": ["math.fractions", "math.ratios"],
+  "local": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "subj-quarantine",
+    "deviceIds": ["cloud-aaaa"],
+    "activeConceptId": "math.ratios",
+    "mode": "guided",
+    "mastery": {
+      "math.ratios": {
+        "conceptId": "math.ratios",
+        "alpha": { "cloud-aaaa": 2 },
+        "beta": { "cloud-aaaa": 1 },
+        "lastExercisedAt": "000000001000000:000000:cloud-aaaa"
+      }
+    },
+    "frictionLog": [],
+    "profile": {
+      "ageBand": "child",
+      "track": "cbse-class-7-maths",
+      "language": "en",
+      "updatedAt": "000000001000000:000000:cloud-aaaa"
+    },
+    "stateVector": { "session": "000000001000000:000000:cloud-aaaa" }
+  },
+  "remote": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "subj-quarantine",
+    "deviceIds": ["edge-bbbb"],
+    "activeConceptId": "math.ratios",
+    "mode": "exploratory",
+    "mastery": {
+      "math.ratios": {
+        "conceptId": "math.ratios",
+        "alpha": { "edge-bbbb": 3 },
+        "beta": { "edge-bbbb": 1 },
+        "lastExercisedAt": "000000001000100:000000:edge-bbbb"
+      },
+      "rogue.unknown.concept": {
+        "conceptId": "rogue.unknown.concept",
+        "alpha": { "edge-bbbb": 1 },
+        "beta": { "edge-bbbb": 1 },
+        "lastExercisedAt": "000000001000100:000001:edge-bbbb"
+      },
+      "also.unknown.z": {
+        "conceptId": "also.unknown.z",
+        "alpha": { "edge-bbbb": 4 },
+        "beta": { "edge-bbbb": 2 },
+        "lastExercisedAt": "000000001000100:000002:edge-bbbb"
+      }
+    },
+    "frictionLog": [],
+    "profile": {
+      "ageBand": "child",
+      "track": "cbse-class-7-maths",
+      "language": "en",
+      "updatedAt": "000000001000100:000000:edge-bbbb"
+    },
+    "stateVector": { "session": "000000001000100:000000:edge-bbbb" }
+  },
+  "expectAdvisoryCode": "UNKNOWN_CONCEPT_QUARANTINED",
+  "expectQuarantinedIds": ["also.unknown.z", "rogue.unknown.concept"],
+  "expectMasteryKeysPreserved": [
+    "also.unknown.z",
+    "math.ratios",
+    "rogue.unknown.concept"
+  ]
+}

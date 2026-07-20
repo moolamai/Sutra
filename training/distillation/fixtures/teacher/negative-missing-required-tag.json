@@ -1,0 +1,22 @@
+{
+  "turnId": "turn-missing-terminal",
+  "subjectId": "subj.distill.filter",
+  "deviceId": "dev-distill-filter",
+  "frames": [
+    {
+      "type": "SESSION_START",
+      "sequenceIndex": 0,
+      "correlationId": "corr-missing",
+      "subjectId": "subj.distill.filter",
+      "protocolVersion": "1.0.0",
+      "pinnedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "type": "ANSWER_DELTA",
+      "sequenceIndex": 1,
+      "correlationId": "corr-missing",
+      "subjectId": "subj.distill.filter",
+      "delta": "incomplete without TURN_COMPLETE"
+    }
+  ]
+}

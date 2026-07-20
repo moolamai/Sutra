@@ -1,0 +1,34 @@
+{
+  "id": "triage-suppressed",
+  "kind": "remediate",
+  "subjectId": "subj.reme.triage",
+  "deviceId": "dev.reme.fixture",
+  "locality": "self-hosted",
+  "expect": {
+    "applied": false,
+    "reason": "triage_suppressed"
+  },
+  "policies": [
+    {
+      "policyId": "policy.triage.corr",
+      "version": 1,
+      "failureClass": "correction_exhaustion",
+      "confidence": 0.95,
+      "action": {
+        "kind": "set_correction_loop_cap",
+        "surface": "correction_loop",
+        "maxCorrectionTurns": 4
+      },
+      "disabled": false,
+      "ineffectiveAttempts": 0,
+      "pageRequested": false,
+      "triageActive": true,
+      "idempotencyKey": "seed.triage.1"
+    }
+  ],
+  "execute": {
+    "failureClass": "correction_exhaustion",
+    "evidenceFingerprint": "fp.triage.1",
+    "executionKey": "exec.triage.1"
+  }
+}

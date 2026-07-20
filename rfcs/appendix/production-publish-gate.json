@@ -1,0 +1,14 @@
+{
+  "kind": "production-publish-gate",
+  "schemaVersion": 1,
+  "unlocked": true,
+  "rfcPath": "rfcs/0001-protocol-1.0-freeze.md",
+  "rfcStatus": "Accepted",
+  "maintainerAcceptance": "Track A Lead <track-a@moolam.ai> 2026-07-17; Protocol Owner <protocol@moolam.ai> 2026-07-17",
+  "reason": "RFC Accepted with maintainer sign-off; no blocking issues",
+  "npmAllowProdPublish": "true",
+  "pypiAllowProdPublish": "true",
+  "subjectId": "ci-production-publish-gate",
+  "deviceId": "ci",
+  "evaluatedAt": "2026-07-16T20:06:41.898Z"
+}

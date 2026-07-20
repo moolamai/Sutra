@@ -1,0 +1,33 @@
+{
+  "id": "expired-consent",
+  "description": "expiresAt in the past → AggregationConsentError(consent_expired)",
+  "nowIso": "2026-07-17T12:00:00.000Z",
+  "input": {
+    "subjectId": "learner-a",
+    "deviceId": "edge-dev1",
+    "consentRecordId": "consent-expired",
+    "locality": "on-device",
+    "rolledUpAt": "001700000000100:000002:edge-dev1"
+  },
+  "samples": [
+    {
+      "conceptId": "ratios",
+      "hesitationMs": 500,
+      "inputVelocity": 2.0,
+      "revisionCount": 0,
+      "assistanceRequested": false,
+      "outcome": "correct",
+      "capturedAt": "001700000000001:000001:edge-dev1"
+    }
+  ],
+  "consent": {
+    "consentRecordId": "consent-expired",
+    "subjectId": "learner-a",
+    "optedIn": true,
+    "active": true,
+    "scope": "aggregation",
+    "recordedAt": "2026-01-01T00:00:00.000Z",
+    "expiresAt": "2026-07-01T00:00:00.000Z"
+  },
+  "expectedObligation": "consent_expired"
+}

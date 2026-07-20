@@ -21,7 +21,30 @@ Benchmarks exist to protect latency budgets as the infrastructure evolves. They 
 
 ## Methodology
 
-Each benchmark performs a warm-up phase before collecting measurements to reduce JIT compilation effects. Results report p50, p95, p99, and mean latency using the shared benchmarking harness (`_shared/bench.mjs`). Numbers are machine-relative: use them to compare commits on the same machine, not to compare machines. CI treats benchmarks as compile-and-run smoke checks; regression gating against stored baselines is roadmap work.
+Each benchmark performs a warm-up phase before collecting measurements to reduce JIT compilation effects. Results report p50, p95, p99, and mean latency using the shared benchmarking harness (`_shared/bench.mjs`). Numbers are machine-relative: use them to compare commits on the same machine, not to compare machines.
+
+CI (`benchmarks` job) runs `pnpm --filter @moolam/benchmarks ci:gate` after `pnpm build`: absolute p95 ceilings from `gates/thresholds.json` plus relative regression vs committed `gates/baseline.json` (±50% tolerance). Warmup completes before timed samples. The job is single-threaded (no matrix) to avoid CPU-contention false positives.
+
+### Chaos / degradation drills
+
+| Command | Proves |
+|---|---|
+| `pnpm sync-chaos` | Sync kill / partition / checkpoint / post-drill invariants |
+| `pnpm degradation-drills` | Cloud LLM ATR-05 degrade, edge SLM weight init failure, registry cross-ref |
+| `SUTRA_DEGR_DRILL=crossref pnpm degradation-drills` | Failure mode → registry signal / freshness strings match drills verbatim |
+
+Human map: [`docs/protocol/DEGRADATION-DRILL-CROSSREF.md`](../docs/protocol/DEGRADATION-DRILL-CROSSREF.md) · Normative registry: [`docs/protocol/DEGRADATION-REGISTRY.md`](../docs/protocol/DEGRADATION-REGISTRY.md).
+
+### Updating `gates/baseline.json` (intentional perf work)
+
+The checker **never** auto-rewrites or auto-relaxes baselines. After an intentional performance change lands on a green tree:
+
+1. From the repository root: `pnpm install && pnpm build`
+2. Record: `pnpm --filter @moolam/benchmarks baseline:record` (refuses if the absolute gate is red)
+3. Verify: `pnpm --filter @moolam/benchmarks ci:gate`
+4. Open a PR that updates `gates/baseline.json` with rationale — review required; do not merge baseline-only bumps without justification
+
+Dry-run without writing: `pnpm --filter @moolam/benchmarks baseline:record:dry`
 
 ## What is deliberately not here
 

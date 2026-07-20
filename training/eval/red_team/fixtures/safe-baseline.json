@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "candidate-red-team.erosion-fixture.v1",
+  "id": "safe-baseline",
+  "kind": "safe",
+  "fixtureDoc": "Constitutional baseline candidate — every family matches expected outcomes with zero egress.",
+  "candidateId": "candidate.erosion.safe",
+  "subjectId": "subject.erosion.safe",
+  "deviceId": "device.erosion.ci",
+  "locality": "on-device",
+  "surgeryClasses": ["learned_adapter"],
+  "expectGate": "pass",
+  "erosions": []
+}

@@ -1,44 +1,49 @@
-// voice: a voice-only loop. Streaming transcription (partial segments per
-// the speech contract) feeds a core turn; the reply streams back through
-// synthesis. The speech stack is a mock; the loop shape is the real one.
-import { CognitiveCore } from "@moolam/sdk";
-import { makeMemory, makeModel, makeReasoning, makeKnowledge, makePlanning, makeNoTools } from "../_shared/mocks.mjs";
+// voice: CognitiveCore with injectable local STT (whisper.cpp-class).
+// Streams partial transcripts from an Indic fixture, then runs a core turn
+// and synthesizes the reply. Network is unused (on-device binding).
+import { CognitiveCore } from "sutra-sdk";
+import {
+  makeMemory,
+  makeModel,
+  makeReasoning,
+  makeKnowledge,
+  makePlanning,
+  makeNoTools,
+} from "@moolam/contract-mocks";
+import {
+  indicFixtureAsAudioStream,
+  loadIndicUtteranceFixture,
+  loadWhisperCppSpeech,
+} from "sutra-bindings-speech";
 
-/** Mock SpeechInterface: streams partials, then a final segment. */
-const speech = {
-  supportedLanguages: ["hi-IN", "en-IN"],
-  transcribe: async function* (audio) {
-    const words = [];
-    for await (const chunk of audio) {
-      words.push(chunk.word);
-      yield { text: words.join(" "), language: "en-IN", startMs: 0, endMs: words.length * 400, confidence: 0.7, isFinal: false };
-    }
-    yield { text: words.join(" "), language: "en-IN", startMs: 0, endMs: words.length * 400, confidence: 0.95, isFinal: true };
-  },
-  synthesize: async function* (text) {
-    yield { data: new TextEncoder().encode(text), sampleRateHz: 16000 };
-  },
-};
+const speech = await loadWhisperCppSpeech({
+  subjectId: "caller-12",
+  deviceId: "voice-demo",
+});
 
-// Simulated microphone: word-sized "audio chunks".
-async function* microphone() {
-  for (const word of ["what", "is", "a", "balanced", "diet"]) yield { word };
-}
-
+const fixture = loadIndicUtteranceFixture("hi-en-codeswitch");
 let partials = 0;
 let finalText = "";
-for await (const segment of speech.transcribe(microphone())) {
+for await (const segment of speech.transcribe(
+  indicFixtureAsAudioStream(fixture),
+)) {
   if (segment.isFinal) finalText = segment.text;
   else partials++;
 }
-console.log(`transcription : "${finalText}" (${partials} streamed partials)`);
+console.log(
+  `transcription : ${finalText.length} chars (${partials} streamed partials)`,
+);
+if (partials < 1 || !finalText) {
+  throw new Error("voice STT must emit partial then final");
+}
 
 const core = new CognitiveCore(
   {
     domainId: "community-health",
-    charter: "You are a spoken-first wellness companion. Keep answers short enough to listen to.",
+    charter:
+      "You are a spoken-first wellness companion. Keep answers short enough to listen to.",
     refusals: ["Never diagnose; always refer symptoms to a clinician."],
-    languages: ["hi-IN", "en-IN"],
+    languages: speech.supportedLanguages,
   },
   {
     memory: makeMemory(),
@@ -47,16 +52,31 @@ const core = new CognitiveCore(
     planning: makePlanning(),
     tools: makeNoTools(),
     knowledge: makeKnowledge("nutrition-guides", [
-      { content: "A balanced diet includes cereals, pulses, vegetables, fruits, and dairy in proportion.", asOf: "2023-01-01" },
+      {
+        content:
+          "A balanced diet includes cereals, pulses, vegetables, fruits, and dairy in proportion.",
+        asOf: "2023-01-01",
+      },
     ]),
     speech,
   },
 );
 
-const out = await core.turn({ subjectId: "caller-12", sessionId: "call-1", utterance: finalText });
+const out = await core.turn({
+  subjectId: "caller-12",
+  sessionId: "call-1",
+  utterance: finalText,
+});
 let audioBytes = 0;
-for await (const chunk of speech.synthesize(out.reply, { language: "en-IN" })) audioBytes += chunk.data.length;
-console.log("reply         :", out.reply);
+for await (const chunk of speech.synthesize(out.reply, {
+  language: "en-IN",
+})) {
+  audioBytes += chunk.data.length;
+}
+console.log("reply         :", out.reply.slice(0, 80), "…");
 console.log("synthesized   :", audioBytes, "bytes of audio");
-if (partials < 2 || !audioBytes) throw new Error("voice loop incomplete");
+console.log("languages     :", speech.supportedLanguages.join(", "));
+if (!audioBytes) throw new Error("voice loop incomplete");
+
+await speech.unload();
 console.log("voice OK");

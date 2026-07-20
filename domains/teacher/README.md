@@ -24,6 +24,8 @@ The autonomous cognitive teacher: a long-term learning companion that tracks cog
 ## Start here
 
 - Runnable example: `examples/teacher-basic/`
+- CBSE syllabus slice (knowledge-pack authoring source): [`data/cbse-syllabus-slice.md`](data/cbse-syllabus-slice.md) → built pack `knowledge-packs/teacher-cbse-slice/`
+- CBSE-slice task-graph concepts: [`data/task-graph-concept-ids.json`](data/task-graph-concept-ids.json) → pack `packages/domain-loader/fixtures/packs/teacher-cbse-slice.json`
 - Interfaces to bind: [`interfaces.md`](interfaces.md)
 - Memory semantics: [`memory.md`](memory.md)
 - Tool pack: [`tools.md`](tools.md)

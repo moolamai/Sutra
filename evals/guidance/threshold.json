@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "guidance-eval.threshold.v1",
+  "title": "Guidance eval CI aggregate threshold",
+  "description": "Committed min suite mean score. Must be >= rubric.failBelow. Gate uses the production teacher-cbse-slice pack path (no inline demo graph).",
+  "minAggregateScore": 0.85,
+  "packId": "teacher-cbse-slice",
+  "packPath": "packages/domain-loader/fixtures/packs/teacher-cbse-slice.json",
+  "manifest": "teacher/manifest.json",
+  "tooling": {
+    "node": "22",
+    "pnpm": "10.30.3"
+  }
+}

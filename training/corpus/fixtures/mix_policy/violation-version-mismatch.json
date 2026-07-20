@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "training.corpus-manifest.v1",
+  "manifestId": "corpus.mix-policy.violation.version",
+  "version": "1.0.0",
+  "title": "Seeded mixPolicyVersion mismatch (promotion blocked)",
+  "consentClass": "synthetic",
+  "laneCodes": ["pack.teacher.cbse-slice"],
+  "knowledgeModes": ["UND"],
+  "sources": [
+    {
+      "sourceId": "src.teacher.protocol.a",
+      "relpath": "fixtures/sources/teacher-und-ratios.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:6e45343a5e2827d7e1f5cc787cff1aa3d7c2c9d57a8943f5861ef0fde5a80182",
+      "curriculumStage": "protocol"
+    },
+    {
+      "sourceId": "src.teacher.tool.b",
+      "relpath": "fixtures/sources/teacher-und-ratios.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:6e45343a5e2827d7e1f5cc787cff1aa3d7c2c9d57a8943f5861ef0fde5a80182",
+      "curriculumStage": "tool_use"
+    },
+    {
+      "sourceId": "src.teacher.depth.c",
+      "relpath": "fixtures/sources/teacher-und-ratios.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:6e45343a5e2827d7e1f5cc787cff1aa3d7c2c9d57a8943f5861ef0fde5a80182",
+      "curriculumStage": "domain_depth"
+    },
+    {
+      "sourceId": "src.teacher.repair.d",
+      "relpath": "fixtures/sources/teacher-und-ratios.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:6e45343a5e2827d7e1f5cc787cff1aa3d7c2c9d57a8943f5861ef0fde5a80182",
+      "curriculumStage": "repair"
+    },
+    {
+      "sourceId": "src.teacher.repair.e",
+      "relpath": "fixtures/sources/teacher-und-ratios.jsonl",
+      "licenseId": "lic.cc-by-4.0",
+      "knowledgeMode": "UND",
+      "laneCode": "pack.teacher.cbse-slice",
+      "contentHash": "sha256:6e45343a5e2827d7e1f5cc787cff1aa3d7c2c9d57a8943f5861ef0fde5a80182",
+      "curriculumStage": "repair"
+    }
+  ],
+  "filters": [
+    {
+      "filterId": "flt.exclude-unknown-license",
+      "kind": "exclude_unknown_license"
+    },
+    {
+      "filterId": "flt.exclude-ret-weights",
+      "kind": "exclude_ret_from_weights"
+    },
+    {
+      "filterId": "flt.exclude-eval-overlap",
+      "kind": "exclude_eval_overlap"
+    }
+  ],
+  "dedupReport": {
+    "status": "pending",
+    "algorithm": "sha256+fuzzy",
+    "fuzzyThreshold": 0.92,
+    "laneThresholds": {
+      "pack.teacher.cbse-slice": 0.92
+    }
+  },
+  "licenseLedger": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "spdxOrLabel": "CC-BY-4.0",
+      "licenseClass": "open"
+    }
+  ],
+  "weightTrainingPolicy": {
+    "excludeKnowledgeModes": ["RET"],
+    "requireKnownLicense": true
+  },
+  "determinism": {
+    "canonicalSort": true,
+    "contentAddressedShards": true,
+    "forbidWallClockInShardBytes": true
+  },
+  "mixPolicyVersion": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "curriculum": {
+    "schemaVersion": "training.pack-sft-curriculum.v1",
+    "stageOrder": ["protocol", "tool_use", "domain_depth", "repair"],
+    "repairHeavyTargetWeight": 0.5,
+    "stageCounts": {
+      "protocol": 1,
+      "tool_use": 1,
+      "domain_depth": 1,
+      "repair": 2
+    },
+    "stageWeights": {
+      "protocol": 0.16666666666666666,
+      "tool_use": 0.16666666666666666,
+      "domain_depth": 0.16666666666666666,
+      "repair": 0.5
+    },
+    "orderedSourceIds": [
+      "src.teacher.protocol.a",
+      "src.teacher.tool.b",
+      "src.teacher.depth.c",
+      "src.teacher.repair.d",
+      "src.teacher.repair.e"
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+# Transient prove-gate seed — never commit (restore deletes; safety net).
+.expected_signals.seed.json

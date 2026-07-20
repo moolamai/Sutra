@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-b9-001",
+  "turnId": "turn-b9-001",
+  "deviceId": "edge-aaaa",
+  "capturedAt": "2026-07-15T18:00:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T18:00:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "opCode": "tool.invoke",
+      "status": "ok"
+    }
+  ],
+  "toolCallIds": [
+    "tc-1"
+  ]
+}

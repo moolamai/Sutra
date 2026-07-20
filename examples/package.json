@@ -8,6 +8,11 @@
     "teacher-basic": "node teacher-basic/main.mjs",
     "lawyer-basic": "node lawyer-basic/main.mjs",
     "offline-edge": "node offline-edge/main.mjs",
+    "offline-edge:llamacpp": "node offline-edge/main-llamacpp.mjs",
+    "offline-edge:live": "node offline-edge/demo-live.mjs",
+    "offline-edge:live:check": "node offline-edge/main-live.mjs",
+    "offline-edge:speech": "node offline-edge/main-speech.mjs",
+    "offline-edge:vision": "node offline-edge/main-vision.mjs",
     "cloud-sync": "node cloud-sync/main.mjs",
     "memory": "node memory/main.mjs",
     "voice": "node voice/main.mjs",
@@ -17,6 +22,11 @@
     "test": "node teacher-basic/main.mjs && node lawyer-basic/main.mjs && node offline-edge/main.mjs && node cloud-sync/main.mjs && node memory/main.mjs && node voice/main.mjs && node vision/main.mjs && node tool-use/main.mjs && node custom-domain/main.mjs"
   },
   "dependencies": {
-    "@moolam/sdk": "workspace:*"
+    "sutra-bindings-knowledge": "workspace:*",
+    "sutra-bindings-slm": "workspace:*",
+    "sutra-bindings-speech": "workspace:*",
+    "sutra-bindings-vision": "workspace:*",
+    "@moolam/contract-mocks": "workspace:*",
+    "sutra-sdk": "workspace:*"
   }
 }

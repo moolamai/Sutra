@@ -1,0 +1,56 @@
+{
+  "name": "@moolam/contract-conformance",
+  "version": "1.1.0",
+  "private": false,
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. Standalone conformance CLI, obligation registry, and deadlined runner for executable @moolam/contracts MUST clauses.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/contract-conformance#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/contract-conformance"
+  },
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "conformance": "./bin/conformance.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "fixtures"
+  ],
+  "scripts": {
+    "fixtures:wire": "node scripts/generate-wire-fixtures.mjs",
+    "fixtures:kit": "node scripts/bundle-independence-kit.mjs",
+    "build": "pnpm run fixtures:wire && pnpm run fixtures:kit && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm exec turbo run build --filter=@moolam/contract-conformance --filter=@moolam/cognitive-core && node --test tests/registry.test.mjs tests/runner.test.mjs tests/report_cli.test.mjs tests/wire_shape.test.mjs tests/memory_obligations.test.mjs tests/reasoning_obligations.test.mjs tests/knowledge_obligations.test.mjs tests/tool_obligations.test.mjs tests/model_obligations.test.mjs tests/speech_obligations.test.mjs tests/vision_obligations.test.mjs tests/planning_obligations.test.mjs tests/cast_obligations.test.mjs tests/runtime_obligations.test.mjs tests/remaining_fixtures.test.mjs tests/locality_egress_harness.test.mjs tests/locality_policy.test.mjs dist/locality/redteam.test.js dist/locality/learning_paths.test.js tests/refusal_decline.test.mjs dist/refusals/scope_matrix.test.js tests/independence_kit.test.mjs ../cognitive-core/tests/write_ahead_conformance.test.mjs",
+    "prove:independence-kit": "node ../../scripts/prove-independence-kit.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  },
+  "dependencies": {
+    "@moolam/cognitive-core": "workspace:*",
+    "@moolam/contracts": "workspace:*",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "undici": "^7.28.0"
+  }
+}

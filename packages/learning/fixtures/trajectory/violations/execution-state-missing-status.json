@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-bad-exec",
+  "turnId": "turn-bad-exec",
+  "capturedAt": "2026-07-15T21:02:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T21:02:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "status": "aborted"
+    }
+  ],
+  "executionState": {
+    "commandExecuted": "tool.write"
+  }
+}

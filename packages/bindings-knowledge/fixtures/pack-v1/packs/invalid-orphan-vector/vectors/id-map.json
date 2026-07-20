@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "dimensions": 8,
+  "dtype": "float32",
+  "embeddingsRelpath": "vectors/embeddings.bin",
+  "entries": [
+    {
+      "passageId": "pass.linear-equations.intro",
+      "vectorIndex": 0
+    },
+    {
+      "passageId": "pass.does-not-exist-in-content",
+      "vectorIndex": 1
+    }
+  ]
+}

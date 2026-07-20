@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "guidance-eval.manifest.v1",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "description": "Initial teacher CBSE-slice guidance-eval golden corpus (≥8). Paths relative to scenarios/.",
+  "seedDefault": 42,
+  "scenarios": [
+    "teacher/advance-fractions-to-ratios.json",
+    "teacher/advance-ratios-to-equivalent.json",
+    "teacher/advance-proportion-to-unitary.json",
+    "teacher/remediate-ratios-to-fractions.json",
+    "teacher/remediate-weakest-equivalent.json",
+    "teacher/remediate-multi-weak-recurse.json",
+    "teacher/hold-mid-band-ratios.json",
+    "teacher/hold-hesitation-boundary.json",
+    "teacher/spike-strong-prereq-hold.json",
+    "teacher/unknown-concept-quarantine.json"
+  ]
+}

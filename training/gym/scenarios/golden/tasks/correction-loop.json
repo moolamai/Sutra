@@ -1,0 +1,36 @@
+{
+  "correlationId": "corr-gt-03",
+  "coverage": [
+    "correction_loop",
+    "tool_call_fence",
+    "thought_delta",
+    "advisory_attach",
+    "turn_complete"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedOutcomes": [
+    {
+      "checkId": "oracle.golden.correction-loop.frame_sequence.identity",
+      "frameCount": 8,
+      "kind": "frame_sequence",
+      "verifiable": true
+    },
+    {
+      "checkId": "oracle.golden.correction-loop.frame_sequence.terminal",
+      "expected": "TURN_COMPLETE",
+      "kind": "terminal_frame",
+      "verifiable": true
+    }
+  ],
+  "expectedTerminalFrame": "TURN_COMPLETE",
+  "frameCount": 8,
+  "locality": "on-device",
+  "oracleCheckId": "oracle.golden.correction-loop.frame_sequence",
+  "pinnedAt": "2026-07-15T00:00:00.000Z",
+  "scenarioId": "correction-loop",
+  "schemaVersion": "gym-golden-episode.v1",
+  "sourceId": "correction-loop",
+  "sourceKind": "a_p6_golden",
+  "sourceRelPath": "packages/runtime-harness/fixtures/golden-turns/correction-loop.json",
+  "subjectId": "anika-k"
+}

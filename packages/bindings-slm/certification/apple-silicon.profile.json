@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "bindings-slm.cert-profile.v1",
+  "profileId": "apple-silicon",
+  "adapter": "mlx",
+  "description": "Apple silicon (macOS/arm64) certification for MlxSlmRuntime: B0 model suite, B1 zero-egress, P4-relative first_token floor, Intel unsupported-platform refuse, deadline abort. Uses in-process Metal stand-in in CI; native MLX/Metal on device.",
+  "hardware": {
+    "class": "apple-silicon",
+    "gpuRequired": false,
+    "quantPolicy": "MLX q4/q8 Metal-backed weights; see macos/device-profiles/apple-silicon.json",
+    "arch": "arm64",
+    "platform": "darwin",
+    "deviceProfileRelpath": "macos/device-profiles/apple-silicon.json"
+  },
+  "modelArtifact": {
+    "name": "phi-mlx-mini-apple",
+    "format": "mlx",
+    "quantization": "q4",
+    "fixtureRelpath": "macos/fixtures/apple-silicon-minimal.mlx",
+    "artifactSha256": "623a0021bb8c6ca604e930e5d69bd1d4256a29fa976efffd9c7fe14a5fc94700",
+    "mlxPinnedRevision": "0.22.0"
+  },
+  "obligations": {
+    "b0Model": ["CK-03.1", "CK-03.2", "CK-03.3"],
+    "b1Locality": {
+      "harness": "egress-recorder",
+      "zeroEgressOps": ["generate", "embed"],
+      "obligationId": "CK-03.3",
+      "policyId": "sovereign-default"
+    }
+  },
+  "benches": {
+    "subset": ["first_token", "core_loop"],
+    "gates": {
+      "first_token": {
+        "metricId": "first_token",
+        "nfrId": "NFR-01",
+        "budgetP95Ms": 1500,
+        "policy": "relative-vs-profile-floor",
+        "floorP95Ms": 50,
+        "notes": "P4-relative: CI in-process Metal stand-in asserts first stream delta under floorP95Ms; native Metal may raise floor in recorded baseline."
+      },
+      "core_loop": {
+        "benchId": "core_loop",
+        "nfrId": "NFR-06",
+        "policy": "absolute-ceiling-plus-relative-baseline",
+        "thresholdsRelpath": "benchmarks/gates/thresholds.json",
+        "baselineRelpath": "benchmarks/gates/baseline.json"
+      }
+    }
+  },
+  "platformRefuse": {
+    "intelProbe": { "platform": "darwin", "arch": "x64" },
+    "expectUnsupportedPlatform": true
+  },
+  "deadlineAbort": {
+    "requireFinishReasonDeadline": true
+  },
+  "subjectId": "cert.apple.mlx",
+  "deviceId": "ci-apple-silicon",
+  "segfaultRetry": {
+    "maxAttempts": 2,
+    "matchClasses": ["segfault", "SIGSEGV", "native crash"]
+  },
+  "observability": {
+    "event": "bindings_slm.certify",
+    "emitContentBodies": false
+  },
+  "reportArtifact": {
+    "schemaVersion": "bindings-slm.cert-report.v1",
+    "ciRelpath": "artifacts/mlx-apple-silicon-cert/apple-silicon.cert.json",
+    "committedRelpath": "macos/certification/reports/apple-silicon.cert.json",
+    "contains": [
+      "obligationVerdicts",
+      "egressRecord",
+      "p95Benches",
+      "platformRefuse",
+      "deadlineAbort",
+      "modelArtifactSha256",
+      "mlxPinnedRevision"
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "bindings-speech.speech-cert.report.v1",
+  "profileId": "indic-speech-ci",
+  "outcome": "pass",
+  "subjectId": "cert.speech.indic",
+  "deviceId": "ci-speech-ubuntu",
+  "exitCode": 0,
+  "bindings": [
+    {
+      "binding": "stt",
+      "engine": "whisper.cpp-class",
+      "outcome": "pass",
+      "exitCode": 0,
+      "passed": 2,
+      "failed": 0,
+      "verdicts": [
+        {
+          "obligationId": "CK-05.1",
+          "outcome": "pass",
+          "mustText": "`transcribe` MUST stream partial segments (`isFinal: false`) so the agent can begin reasoning before the utterance completes."
+        },
+        {
+          "obligationId": "CK-05.2",
+          "outcome": "pass",
+          "mustText": "Implementations MUST declare supported languages; the core routes unsupported languages to fallback providers rather than failing."
+        }
+      ]
+    },
+    {
+      "binding": "tts",
+      "engine": "local-tts-v1",
+      "outcome": "pass",
+      "exitCode": 0,
+      "passed": 2,
+      "failed": 0,
+      "verdicts": [
+        {
+          "obligationId": "CK-05.1",
+          "outcome": "pass",
+          "mustText": "`transcribe` MUST stream partial segments (`isFinal: false`) so the agent can begin reasoning before the utterance completes."
+        },
+        {
+          "obligationId": "CK-05.2",
+          "outcome": "pass",
+          "mustText": "Implementations MUST declare supported languages; the core routes unsupported languages to fallback providers rather than failing."
+        }
+      ]
+    }
+  ],
+  "indicFixtures": {
+    "outcome": "pass",
+    "utteranceCount": 6,
+    "failures": []
+  },
+  "voiceRtt": {
+    "nfrId": "NFR-07",
+    "metric": "final_transcript_to_first_audio",
+    "outcome": "pass",
+    "ok": true,
+    "measuredP95Ms": 6.531300000000556,
+    "budgetP95Ms": 2500,
+    "baselineP95Ms": 80,
+    "allowedRelativeP95Ms": 160,
+    "absoluteOk": true,
+    "relativeOk": true,
+    "sampleCount": 6,
+    "samplesMs": [
+      4.554,
+      5.268,
+      6.531,
+      5.093,
+      4.944,
+      5.051
+    ],
+    "deviceProfileId": "android-mid-range-voice",
+    "subjectId": "cert.speech.indic.voiceRtt",
+    "deviceId": "ci-speech-ubuntu",
+    "clock": "performance.now",
+    "failures": [],
+    "policy": "absolute-ceiling-plus-relative-baseline"
+  },
+  "failures": [],
+  "telemetry": {
+    "event": "bindings_speech.speech_cert",
+    "subjectId": "cert.speech.indic",
+    "deviceId": "ci-speech-ubuntu",
+    "outcome": "pass",
+    "bindingCount": 2,
+    "fixtureCount": 6,
+    "voiceRttOk": true
+  }
+}

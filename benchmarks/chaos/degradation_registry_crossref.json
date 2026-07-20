@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0",
+  "docPath": "docs/protocol/DEGRADATION-DRILL-CROSSREF.md",
+  "registryFixture": "packages/sync-protocol/fixtures/degradation-registry/default-registry.json",
+  "allowsFabrication": false,
+  "allowsSilentWriteRetry": false,
+  "rows": [
+    {
+      "id": "sync_read_stale",
+      "failureMode": "sync_transport_down_read",
+      "surface": "sync",
+      "operation": "read",
+      "registryMode": "STALE_READ",
+      "signalCode": "DEGRADE_STALE_READ",
+      "requiresFreshnessMarker": true,
+      "drillKind": "harness",
+      "drillPath": "packages/runtime-harness/test/degradation_drills/sync_down.test.mjs",
+      "verify": "registry_binding"
+    },
+    {
+      "id": "sync_write_hard_stop",
+      "failureMode": "sync_transport_down_write",
+      "surface": "sync",
+      "operation": "write",
+      "registryMode": "HARD_STOP_WRITE",
+      "signalCode": "DEGRADE_HARD_STOP_WRITE",
+      "requiresFreshnessMarker": false,
+      "drillKind": "harness",
+      "drillPath": "packages/runtime-harness/test/degradation_drills/sync_down.test.mjs",
+      "verify": "registry_binding"
+    },
+    {
+      "id": "storage_read_stale",
+      "failureMode": "storage_down_read",
+      "surface": "storage",
+      "operation": "read",
+      "registryMode": "STALE_READ",
+      "signalCode": "DEGRADE_STALE_READ",
+      "requiresFreshnessMarker": true,
+      "drillKind": "harness",
+      "drillPath": "packages/runtime-harness/test/degradation_drills/registry_alignment_gate.mjs",
+      "verify": "registry_binding"
+    },
+    {
+      "id": "storage_write_hard_stop",
+      "failureMode": "storage_down_write",
+      "surface": "storage",
+      "operation": "write",
+      "registryMode": "HARD_STOP_WRITE",
+      "signalCode": "DEGRADE_HARD_STOP_WRITE",
+      "requiresFreshnessMarker": false,
+      "drillKind": "harness",
+      "drillPath": "packages/runtime-harness/test/degradation_drills/registry_alignment_gate.mjs",
+      "verify": "registry_binding"
+    },
+    {
+      "id": "model_read_queue",
+      "failureMode": "model_provider_unavailable_read",
+      "surface": "model",
+      "operation": "read",
+      "registryMode": "QUEUE_AND_WARN",
+      "signalCode": "DEGRADE_QUEUE_AND_WARN",
+      "requiresFreshnessMarker": false,
+      "drillKind": "harness",
+      "drillPath": "packages/runtime-harness/test/degradation_drills/model_down.test.mjs",
+      "verify": "registry_binding"
+    },
+    {
+      "id": "model_write_hard_stop",
+      "failureMode": "model_provider_unavailable_write",
+      "surface": "model",
+      "operation": "write",
+      "registryMode": "HARD_STOP_WRITE",
+      "signalCode": "DEGRADE_HARD_STOP_WRITE",
+      "requiresFreshnessMarker": false,
+      "drillKind": "harness",
+      "drillPath": "packages/runtime-harness/test/degradation_drills/model_down.test.mjs",
+      "verify": "registry_binding"
+    },
+    {
+      "id": "cloud_llm_timeout_atr05",
+      "failureMode": "cloud_llm_provider_timeout",
+      "surface": "model",
+      "operation": "read",
+      "registryMode": "STALE_READ",
+      "signalCode": "DEGRADE_STALE_READ",
+      "freshnessSource": "last-known-good",
+      "requiresFreshnessMarker": true,
+      "drillKind": "chaos",
+      "drill": "cloud_llm_down",
+      "drillMode": "turn",
+      "drillPath": "benchmarks/chaos/degradation_drills.mjs",
+      "verify": "chaos_drill",
+      "expected": {
+        "degraded": true,
+        "freshnessSource": "last-known-good",
+        "replyStartsWithGuide": true,
+        "fabricated": false,
+        "httpStatus": 200
+      }
+    },
+    {
+      "id": "edge_slm_missing_weights",
+      "failureMode": "edge_slm_missing_weights",
+      "failureClass": "missing_weights",
+      "obligationId": "EDGE.SLM_LOAD",
+      "drillKind": "chaos",
+      "drill": "edge_slm_failure",
+      "drillMode": "missing",
+      "drillPath": "benchmarks/chaos/degradation_drills.mjs",
+      "verify": "chaos_drill",
+      "expected": {
+        "failureClass": "missing_weights",
+        "crashLoop": false,
+        "telemetryEmitted": true,
+        "fabricated": false,
+        "loadAttempts": 1
+      }
+    },
+    {
+      "id": "edge_slm_corrupt_weights",
+      "failureMode": "edge_slm_corrupt_weights",
+      "failureClass": "corrupt_weights",
+      "obligationId": "EDGE.SLM_LOAD",
+      "drillKind": "chaos",
+      "drill": "edge_slm_failure",
+      "drillMode": "corrupt",
+      "drillPath": "benchmarks/chaos/degradation_drills.mjs",
+      "verify": "chaos_drill",
+      "expected": {
+        "failureClass": "corrupt_weights",
+        "crashLoop": false,
+        "telemetryEmitted": true,
+        "fabricated": false,
+        "loadAttempts": 3
+      }
+    }
+  ]
+}

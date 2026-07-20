@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/training.shard-provenance.v1.json",
+  "title": "Training shard provenance and license ledger",
+  "description": "Per-shard provenance is authoritative. Corpus-level aggregates are derived. Unknown licenseClass or unresolvable licenseId is excluded — never defaulted.",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/$defs/shardProvenance" },
+    { "$ref": "#/$defs/licenseLedgerDocument" },
+    { "$ref": "#/$defs/licenseCatalogEntry" }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "consentClass": {
+      "type": "string",
+      "enum": ["consented", "public", "synthetic", "government"],
+      "description": "Consent tier for the shard. Consented subject data never mixes with public corpora in the same shard."
+    },
+    "licenseClass": {
+      "type": "string",
+      "enum": ["open", "restricted", "government", "proprietary"],
+      "description": "Resolved license class. The value unknown is forbidden — unknown licenses are excluded at validation."
+    },
+    "locality": {
+      "type": "string",
+      "enum": ["on-device", "self-hosted"]
+    },
+    "licenseCatalogEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["licenseId", "licenseClass", "spdxOrLabel"],
+      "properties": {
+        "licenseId": { "$ref": "#/$defs/id" },
+        "licenseClass": { "$ref": "#/$defs/licenseClass" },
+        "spdxOrLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": { "$ref": "#/$defs/path" }
+      }
+    },
+    "shardProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "shardId",
+        "sourceId",
+        "licenseId",
+        "licenseClass",
+        "consentClass",
+        "syntheticFlag",
+        "governmentFlag"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "training.shard-provenance.v1"
+        },
+        "shardId": {
+          "$ref": "#/$defs/id",
+          "description": "Content-addressed or stable shard identity."
+        },
+        "sourceId": {
+          "$ref": "#/$defs/id",
+          "description": "Corpus source that produced this shard."
+        },
+        "licenseId": {
+          "$ref": "#/$defs/id",
+          "description": "Must resolve in the license catalog. Unknown → exclude."
+        },
+        "licenseClass": { "$ref": "#/$defs/licenseClass" },
+        "consentClass": { "$ref": "#/$defs/consentClass" },
+        "syntheticFlag": {
+          "type": "boolean",
+          "description": "True iff consentClass is synthetic."
+        },
+        "governmentFlag": {
+          "type": "boolean",
+          "description": "True iff consentClass is government."
+        },
+        "locality": { "$ref": "#/$defs/locality" },
+        "laneCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        }
+      }
+    },
+    "licenseLedgerDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "entries", "catalog"],
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "training.license-ledger.v1"
+        },
+        "manifestId": { "$ref": "#/$defs/id" },
+        "catalog": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "items": { "$ref": "#/$defs/licenseCatalogEntry" },
+          "description": "Resolvable licenses. Missing licenseId on a shard → exclude."
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 8192,
+          "items": { "$ref": "#/$defs/shardProvenance" },
+          "description": "Authoritative per-shard provenance records (not a corpus aggregate). All entries in one ledger share a single consentClass — consented vs public mix is blocked."
+        }
+      }
+    },
+    "buildLedgerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Build-report reference from a corpus manifest build to its emitted license ledger.",
+      "required": ["manifestId", "licenseLedgerHash", "licenseLedgerRelpath"],
+      "properties": {
+        "manifestId": { "$ref": "#/$defs/id" },
+        "licenseLedgerHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "licenseLedgerRelpath": {
+          "type": "string",
+          "const": "license-ledger.json"
+        },
+        "excludedShards": {
+          "type": "array",
+          "maxItems": 8192,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sourceId", "reason"],
+            "properties": {
+              "sourceId": { "$ref": "#/$defs/id" },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "unknown_license",
+                  "ret_excluded_from_weights",
+                  "empty_after_dedup",
+                  "unresolvable_license_class"
+                ]
+              },
+              "licenseId": { "$ref": "#/$defs/id" },
+              "detail": { "type": "string", "maxLength": 512 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

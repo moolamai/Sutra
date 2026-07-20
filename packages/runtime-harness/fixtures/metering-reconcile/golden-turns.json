@@ -1,0 +1,251 @@
+{
+  "cases": [
+    {
+      "aP6GoldenTurnId": "meter-tick",
+      "aborted": false,
+      "deviceId": "edge-aaaa",
+      "expected": {
+        "aborted": false,
+        "discrepancy": false,
+        "events": [
+          {
+            "aborted": false,
+            "cachedInputTokens": 2,
+            "inputTokens": 12,
+            "latencyMs": 35,
+            "locality": "on-device",
+            "modelId": "slm-local",
+            "outputTokens": 4
+          }
+        ],
+        "reconcileOk": true,
+        "totalPromptTokens": 14
+      },
+      "id": "complete-match",
+      "latencyMs": 35,
+      "locality": "on-device",
+      "modelId": "slm-local",
+      "providerUsage": {
+        "cachedInputTokens": 2,
+        "inputTokens": 12,
+        "outputTokens": 4
+      },
+      "records": [
+        {
+          "cachedInputTokens": 2,
+          "freshInputTokens": 12,
+          "outputTokens": 4,
+          "totalPromptTokens": 14
+        }
+      ],
+      "sessionId": "sess-1",
+      "startedAtMs": 1000,
+      "subjectId": "anika-k",
+      "tokenTolerance": {
+        "cachedInputTokens": 0,
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    },
+    {
+      "aborted": false,
+      "deviceId": "edge-aaaa",
+      "expected": {
+        "aborted": false,
+        "discrepancy": false,
+        "events": [
+          {
+            "aborted": false,
+            "cachedInputTokens": 48,
+            "inputTokens": 0,
+            "latencyMs": 10,
+            "locality": "on-device",
+            "modelId": "slm-local",
+            "outputTokens": 0
+          }
+        ],
+        "reconcileOk": true,
+        "totalPromptTokens": 48
+      },
+      "id": "cache-hit-only",
+      "latencyMs": 10,
+      "locality": "on-device",
+      "modelId": "slm-local",
+      "providerUsage": {
+        "cachedInputTokens": 48,
+        "inputTokens": 0,
+        "outputTokens": 0
+      },
+      "records": [
+        {
+          "cachedInputTokens": 48,
+          "freshInputTokens": 0,
+          "outputTokens": 0,
+          "totalPromptTokens": 48
+        }
+      ],
+      "startedAtMs": 2000,
+      "subjectId": "anika-k",
+      "tokenTolerance": {
+        "cachedInputTokens": 0,
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    },
+    {
+      "aborted": true,
+      "deviceId": "edge-aaaa",
+      "expected": {
+        "aborted": true,
+        "discrepancy": false,
+        "events": [
+          {
+            "aborted": true,
+            "cachedInputTokens": 0,
+            "inputTokens": 8,
+            "latencyMs": 12,
+            "locality": "on-device",
+            "modelId": "slm-local",
+            "outputTokens": 1
+          }
+        ],
+        "reconcileOk": true,
+        "totalPromptTokens": 8
+      },
+      "id": "aborted-partial",
+      "latencyMs": 12,
+      "locality": "on-device",
+      "modelId": "slm-local",
+      "providerUsage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 8,
+        "outputTokens": 1
+      },
+      "records": [
+        {
+          "cachedInputTokens": 0,
+          "freshInputTokens": 8,
+          "outputTokens": 1
+        }
+      ],
+      "startedAtMs": 3000,
+      "subjectId": "anika-k",
+      "tokenTolerance": {
+        "cachedInputTokens": 0,
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    },
+    {
+      "aborted": false,
+      "deviceId": "edge-aaaa",
+      "expected": {
+        "aborted": false,
+        "discrepancy": false,
+        "events": [
+          {
+            "aborted": false,
+            "cachedInputTokens": 5,
+            "inputTokens": 10,
+            "latencyMs": 40,
+            "locality": "on-device",
+            "modelId": "edge-slm",
+            "outputTokens": 2
+          },
+          {
+            "aborted": false,
+            "cachedInputTokens": 0,
+            "inputTokens": 3,
+            "latencyMs": 40,
+            "locality": "external-api",
+            "modelId": "cloud-handoff",
+            "outputTokens": 6
+          }
+        ],
+        "reconcileOk": true,
+        "totalPromptTokens": 18
+      },
+      "id": "multi-model-handoff",
+      "latencyMs": 40,
+      "locality": "on-device",
+      "modelId": "edge-slm",
+      "providerUsage": {
+        "cachedInputTokens": 5,
+        "inputTokens": 13,
+        "outputTokens": 8
+      },
+      "records": [
+        {
+          "cachedInputTokens": 5,
+          "freshInputTokens": 10,
+          "outputTokens": 2
+        },
+        {
+          "freshInputTokens": 3,
+          "locality": "external-api",
+          "modelId": "cloud-handoff",
+          "outputTokens": 6
+        }
+      ],
+      "startedAtMs": 4000,
+      "subjectId": "anika-k",
+      "tokenTolerance": {
+        "cachedInputTokens": 0,
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    },
+    {
+      "aborted": false,
+      "deviceId": "edge-aaaa",
+      "expected": {
+        "aborted": false,
+        "discrepancy": true,
+        "events": [
+          {
+            "aborted": false,
+            "cachedInputTokens": 2,
+            "inputTokens": 12,
+            "latencyMs": 20,
+            "locality": "on-device",
+            "modelId": "slm-local",
+            "outputTokens": 4
+          }
+        ],
+        "reconcileOk": false,
+        "totalPromptTokens": 14
+      },
+      "id": "provider-discrepancy",
+      "latencyMs": 20,
+      "locality": "on-device",
+      "modelId": "slm-local",
+      "providerUsage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 15,
+        "outputTokens": 4
+      },
+      "records": [
+        {
+          "cachedInputTokens": 2,
+          "freshInputTokens": 12,
+          "outputTokens": 4,
+          "totalPromptTokens": 14
+        }
+      ],
+      "startedAtMs": 5000,
+      "subjectId": "anika-k",
+      "tokenTolerance": {
+        "cachedInputTokens": 0,
+        "inputTokens": 0,
+        "outputTokens": 0
+      }
+    }
+  ],
+  "description": "B5 golden-turn metering reconciliation — local TurnMeter vs provider-reported usage. Token channels stay distinct; cached + fresh equals totalPromptTokens.",
+  "tolerancePolicy": "exact-field-wise-match",
+  "tokenTolerance": {
+    "cachedInputTokens": 0,
+    "inputTokens": 0,
+    "outputTokens": 0
+  }
+}

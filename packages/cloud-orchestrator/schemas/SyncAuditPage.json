@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "def_7870904d37c7": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CLOCK_SKEW_CLAMPED",
+            "DEPRECATED_FIELD_PRESENT",
+            "DUPLICATE_SAMPLE_DROPPED",
+            "STATE_VECTOR_REGRESSION",
+            "UNKNOWN_CONCEPT_QUARANTINED"
+          ],
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "detail"
+      ],
+      "type": "object"
+    },
+    "def_877fa2e11e78": {
+      "properties": {
+        "advisories": {
+          "items": {
+            "$ref": "#/$defs/def_7870904d37c7"
+          },
+          "type": "array"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "deviceId": {
+          "minLength": 4,
+          "type": "string"
+        },
+        "protocolVersion": {
+          "const": "1.0.0",
+          "type": "string"
+        },
+        "stateVectorAfter": {
+          "additionalProperties": {
+            "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "stateVectorBefore": {
+          "additionalProperties": {
+            "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "syncAttemptId": {
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "advisories",
+        "createdAt",
+        "deviceId",
+        "protocolVersion",
+        "stateVectorAfter",
+        "stateVectorBefore",
+        "subjectId",
+        "syncAttemptId"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/def_877fa2e11e78"
+      },
+      "type": "array"
+    },
+    "nextCursor": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "subjectId": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "items",
+    "subjectId"
+  ],
+  "title": "SyncAuditPage",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

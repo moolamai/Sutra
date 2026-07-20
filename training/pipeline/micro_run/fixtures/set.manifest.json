@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "micro-run.fixture-set.v1",
+  "setId": "c4.micro-run.v1",
+  "title": "C4 micro-run fixture set — pinned tiny model, C1 corpus slice, C2 gym scenarios",
+  "subjectId": "subj.micro.run",
+  "deviceId": "dev.micro.run",
+  "locality": "on-device",
+  "requiresGpu": false,
+  "allowsNetworkFetch": false,
+  "pinnedAt": "2026-07-16T00:00:00.000Z",
+  "model": {
+    "relpath": "model/slm-stub.json",
+    "contentHash": "sha256:cfea3a74941a34a4bbb09944fd2c05833c0e4dda0bb1bc964b81c7d2f94e6dfd"
+  },
+  "corpus": {
+    "manifestRelpath": "corpus/manifest.json",
+    "manifestContentHash": "sha256:5efb5ac4700f28526d51308ceffe4ed62da469bd5e14510d8e7ab03120534809",
+    "examplesRelpath": "corpus/examples.json",
+    "examplesContentHash": "sha256:048b9c3f3fa94e1a301fb3bf97ed7dfe11a577916ea1b020a1719ced45ceff10",
+    "sourceRelpath": "corpus/sources/micro-und.jsonl",
+    "sourceContentHash": "sha256:e69bbce3350535a6b3bb08d335a9ae9132550b8c0ccd229b84b0375dca2f2fa4"
+  },
+  "gym": {
+    "scenariosRelpath": "gym/scenarios.json",
+    "scenariosContentHash": "sha256:a16a63399f087895803d3b210369a5abea4ecd8c99c84c636b7c3ffefef73c57",
+    "scenarioCountMin": 2,
+    "scenarioCountMax": 3,
+    "taskPins": [
+      {
+        "scenarioId": "thought-answer-micro",
+        "relpath": "gym/tasks/thought-answer-micro.json",
+        "contentHash": "sha256:377066378105aba8de2941f26c7a27ae5bcda7d337e6443eeb5644ed349779b9"
+      },
+      {
+        "scenarioId": "tool-call-micro",
+        "relpath": "gym/tasks/tool-call-micro.json",
+        "contentHash": "sha256:47841bc8ec21fe4d3d45a8aa003c087c8839a9ec5266fc997cd5d48543b532eb"
+      },
+      {
+        "scenarioId": "correction-micro",
+        "relpath": "gym/tasks/correction-micro.json",
+        "contentHash": "sha256:6fb893ea5a06dad5e62eadc8ab068e77b05d056ec7af95963e91a3f3875f2d69"
+      }
+    ]
+  },
+  "stages": ["model", "corpus", "gym", "lineage"]
+}

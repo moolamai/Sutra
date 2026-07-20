@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "offline.batch.config.v1",
+  "b9ExportPath": "var/b9-exports",
+  "allowedConsentClasses": ["research", "product-improve"],
+  "minTrajectoryCount": 100,
+  "maxScanFiles": 2000,
+  "wallClockMs": 300000,
+  "trainingWallClockMs": 300000,
+  "maxTrainingSteps": 8,
+  "queueMaxDepth": 2048,
+  "locality": "on-device"
+}

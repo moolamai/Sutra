@@ -1,0 +1,18 @@
+{
+  "id": "abort-without-accept",
+  "subjectId": "anika-k",
+  "turnId": "turn-outcome-abort",
+  "sessionId": "sess-outcome-e2e",
+  "deviceId": "edge-aaaa",
+  "path": "abort",
+  "expectedSignal": "DISCARDED",
+  "abandonmentKind": "abort_without_accept",
+  "executionState": {
+    "commandExecuted": "tool.write",
+    "statusCode": "aborted"
+  },
+  "streamFrames": ["SESSION_START", "TOKEN_DELTA"],
+  "expectPreAbortFrames": true,
+  "expectedPreAbortFrameTypes": ["SESSION_START", "TOKEN_DELTA"],
+  "locality": "self-hosted"
+}

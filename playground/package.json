@@ -8,9 +8,11 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test": "pnpm --filter @moolam/domain-loader run build && node --test tests/engine_task_graph.test.mjs tests/teacher_route_parity.test.mjs tests/coldstart_parity.test.mjs",
     "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\""
   },
   "dependencies": {
+    "@moolam/domain-loader": "workspace:*",
     "@moolam/sync-protocol": "workspace:*",
     "geist": "^1.4.0",
     "next": "^15.3.0",

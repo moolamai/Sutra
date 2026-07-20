@@ -1,0 +1,139 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "c.1": {
+        "alpha": {
+          "dev-a": 1,
+          "dev-b": 1
+        },
+        "beta": {
+          "dev-a": 1,
+          "dev-b": 1
+        },
+        "conceptId": "c.1",
+        "lastExercisedAt": "000000000000090:000000:dev-b"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-lex"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "c.1": {
+        "alpha": {
+          "dev-a": 1,
+          "dev-b": 1
+        },
+        "beta": {
+          "dev-a": 1,
+          "dev-b": 1
+        },
+        "conceptId": "c.1",
+        "lastExercisedAt": "000000000000090:000000:dev-b"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-lex"
+  },
+  "id": "12-lww-last-exercised-at",
+  "kind": "lww-equal-hlc",
+  "note": "Mastery lastExercisedAt LWW under HLC order",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "c.1": {
+        "alpha": {
+          "dev-a": 1
+        },
+        "beta": {
+          "dev-a": 1
+        },
+        "conceptId": "c.1",
+        "lastExercisedAt": "000000000000050:000000:dev-a"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-lex"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {
+      "c.1": {
+        "alpha": {
+          "dev-b": 1
+        },
+        "beta": {
+          "dev-b": 1
+        },
+        "conceptId": "c.1",
+        "lastExercisedAt": "000000000000090:000000:dev-b"
+      }
+    },
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-lex"
+  },
+  "subjectId": "subj-lex"
+}

@@ -1,0 +1,84 @@
+{
+  "correlationId": "corr-gt-03",
+  "coverage": [
+    "correction_loop",
+    "tool_call_fence",
+    "thought_delta",
+    "advisory_attach",
+    "turn_complete"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedFrames": [
+    {
+      "correlationId": "corr-gt-03",
+      "pinnedAt": "2026-07-15T00:00:00.000Z",
+      "protocolVersion": "1.0.0",
+      "sequenceIndex": 0,
+      "subjectId": "anika-k",
+      "type": "SESSION_START"
+    },
+    {
+      "correlationId": "corr-gt-03",
+      "sequenceIndex": 1,
+      "status": "error",
+      "subjectId": "anika-k",
+      "toolCallId": "c1",
+      "type": "TOOL_STATUS"
+    },
+    {
+      "correlationId": "corr-gt-03",
+      "delta": "repair tool envelope…",
+      "sequenceIndex": 2,
+      "subjectId": "anika-k",
+      "type": "THOUGHT_DELTA"
+    },
+    {
+      "correlationId": "corr-gt-03",
+      "sequenceIndex": 3,
+      "status": "running",
+      "subjectId": "anika-k",
+      "toolCallId": "c1",
+      "type": "TOOL_STATUS"
+    },
+    {
+      "correlationId": "corr-gt-03",
+      "sequenceIndex": 4,
+      "status": "success",
+      "subjectId": "anika-k",
+      "toolCallId": "c1",
+      "type": "TOOL_STATUS"
+    },
+    {
+      "correlationId": "corr-gt-03",
+      "delta": "Corrected after repair.",
+      "sequenceIndex": 5,
+      "subjectId": "anika-k",
+      "type": "ANSWER_DELTA"
+    },
+    {
+      "advisory": {
+        "code": "CLOCK_SKEW_CLAMPED",
+        "detail": "clamped remote physical"
+      },
+      "correlationId": "corr-gt-03",
+      "sequenceIndex": 6,
+      "subjectId": "anika-k",
+      "type": "ADVISORY_ATTACH"
+    },
+    {
+      "correlationId": "corr-gt-03",
+      "sequenceIndex": 7,
+      "subjectId": "anika-k",
+      "turnId": "turn-gt-03",
+      "type": "TURN_COMPLETE"
+    }
+  ],
+  "id": "correction-loop",
+  "input": [
+    "```tool_call\nnot-json\n```",
+    "<thought>repair tool envelope…</thought>",
+    "```tool_call\n{\"toolName\":\"lookup\",\"arguments\":{\"query\":\"ratio\"},\"callId\":\"c1\"}\n```",
+    "Corrected after repair."
+  ],
+  "subjectId": "anika-k"
+}

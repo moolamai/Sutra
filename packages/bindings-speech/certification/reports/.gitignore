@@ -1,0 +1,2 @@
+# Ignore intermediate prove artifacts; keep the green committed report.
+packages/bindings-speech/certification/reports/prove.*.json

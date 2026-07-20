@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "bindings-slm.certification.report.v1",
+  "recordedAt": "2026-07-19T20:54:24.797Z",
+  "event": "bindings_slm.certify",
+  "outcome": "pass",
+  "profileId": "desktop",
+  "adapter": "llamacpp",
+  "subjectId": "cert.desktop.llamacpp",
+  "deviceId": "ci-desktop-cpu",
+  "modelArtifactSha256": "f1ae43bcd01bb341ebe4159b0dd0f5ca6742d7a3680b65d3469a5b9af04d02b9",
+  "measuredArtifactSha256": "f1ae43bcd01bb341ebe4159b0dd0f5ca6742d7a3680b65d3469a5b9af04d02b9",
+  "deadlineMs": 5000,
+  "phaseOrder": [
+    "artifact",
+    "b0",
+    "b1",
+    "p4"
+  ],
+  "phases": [
+    {
+      "phase": "artifact",
+      "ok": true,
+      "durationMs": 1.1885999999994965
+    },
+    {
+      "phase": "b0",
+      "ok": true,
+      "durationMs": 407.6779000000006
+    },
+    {
+      "phase": "b1",
+      "ok": true,
+      "durationMs": 138.1822000000011
+    },
+    {
+      "phase": "p4",
+      "ok": true,
+      "durationMs": 4.649699999999939
+    }
+  ],
+  "obligationVerdicts": [
+    {
+      "obligationId": "CK-03.1",
+      "outcome": "pass"
+    },
+    {
+      "obligationId": "CK-03.2",
+      "outcome": "pass"
+    },
+    {
+      "obligationId": "CK-03.3",
+      "outcome": "pass"
+    }
+  ],
+  "egressRecord": {
+    "ok": true,
+    "attemptCount": 0,
+    "zeroEgressOps": [
+      "generate",
+      "embed"
+    ],
+    "obligationId": "CK-03.3"
+  },
+  "p95Benches": {
+    "first_token": {
+      "nfrId": "NFR-01",
+      "measuredMs": 0.7960999999995693,
+      "budgetP95Ms": 1500,
+      "floorP95Ms": 50,
+      "ok": true
+    },
+    "core_loop": {
+      "nfrId": "NFR-06",
+      "configured": true,
+      "policy": "absolute-ceiling-plus-relative-baseline",
+      "ok": true
+    }
+  },
+  "failures": []
+}

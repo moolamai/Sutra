@@ -1,0 +1,45 @@
+{
+  "name": "@moolam/domain-loader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Task-graph pack format (v1 schema) and validators — domain intelligence as data for TaskRouter / playground.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    },
+    "./schemas/task-graph-v1.json": "./schemas/task-graph-v1.json",
+    "./fixtures/packs/demo-math-sd-slice.json": "./fixtures/packs/demo-math-sd-slice.json",
+    "./fixtures/packs/teacher-cbse-slice.json": "./fixtures/packs/teacher-cbse-slice.json"
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "fixtures"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/task_graph_schema.test.mjs tests/validate_graph.test.mjs tests/validate_graph_dag.test.mjs tests/golden_packs.test.mjs tests/load_graph.test.mjs tests/load_graph_parity.test.mjs tests/hydrate_graph.test.mjs tests/teacher_cbse_slice_pack.test.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

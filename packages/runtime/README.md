@@ -8,25 +8,40 @@ Reference in-process implementations of the runtime contracts: the execution env
 |---|---|---|
 | `src/lifecycle.ts` | `RuntimeHost` | `LifecycleAware` management with strict one-way transitions (suspend/resume excepted) |
 | `src/scheduler.ts` | `InProcessScheduler` | `SchedulerInterface`: deferred and periodic tasks over plain timers |
-| `src/events.ts` | `InProcessEventBus` | `EventBusInterface`: pub/sub for observations, never control flow |
+| `src/events.ts` | `InProcessEventBus`, `ValidatingEventBus` | `EventBusInterface`: pub/sub for observations, never control flow |
 
 Design philosophy lives in `design/runtime.md`; the decision record is ADR 0005.
 
+## Event catalog (implementors)
+
+Typed EventBus domain events (`turn.stage.*`, `sync.outcome`, `sync.advisory`,
+`tool.*`, …) are defined in `@moolam/observability` with Zod schemas and
+committed JSON Schema under `packages/sync-protocol/schemas/Event*.json`.
+
+**Reference (trigger, payload, privacy, worked examples):**
+[`../observability/docs/event-catalog.md`](../observability/docs/event-catalog.md)
+
+Prefer `createValidatingEventBus()` from `@moolam/observability` so unknown types
+and learner-content keys are rejected at publish. Bare `InProcessEventBus` stays
+available for untyped test fixtures.
+
 ## Public API
 
-`RuntimeHost`, `InProcessScheduler`, `InProcessEventBus`, exported from `src/index.ts`.
+`RuntimeHost`, `InProcessScheduler`, `InProcessEventBus`, `ValidatingEventBus`,
+exported from `src/index.ts`.
 
 ## Quick start
 
 ```ts
 import { RuntimeHost, InProcessScheduler, InProcessEventBus } from "@moolam/runtime";
+import { createValidatingEventBus } from "@moolam/observability";
 
 const host = new RuntimeHost();
 host.register(myComponent);          // anything LifecycleAware
 await host.start();
 
-const bus = new InProcessEventBus();
-bus.subscribe("turn.completed", (e) => console.log(e));
+const bus = createValidatingEventBus(); // or new InProcessEventBus() for untyped tests
+bus.subscribe("sync.outcome", (e) => console.log(e.type, e.payload.outcome));
 ```
 
 ## Contributing notes
@@ -34,6 +49,7 @@ bus.subscribe("turn.completed", (e) => console.log(e));
 - The scheduler stays minimal: deferred and periodic, nothing else. Cron grammars and distributed queues belong in hosts.
 - No component may require that an event subscriber exists for correctness.
 - New runtime features must answer: does the loop need this on a phone, a server, and a test runner alike?
+- New EventBus domain types require a catalog schema + reference-doc update (see the event catalog link above) before publish is allowed.
 
 ## Examples
 

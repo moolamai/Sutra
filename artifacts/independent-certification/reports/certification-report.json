@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "independent-certification.report.v1",
+  "outcome": "pass",
+  "exitCode": 0,
+  "environment": {
+    "schemaVersion": "independent-certification.environment.v1",
+    "collectedAt": "2026-07-16T19:52:14.568Z",
+    "subjectId": "cert.indep.a",
+    "deviceId": "ext-ci-1",
+    "runtime": {
+      "node": "22.22.2",
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "stacks": {
+      "storage": {
+        "id": "file-jsonl-v1",
+        "shippedInReferenceMonorepo": false,
+        "detail": "artifacts/independent-certification/src/storage.mjs"
+      },
+      "model": {
+        "id": "deterministic-on-device-v1",
+        "shippedInReferenceMonorepo": false,
+        "detail": "artifacts/independent-certification/src/model.mjs"
+      }
+    },
+    "independenceKit": {
+      "package": "@moolam/contract-conformance",
+      "kitVersion": "1.0.0",
+      "monorepoCheckoutRequired": false
+    },
+    "obligationIds": [
+      "SYNC-01.1",
+      "SYNC-01.2",
+      "CK-02.1",
+      "CK-02.2",
+      "CK-02.3",
+      "CK-03.1",
+      "CK-03.2",
+      "CK-03.3",
+      "CK-03.L1",
+      "CK-03.L2"
+    ],
+    "seedMode": "good"
+  },
+  "verdicts": [
+    {
+      "obligationId": "SYNC-01.1",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "SyncRequest",
+      "mustText": "Every implementation-produced SyncRequest MUST validate against the frozen SyncRequest JSON Schema (SYNC-01).",
+      "subjectId": "cert.indep.a::SYNC-01.1",
+      "deviceId": "ext-ci-1",
+      "durationMs": 10
+    },
+    {
+      "obligationId": "SYNC-01.2",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "SyncRequest",
+      "mustText": "SyncRequest.edgeState.subjectId MUST equal the obligation subject scope (subject isolation).",
+      "subjectId": "cert.indep.a::SYNC-01.2",
+      "deviceId": "ext-ci-1",
+      "durationMs": 1
+    },
+    {
+      "obligationId": "CK-02.1",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "MemoryInterface",
+      "mustText": "`remember` MUST be durable before resolving.",
+      "subjectId": "cert.indep.a::CK-02.1",
+      "deviceId": "ext-ci-1",
+      "durationMs": 25
+    },
+    {
+      "obligationId": "CK-02.2",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "MemoryInterface",
+      "mustText": "`recall` MUST apply kind-aware decay: \"correction\" items never decay.",
+      "subjectId": "cert.indep.a::CK-02.2",
+      "deviceId": "ext-ci-1",
+      "durationMs": 41
+    },
+    {
+      "obligationId": "CK-02.3",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "MemoryInterface",
+      "mustText": "Implementations MUST be safe under concurrent subjects (multi-tenant).",
+      "subjectId": "cert.indep.a::CK-02.3",
+      "deviceId": "ext-ci-1",
+      "durationMs": 3
+    },
+    {
+      "obligationId": "CK-03.1",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "ModelInterface",
+      "mustText": "`embed` dimension MUST be stable per provider instance.",
+      "subjectId": "cert.indep.a::CK-03.1",
+      "deviceId": "ext-ci-1",
+      "durationMs": 2
+    },
+    {
+      "obligationId": "CK-03.2",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "ModelInterface",
+      "mustText": "Streaming MUST yield deltas, not cumulative text.",
+      "subjectId": "cert.indep.a::CK-03.2",
+      "deviceId": "ext-ci-1",
+      "durationMs": 2
+    },
+    {
+      "obligationId": "CK-03.3",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "ModelInterface",
+      "mustText": "Providers MUST surface `locality` truthfully — sovereign deployments gate which localities are permitted per data class.",
+      "subjectId": "cert.indep.a::CK-03.3",
+      "deviceId": "ext-ci-1",
+      "durationMs": 1
+    },
+    {
+      "obligationId": "CK-03.L1",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "ModelInterface",
+      "mustText": "Providers MUST surface `locality` truthfully — sovereign deployments gate which localities are permitted per data class.",
+      "subjectId": "cert.indep.a::CK-03.L1",
+      "deviceId": "ext-ci-1",
+      "durationMs": 30
+    },
+    {
+      "obligationId": "CK-03.L2",
+      "outcome": "pass",
+      "attribution": "implementation",
+      "contract": "ModelInterface",
+      "mustText": "Providers MUST surface `locality` truthfully — sovereign deployments gate which localities are permitted per data class.",
+      "subjectId": "cert.indep.a::CK-03.L2",
+      "deviceId": "ext-ci-1",
+      "durationMs": 3
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 0,
+    "timedOut": 0,
+    "errored": 0
+  },
+  "events": [
+    {
+      "event": "certification.run",
+      "outcome": "start",
+      "subjectId": "cert.indep.a",
+      "deviceId": "ext-ci-1",
+      "seedMode": "good"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::SYNC-01.1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "SYNC-01.1"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::SYNC-01.1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "SYNC-01.1",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::SYNC-01.2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "SYNC-01.2"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::SYNC-01.2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "SYNC-01.2",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-02.1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-02.1"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-02.1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-02.1",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-02.2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-02.2"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-02.2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-02.2",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-02.3",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-02.3"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-02.3",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-02.3",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.1"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.1",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.2"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.2",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.3",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.3"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.3",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.3",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.L1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.L1"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.L1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.L1"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.L1",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.L1",
+      "attribution": "implementation"
+    },
+    {
+      "event": "conformance.obligation",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.L2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.L2"
+    },
+    {
+      "event": "conformance.runner",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a::CK-03.L2",
+      "deviceId": "ext-ci-1",
+      "obligationId": "CK-03.L2",
+      "attribution": "implementation"
+    },
+    {
+      "event": "certification.run",
+      "outcome": "pass",
+      "subjectId": "cert.indep.a",
+      "deviceId": "ext-ci-1",
+      "passed": 10,
+      "failed": 0
+    }
+  ]
+}

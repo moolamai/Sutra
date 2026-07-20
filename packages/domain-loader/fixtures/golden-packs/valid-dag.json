@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "golden-valid-dag",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "title": "Golden valid DAG",
+  "description": "Synthetic prerequisite DAG for golden accept — mirrors demo math chain only.",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "math.fractions", "title": "Fractions", "ageFloor": "child" },
+    { "conceptId": "math.ratios", "title": "Ratios", "ageFloor": "child" },
+    { "conceptId": "math.percentages", "title": "Percentages", "ageFloor": "child" }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "math.ratios",
+      "toConceptId": "math.fractions",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.percentages",
+      "toConceptId": "math.ratios",
+      "type": "prerequisite"
+    }
+  ]
+}

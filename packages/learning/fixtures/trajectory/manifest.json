@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "b9": [
+    {
+      "id": "b9-base-on-device",
+      "file": "b9-base-on-device.json",
+      "locality": "on-device",
+      "hasTrainingFields": false
+    },
+    {
+      "id": "b9-self-hosted",
+      "file": "b9-self-hosted.json",
+      "locality": "self-hosted",
+      "hasTrainingFields": false
+    }
+  ],
+  "extended": [
+    {
+      "id": "extended-dense-slm",
+      "file": "extended-dense-slm.json",
+      "hasTrainingFields": true,
+      "hasRouterReplayMap": false
+    },
+    {
+      "id": "extended-with-router",
+      "file": "extended-with-router.json",
+      "hasTrainingFields": true,
+      "hasRouterReplayMap": true
+    },
+    {
+      "id": "extended-stream-abort",
+      "file": "extended-stream-abort.json",
+      "hasTrainingFields": true,
+      "hasRouterReplayMap": false,
+      "streamAbort": true
+    }
+  ],
+  "violations": [
+    {
+      "id": "policy-checkpoint-latest",
+      "file": "violations/policy-checkpoint-latest.json",
+      "fieldClass": "policyCheckpointHash",
+      "failureClass": "floating_checkpoint"
+    },
+    {
+      "id": "rollout-seed-invalid",
+      "file": "violations/rollout-seed-invalid.json",
+      "fieldClass": "rolloutSeed",
+      "failureClass": "schema_violation",
+      "issuePathContains": "rolloutSeed"
+    },
+    {
+      "id": "precision-format-invalid",
+      "file": "violations/precision-format-invalid.json",
+      "fieldClass": "precisionFormat",
+      "failureClass": "schema_violation",
+      "issuePathContains": "precisionFormat"
+    },
+    {
+      "id": "execution-state-missing-status",
+      "file": "violations/execution-state-missing-status.json",
+      "fieldClass": "executionState",
+      "failureClass": "schema_violation",
+      "issuePathContains": "executionState"
+    },
+    {
+      "id": "router-replay-map-invalid",
+      "file": "violations/router-replay-map-invalid.json",
+      "fieldClass": "routerReplayMap",
+      "failureClass": "schema_violation",
+      "issuePathContains": "routerReplayMap"
+    }
+  ]
+}

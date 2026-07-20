@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "modes": {
+    "STALE_READ": {
+      "mode": "STALE_READ",
+      "description": "Serve last-known-good read with freshnessMarker; never fabricate data",
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "readPolicy": "stale-with-marker",
+      "writePolicy": "hard-stop-rollback",
+      "requiresFreshnessMarker": true,
+      "signalCode": "DEGRADE_STALE_READ"
+    },
+    "HARD_STOP_WRITE": {
+      "mode": "HARD_STOP_WRITE",
+      "description": "Hard-stop writes with rollback; silent write retry is forbidden",
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "readPolicy": "unavailable",
+      "writePolicy": "hard-stop-rollback",
+      "requiresFreshnessMarker": false,
+      "signalCode": "DEGRADE_HARD_STOP_WRITE"
+    },
+    "QUEUE_AND_WARN": {
+      "mode": "QUEUE_AND_WARN",
+      "description": "Queue the request and emit a warning signal; never silent catch-and-continue",
+      "allowsFabrication": false,
+      "allowsSilentWriteRetry": false,
+      "readPolicy": "unavailable",
+      "writePolicy": "queue-and-warn",
+      "requiresFreshnessMarker": false,
+      "signalCode": "DEGRADE_QUEUE_AND_WARN"
+    }
+  },
+  "bindings": [
+    { "surface": "storage", "operation": "read", "mode": "STALE_READ" },
+    { "surface": "storage", "operation": "write", "mode": "HARD_STOP_WRITE" },
+    { "surface": "sync", "operation": "read", "mode": "STALE_READ" },
+    { "surface": "sync", "operation": "write", "mode": "HARD_STOP_WRITE" },
+    { "surface": "model", "operation": "read", "mode": "QUEUE_AND_WARN" },
+    { "surface": "model", "operation": "write", "mode": "HARD_STOP_WRITE" }
+  ]
+}

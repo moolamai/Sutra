@@ -12,7 +12,7 @@ The provided domains (`teacher-basic`, `lawyer-basic`) configure the same `Cogni
 | Task graph | `TASK_GRAPH` rows in `main.mjs` | JSON/YAML loaded by the task router |
 | Knowledge corpus | `makeKnowledge(...)` passages with `asOf` | Bundled-offline pack or self-hosted RAG index |
 | Tool pack | Minimal `read` tool | Full pack with honest risk classes (see `tool-use/`) |
-| Bindings | Shared mocks from `_shared/mocks.mjs` | Your vector store, model, speech, vision stacks |
+| Bindings | Shared mocks from `@moolam/contract-mocks` | Your vector store, model, speech, vision stacks |
 
 ## What you do not author
 

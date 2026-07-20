@@ -1,0 +1,25 @@
+{
+  "id": "low-support-triage",
+  "kind": "triage_only",
+  "subjectId": "subj.fixture.sparse",
+  "deviceId": "dev.fixture",
+  "locality": "on-device",
+  "expect": {
+    "primaryClass": "tool_timeout",
+    "disposition": "triage",
+    "lookupOk": false,
+    "lookupReason": "below_support",
+    "minSupport": 1
+  },
+  "trajectories": [
+    {
+      "subjectId": "subj.fixture.sparse",
+      "deviceId": "dev.fixture",
+      "locality": "on-device",
+      "turnId": "turn.sparse.0",
+      "opCode": "tool.search",
+      "executionStatusCode": "timeout"
+    }
+  ],
+  "telemetryEvents": []
+}

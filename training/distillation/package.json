@@ -1,0 +1,40 @@
+{
+  "name": "@moolam/training-distillation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Teacher distillation through the production runtime harness (anti-cheat: same grammar as student serving).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/generate_traces.js",
+  "types": "./dist/generate_traces.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/generate_traces.d.ts",
+      "import": "./dist/generate_traces.js"
+    },
+    "./score-traces": {
+      "types": "./dist/score_traces.d.ts",
+      "import": "./dist/score_traces.js"
+    }
+  },
+  "files": [
+    "dist",
+    "fixtures"
+  ],
+  "dependencies": {
+    "@moolam/learning": "workspace:*",
+    "@moolam/runtime-harness": "workspace:*",
+    "@moolam/sync-protocol": "workspace:*",
+    "@moolam/training-corpus": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @moolam/sync-protocol run build && pnpm --filter @moolam/learning run build && pnpm --filter @moolam/runtime-harness run build && pnpm --filter @moolam/training-corpus run build && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/generate_traces.test.mjs tests/grammar_filter.test.mjs tests/distillation_manifest.test.mjs tests/score_traces.test.mjs tests/refusal_balance.test.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  }
+}

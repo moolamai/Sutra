@@ -202,7 +202,27 @@ export interface SyncRequest {
   lastKnownCloudVector: Record<string, HLCTimestamp>;
   /** Idempotency key — retried requests MUST reuse the same key. */
   syncAttemptId: string;
+  /**
+   * Optional W3C Trace Context wire headers .
+   * Additive — absent on older clients; never carries learner content.
+   */
+  headers?: SyncWireHeaders | undefined;
 }
+
+/**
+ * Trace-context carrier on the SyncRequest envelope (metadata only).
+ * Keys match W3C Trace Context HTTP field names (lowercase).
+ */
+export interface SyncWireHeaders {
+  /** W3C `traceparent` — version-traceid-parentid-flags. */
+  traceparent?: string | undefined;
+  /** Optional W3C `tracestate` vendor list. */
+  tracestate?: string | undefined;
+}
+
+/** Canonical header names for sync wire trace propagation. */
+export const SYNC_WIRE_TRACEPARENT = "traceparent" as const;
+export const SYNC_WIRE_TRACESTATE = "tracestate" as const;
 
 export interface SyncResponse {
   protocolVersion: typeof PROTOCOL_VERSION;
@@ -219,9 +239,21 @@ export interface SyncAdvisory {
     | "CLOCK_SKEW_CLAMPED"
     | "DUPLICATE_SAMPLE_DROPPED"
     | "UNKNOWN_CONCEPT_QUARANTINED"
-    | "STATE_VECTOR_REGRESSION";
+    | "STATE_VECTOR_REGRESSION"
+    | "DEPRECATED_FIELD_PRESENT";
   detail: string;
 }
+
+/** Canonical SyncAdvisory.code values (SYNC-06 / deprecation). */
+export const SYNC_ADVISORY_CODES = Object.freeze([
+  "CLOCK_SKEW_CLAMPED",
+  "DUPLICATE_SAMPLE_DROPPED",
+  "UNKNOWN_CONCEPT_QUARANTINED",
+  "STATE_VECTOR_REGRESSION",
+  "DEPRECATED_FIELD_PRESENT",
+] as const);
+
+export type SyncAdvisoryCode = (typeof SYNC_ADVISORY_CODES)[number];
 
 /** One subject utterance sent to whichever brain (edge SLM or cloud LLM) is active. */
 export interface AgentTurnRequest {
@@ -232,6 +264,19 @@ export interface AgentTurnRequest {
   /** Friction measured while the subject composed this utterance. */
   friction: FrictionSample;
 }
+
+/** Stale / degraded read marker — last-known-good, never fabricated. */
+export type FreshnessMarker = {
+  capturedAt: string;
+  source: "last-known-good" | "local-cache";
+};
+
+export const freshnessMarkerSchema = z
+  .object({
+    capturedAt: z.string().min(1).max(128),
+    source: z.enum(["last-known-good", "local-cache"]),
+  })
+  .strict() satisfies z.ZodType<FreshnessMarker>;
 
 /** The agent's reply plus the router's next decision, fully explainable. */
 export interface AgentTurnResponse {
@@ -244,7 +289,18 @@ export interface AgentTurnResponse {
   routingRationale: string;
   /** Updated mastery posterior mean for the exercised concept, [0,1]. */
   masteryEstimate: number;
+  /** True when reply is ATR-05 directive-only degraded (model timeout). */
+  degraded?: boolean | undefined;
+  /** Present with degraded replies — last-known-good directive, not fabricated. */
+  freshnessMarker?: FreshnessMarker | undefined;
 }
+
+export const syncWireHeadersSchema = z
+  .object({
+    traceparent: z.string().min(1).max(128).optional(),
+    tracestate: z.string().max(512).optional(),
+  })
+  .strict();
 
 export const syncRequestSchema = z.object({
   protocolVersion: z.literal(PROTOCOL_VERSION),
@@ -252,4 +308,201 @@ export const syncRequestSchema = z.object({
   edgeState: cognitiveStateSchema,
   lastKnownCloudVector: z.record(z.string(), hlcSchema),
   syncAttemptId: z.string().uuid(),
+  headers: syncWireHeadersSchema.optional(),
 }) satisfies z.ZodType<SyncRequest>;
+
+export const syncAdvisorySchema = z.object({
+  code: z.enum([
+    "CLOCK_SKEW_CLAMPED",
+    "DUPLICATE_SAMPLE_DROPPED",
+    "UNKNOWN_CONCEPT_QUARANTINED",
+    "STATE_VECTOR_REGRESSION",
+    "DEPRECATED_FIELD_PRESENT",
+  ]),
+  detail: z.string(),
+}) satisfies z.ZodType<SyncAdvisory>;
+
+export const syncResponseSchema = z.object({
+  protocolVersion: z.literal(PROTOCOL_VERSION),
+  mergedState: cognitiveStateSchema,
+  compactedSampleTimestamps: z.array(hlcSchema),
+  advisories: z.array(syncAdvisorySchema),
+}) satisfies z.ZodType<SyncResponse>;
+
+export const agentTurnRequestSchema = z.object({
+  protocolVersion: z.literal(PROTOCOL_VERSION),
+  subjectId: z.string().min(1),
+  sessionId: z.string().min(1),
+  utterance: z.string(),
+  friction: frictionSampleSchema,
+}) satisfies z.ZodType<AgentTurnRequest>;
+
+export const agentTurnResponseSchema = z.object({
+  protocolVersion: z.literal(PROTOCOL_VERSION),
+  reply: z.string(),
+  nextConceptId: z.string().min(1),
+  mode: z.enum([
+    "exploratory",
+    "guided",
+    "reinforcement",
+    "prerequisite-remediation",
+    "diagnostic",
+  ]),
+  routingRationale: z.string(),
+  masteryEstimate: z.number().min(0).max(1),
+  degraded: z.boolean().optional(),
+  freshnessMarker: freshnessMarkerSchema.optional(),
+}) satisfies z.ZodType<AgentTurnResponse>;
+
+/* ────────────────────────────────────────────────────────────────────────
+ * Turn trajectory (B9 metadata + C0 training extensions)
+ * Canonical Zod parse lives in `@moolam/learning` (`turnTrajectoryRecordSchema`).
+ * Types here mirror that contract for sync / harness consumers.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/** Trajectory schema id — bump MINOR for additive field additions only. */
+export const TRAJECTORY_SCHEMA_VERSION = "trajectory.v1" as const;
+
+/**
+ * Repo-relative committed JSON Schema (Zod export via `@moolam/learning`).
+ * Canonical Zod: `turnTrajectoryRecordSchema` in `@moolam/learning`.
+ */
+export const TRAJECTORY_COMMITTED_SCHEMA_RELPATH =
+  "schemas/trajectory/v1.json" as const;
+
+/**
+ * Golden B9 + C0 trajectory fixtures live under `@moolam/learning`
+ * (`fixtures/trajectory`). Round-trip: parse → canonical JSON → parse.
+ */
+export const TRAJECTORY_GOLDEN_FIXTURES_RELPATH =
+  "packages/learning/fixtures/trajectory" as const;
+
+/** C0 optional training field classes (violation coverage one-per-class). */
+export const TRAJECTORY_TRAINING_FIELD_CLASSES = Object.freeze([
+  "policyCheckpointHash",
+  "precisionFormat",
+  "executionState",
+  "routerReplayMap",
+] as const);
+
+/** Quantization / precision tag for SLM adapters at rollout. */
+export type PrecisionFormat =
+  | "fp32"
+  | "fp16"
+  | "bf16"
+  | "int8"
+  | "int4"
+  | "nf4";
+
+export type TrajectoryConsentClass =
+  | "research"
+  | "product-improve"
+  | "personal";
+
+export type TrajectoryLocality = "on-device" | "self-hosted";
+
+/**
+ * Per-turn execution state. On stream abort, record last attempted command
+ * and terminal status — never omit silently when training fields apply.
+ */
+export interface TrajectoryExecutionState {
+  /** Opaque opcode / tool name — never keystroke streams. */
+  commandExecuted: string;
+  statusCode: number | string;
+}
+
+/**
+ * Forward-compat router replay map.
+ * Dense on-device SLMs MAY omit `routerReplayMap` entirely; absence is valid.
+ * Sparse hosts MAY include it for offline replay. Parsers must accept both.
+ */
+export type RouterReplayMap = Readonly<Record<string, string>>;
+
+export interface TrajectoryConsent {
+  optedIn: boolean;
+  consentClass: TrajectoryConsentClass;
+  recordedAt: string;
+}
+
+export interface TrajectoryStageRecord {
+  stage: string;
+  opCode?: string;
+  status?: "ok" | "aborted" | "error" | "skipped";
+}
+
+/**
+ * Consent-gated turn trajectory record.
+ * B9 base fields are required; C0 training fields are optional (additive).
+ * Never carries raw keystrokes or utterance bodies.
+ */
+export interface TurnTrajectoryRecord {
+  schemaVersion: typeof TRAJECTORY_SCHEMA_VERSION;
+  subjectId: string;
+  sessionId: string;
+  turnId: string;
+  deviceId?: string;
+  capturedAt: string;
+  locality: TrajectoryLocality;
+  consent: TrajectoryConsent;
+  stages: TrajectoryStageRecord[];
+  toolCallIds?: string[];
+  /**
+   * Exact adapter/base checkpoint hash used during rollout — never "latest".
+   */
+  policyCheckpointHash?: string;
+  precisionFormat?: PrecisionFormat;
+  executionState?: TrajectoryExecutionState;
+  /**
+   * Optional. Dense SLMs omit; parsers must not require this key (forward-compat).
+   */
+  routerReplayMap?: RouterReplayMap;
+}
+
+/**
+ * Named wire-boundary schemas reachable from the package barrel.
+ * The JSON Schema exporter (and any stranger implementor) must import
+ * from this set — never reach into private module paths.
+ */
+export const WIRE_BOUNDARY_SCHEMAS = {
+  frictionSampleSchema,
+  conceptMasterySchema,
+  cognitiveStateSchema,
+  syncRequestSchema,
+  syncResponseSchema,
+  syncAdvisorySchema,
+  agentTurnRequestSchema,
+  agentTurnResponseSchema,
+} as const;
+
+/* ────────────────────────────────────────────────────────────────────────
+ * SyncEngine terminal metadata — codes safe for telemetry
+ * ──────────────────────────────────────────────────────────────────────── */
+
+/** Terminal statuses produced by SyncEngine.synchronize (never throws). */
+export const SYNC_TERMINAL_STATUSES = Object.freeze([
+  "converged",
+  "quarantined",
+  "exhausted",
+] as const);
+
+export type SyncTerminalStatus = (typeof SYNC_TERMINAL_STATUSES)[number];
+
+/**
+ * Quarantine reason codes for spans / operators — never HTTP body text or
+ * the rejected CognitiveState blob.
+ */
+export const SYNC_QUARANTINE_REASON_CODES = Object.freeze([
+  "HTTP_CLIENT_REJECTED",
+] as const);
+
+export type SyncQuarantineReasonCode =
+  (typeof SYNC_QUARANTINE_REASON_CODES)[number];
+
+/** Exhausted-series reason codes (metadata only). */
+export const SYNC_EXHAUSTED_REASON_CODES = Object.freeze([
+  "MERGE_RESPONSE_INVALID",
+  "TRANSIENT_ATTEMPTS_EXHAUSTED",
+] as const);
+
+export type SyncExhaustedReasonCode =
+  (typeof SYNC_EXHAUSTED_REASON_CODES)[number];

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "bindings-speech.voice-rtt-baseline.v1",
+  "nfrId": "NFR-07",
+  "metric": "final_transcript_to_first_audio",
+  "deviceProfileId": "android-mid-range-voice",
+  "p95Ms": 80,
+  "tolerancePercent": 100,
+  "sampleCount": 6,
+  "warmupCount": 1,
+  "notes": "In-process STT/TTS CI stand-in baseline. Absolute NFR-07 ceiling remains 2500ms; relative gate catches regressions vs this recorded p95. Refresh intentionally after perf work — never auto-raise.",
+  "recordedAt": "2026-07-16T00:00:00.000Z"
+}

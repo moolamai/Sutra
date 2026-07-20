@@ -1,0 +1,34 @@
+{
+  "correlationId": "corr-gt-02",
+  "coverage": [
+    "tool_call_fence",
+    "advisory_attach",
+    "turn_complete"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedOutcomes": [
+    {
+      "checkId": "oracle.golden.tool-call-fence.frame_sequence.identity",
+      "frameCount": 6,
+      "kind": "frame_sequence",
+      "verifiable": true
+    },
+    {
+      "checkId": "oracle.golden.tool-call-fence.frame_sequence.terminal",
+      "expected": "TURN_COMPLETE",
+      "kind": "terminal_frame",
+      "verifiable": true
+    }
+  ],
+  "expectedTerminalFrame": "TURN_COMPLETE",
+  "frameCount": 6,
+  "locality": "on-device",
+  "oracleCheckId": "oracle.golden.tool-call-fence.frame_sequence",
+  "pinnedAt": "2026-07-15T00:00:00.000Z",
+  "scenarioId": "tool-call-fence",
+  "schemaVersion": "gym-golden-episode.v1",
+  "sourceId": "tool-call-fence",
+  "sourceKind": "a_p6_golden",
+  "sourceRelPath": "packages/runtime-harness/fixtures/golden-turns/tool-call-fence.json",
+  "subjectId": "anika-k"
+}

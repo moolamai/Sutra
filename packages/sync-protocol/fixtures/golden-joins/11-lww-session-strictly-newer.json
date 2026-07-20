@@ -1,0 +1,91 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": "new.concept",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "reinforcement",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000200:000000:dev-b"
+    },
+    "subjectId": "subj-new"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": "new.concept",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "reinforcement",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000200:000000:dev-b"
+    },
+    "subjectId": "subj-new"
+  },
+  "id": "11-lww-session-strictly-newer",
+  "kind": "lww-equal-hlc",
+  "note": "Clear newer session wins mode + activeConceptId",
+  "stateA": {
+    "activeConceptId": "old.concept",
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000100:000000:dev-a"
+    },
+    "subjectId": "subj-new"
+  },
+  "stateB": {
+    "activeConceptId": "new.concept",
+    "deviceIds": [
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "reinforcement",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000000000200:000000:dev-b"
+    },
+    "subjectId": "subj-new"
+  },
+  "subjectId": "subj-new"
+}

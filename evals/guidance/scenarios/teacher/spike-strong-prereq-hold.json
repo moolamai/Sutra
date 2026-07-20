@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/spike-strong-prereq-hold",
+  "title": "Spike with strong prerequisite → hold",
+  "description": "Friction spike on ratios but fractions above τ_r → no remediate; mid mastery → continue/hold on ratios.",
+  "subjectId": "subj.eval.teacher.spike.strong",
+  "activeConceptId": "math.ratios",
+  "mode": "guided",
+  "masterySeed": {
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": {
+        "dev-eval-teacher": 5
+      },
+      "beta": {
+        "dev-eval-teacher": 5
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": {
+        "dev-eval-teacher": 20
+      },
+      "beta": {
+        "dev-eval-teacher": 1
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    }
+  },
+  "frictionHistory": [],
+  "turnFriction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 20000,
+    "inputVelocity": 0.5,
+    "revisionCount": 2,
+    "assistanceRequested": true,
+    "outcome": "incorrect",
+    "capturedAt": "001700000000000:000012:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "hold",
+    "targetConceptId": "math.ratios",
+    "mode": "guided",
+    "rationaleKeywords": [
+      "SPIKE",
+      "Ratios"
+    ]
+  },
+  "tags": [
+    "hold",
+    "hesitation-spike"
+  ]
+}

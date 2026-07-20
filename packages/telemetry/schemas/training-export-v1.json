@@ -1,0 +1,293 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TrainingExportLineV1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-training-export-version": "training-export.v1",
+  "x-content-policy": "hashes-only",
+  "properties": {
+    "trainingExportVersion": {
+      "type": "string",
+      "const": "training-export.v1"
+    },
+    "kind": {
+      "type": "string",
+      "const": "sft"
+    },
+    "subjectId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "deviceId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "turnId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "capturedAt": {
+      "type": "string",
+      "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$"
+    },
+    "locality": {
+      "type": "string",
+      "enum": [
+        "on-device",
+        "self-hosted"
+      ]
+    },
+    "sourceConsentRecordId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "exportConsentRecordId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "exportConsentScope": {
+      "type": "string",
+      "const": "training-export"
+    },
+    "modelId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contentHash"
+      ]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contentHash"
+      ]
+    },
+    "stages": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/definitions/TrajectoryStage"
+      }
+    },
+    "toolCalls": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/definitions/TrajectoryToolCall"
+      }
+    },
+    "outcomes": {
+      "$ref": "#/definitions/TrajectoryOutcomes"
+    }
+  },
+  "required": [
+    "trainingExportVersion",
+    "kind",
+    "subjectId",
+    "deviceId",
+    "turnId",
+    "capturedAt",
+    "locality",
+    "sourceConsentRecordId",
+    "exportConsentRecordId",
+    "exportConsentScope",
+    "modelId",
+    "input",
+    "output",
+    "stages",
+    "toolCalls",
+    "outcomes"
+  ],
+  "definitions": {
+    "TrajectoryStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "type": "string",
+          "enum": [
+            "perceive",
+            "reason",
+            "act"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "aborted",
+            "error",
+            "skipped"
+          ]
+        },
+        "chunkIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "opCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "startedAt": {
+          "type": "string",
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$"
+        },
+        "endedAt": {
+          "type": "string",
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$"
+        }
+      },
+      "required": [
+        "stage",
+        "status"
+      ]
+    },
+    "TrajectoryToolCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "callId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "toolName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "argsHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "argsByteLength": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "error",
+            "aborted",
+            "denied"
+          ]
+        },
+        "resultHash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "resultByteLength": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "callId",
+        "toolName",
+        "argsHash",
+        "status"
+      ]
+    },
+    "TrajectoryOutcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "aborted",
+            "error",
+            "partial"
+          ]
+        },
+        "terminalStage": {
+          "type": "string",
+          "enum": [
+            "perceive",
+            "reason",
+            "act"
+          ]
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "FinetuneJob": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "jobId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "baseModelId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "datasetUri": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "jobId",
+        "adapterType",
+        "baseModelId",
+        "datasetUri"
+      ]
+    }
+  }
+}

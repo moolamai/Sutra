@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "bindings-vision.prescription-sketch.v1",
+  "documentKind": "prescription-sketch",
+  "prescriberName": null,
+  "datedOn": null,
+  "pageIndex": 0,
+  "confidence": 0.6,
+  "lines": [
+    {
+      "index": 1,
+      "drug": "probe.drug.beta",
+      "dose": "250 mg",
+      "frequency": "TID",
+      "duration": null,
+      "confidence": 0.65
+    },
+    {
+      "index": 2,
+      "drug": null,
+      "dose": null,
+      "frequency": null,
+      "duration": null,
+      "confidence": 0.12
+    }
+  ],
+  "partial": true,
+  "unresolvedFields": [
+    "prescriberName",
+    "datedOn",
+    "lines[1].drug",
+    "lines[1].dose",
+    "lines[1].frequency"
+  ]
+}
+

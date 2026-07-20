@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "critic.pack-oracles.v1",
+  "packId": "pack.teacher.cbse-slice",
+  "oracles": [
+    {
+      "rubricId": "oracle.teacher.citation-resolution",
+      "rubricVersion": "1.0.0",
+      "oracleKind": "citation",
+      "title": "Teacher citation / knowledge resolution (verifiable stage signal)",
+      "weights": {
+        "citation_resolved": 0.5
+      }
+    }
+  ]
+}

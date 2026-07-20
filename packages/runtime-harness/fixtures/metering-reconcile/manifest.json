@@ -1,0 +1,10 @@
+{
+  "description": "B5 golden-turn metering reconciliation — TurnMeter local totals vs provider-reported usage.",
+  "fixtureFile": "golden-turns.json",
+  "tolerancePolicy": "exact-field-wise-match",
+  "tokenTolerance": {
+    "cachedInputTokens": 0,
+    "inputTokens": 0,
+    "outputTokens": 0
+  }
+}

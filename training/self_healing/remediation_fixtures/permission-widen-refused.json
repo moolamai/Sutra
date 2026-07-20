@@ -1,0 +1,18 @@
+{
+  "id": "permission-widen-refused",
+  "kind": "refuse",
+  "subjectId": "subj.reme.forbid.perm",
+  "deviceId": "dev.reme.fixture",
+  "locality": "on-device",
+  "expect": {
+    "obligation": "remediation_policy.forbidden_surface"
+  },
+  "probe": {
+    "type": "parse_action",
+    "action": {
+      "kind": "adjust_retry_budget",
+      "surface": "permissions",
+      "maxRetries": 9
+    }
+  }
+}

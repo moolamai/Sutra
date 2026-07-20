@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "bindings-vision.textbook-page.v1",
+  "documentKind": "textbook-page",
+  "title": "probe.page.fractions",
+  "chapter": "probe.chapter.3",
+  "pageNumber": 18,
+  "pageIndex": 0,
+  "confidence": 0.84,
+  "blocks": [
+    {
+      "kind": "heading",
+      "text": "probe.heading.3-1",
+      "confidence": 0.9
+    },
+    {
+      "kind": "paragraph",
+      "text": "probe.paragraph.definition",
+      "confidence": 0.8
+    },
+    {
+      "kind": "figure",
+      "text": null,
+      "confidence": 0.25
+    }
+  ],
+  "partial": true,
+  "unresolvedFields": ["blocks[2].text"]
+}
+

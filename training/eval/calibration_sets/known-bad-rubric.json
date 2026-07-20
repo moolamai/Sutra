@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "critic.calibration-known-bad.v1",
+  "rubricId": "critic.calibration.known-bad",
+  "rubricVersion": "0.0.0-bad",
+  "agreementThreshold": 0.85,
+  "behavior": "always_accept",
+  "purpose": "CI fixture — must fail calibration promotion gate against held-out REJECTED labels",
+  "locality": "on-device"
+}

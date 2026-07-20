@@ -1,0 +1,26 @@
+{
+  "coverage": [
+    "unclosed_fence",
+    "never_answer"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedEvents": [
+    {
+      "discardedBytes": 22,
+      "failureClass": "unclosed_fence",
+      "type": "violation"
+    }
+  ],
+  "forbiddenAnswerSubstrings": [
+    "secret",
+    "ratio",
+    "reasoning"
+  ],
+  "id": "unclosed-thought",
+  "input": [
+    "<thought>secret ratio reasoning"
+  ],
+  "scenario": "unclosed_fence",
+  "specId": "CK-07",
+  "subjectId": "anika-k"
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "capturedAt": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "source": {
+      "enum": [
+        "last-known-good",
+        "local-cache"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "capturedAt",
+    "source"
+  ],
+  "title": "FreshnessMarker",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

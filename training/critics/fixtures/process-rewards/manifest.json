@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "critic.process-rewards.goldens.v1",
+  "rubricId": "critic.process-rewards",
+  "rubricVersion": "1.0.0",
+  "maxCorrectionTurns": 8,
+  "processAbsCap": 0.5,
+  "agreementThreshold": 0.85,
+  "branches": [
+    {
+      "id": "first-pass-valid",
+      "branch": "first_pass_valid",
+      "file": "first-pass-valid.json",
+      "label": "FIRST_PASS",
+      "expectedTotal": 0.25,
+      "expectedBreakdown": { "first_pass_valid": 0.25 },
+      "netWithObligationMax": -1.75
+    },
+    {
+      "id": "invalid-then-valid",
+      "branch": "invalid_then_valid",
+      "file": "invalid-then-valid.json",
+      "label": "REPAIRED",
+      "expectedTotal": -0.1,
+      "expectedBreakdown": { "repair_depth": -0.1 },
+      "netWithObligationMax": -2.1
+    },
+    {
+      "id": "retry-loop-farming",
+      "branch": "retry_loop_farming",
+      "file": "retry-loop-farming.json",
+      "label": "FARMING",
+      "expectedTotal": -0.5,
+      "expectedMaxTotal": 0,
+      "expectedBreakdown": { "process_dominance_cap": -0.5 },
+      "netWithObligationMax": -2.5
+    },
+    {
+      "id": "cap-breach",
+      "branch": "cap_breach",
+      "file": "cap-breach.json",
+      "label": "CAP",
+      "expectedTotal": -0.5,
+      "expectedBreakdown": { "process_cap_floor": -0.5 },
+      "assertCappedAtMax": true,
+      "netWithObligationMax": -2.5
+    },
+    {
+      "id": "synthetic-retry",
+      "branch": "synthetic_retry",
+      "file": "synthetic-retry.json",
+      "label": "SYNTHETIC",
+      "expectedTotal": -0.5,
+      "expectedBreakdown": { "process_cap_floor": -0.5 },
+      "assertNoFirstPass": true,
+      "netWithObligationMax": -2.5
+    },
+    {
+      "id": "reward-hack-empty",
+      "branch": "reward_hack",
+      "file": "reward-hack-empty.json",
+      "label": "HACK",
+      "expectedTotal": 0,
+      "expectedBreakdown": { "reward_hack_guard": 0 }
+    },
+    {
+      "id": "farming-plus-obligation",
+      "branch": "farming_plus_obligation",
+      "file": "farming-plus-obligation.json",
+      "label": "FARMING_OBLIGATION",
+      "expectedTotal": -0.5,
+      "expectedBreakdown": { "process_cap_floor": -0.5 },
+      "obligationPenalty": -2,
+      "assertNetNegativeWithObligation": true
+    }
+  ]
+}

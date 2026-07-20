@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "golden-self-loop-reject",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "title": "Golden self-loop reject",
+  "description": "Self-loop prerequisite edge — length-1 cycle.",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "math.fractions", "title": "Fractions" }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "math.fractions",
+      "toConceptId": "math.fractions",
+      "type": "prerequisite"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "at": {
+      "anyOf": [
+        {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$",
+          "type": "string"
+        }
+      ]
+    },
+    "payload": {
+      "properties": {
+        "advisoryCodes": {
+          "items": {
+            "enum": [
+              "CLOCK_SKEW_CLAMPED",
+              "DEPRECATED_FIELD_PRESENT",
+              "DUPLICATE_SAMPLE_DROPPED",
+              "STATE_VECTOR_REGRESSION",
+              "UNKNOWN_CONCEPT_QUARANTINED"
+            ],
+            "type": "string"
+          },
+          "maxItems": 32,
+          "type": "array"
+        },
+        "attempts": {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "deviceId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "durationMs": {
+          "maximum": 3600000,
+          "minimum": 0,
+          "type": "number"
+        },
+        "exhaustedCode": {
+          "maxLength": 64,
+          "minLength": 1,
+          "type": "string"
+        },
+        "httpStatus": {
+          "maximum": 599,
+          "minimum": 100,
+          "type": "integer"
+        },
+        "outcome": {
+          "enum": [
+            "converged",
+            "exhausted",
+            "quarantined",
+            "skipped-offline"
+          ],
+          "type": "string"
+        },
+        "quarantineCode": {
+          "maxLength": 64,
+          "minLength": 1,
+          "type": "string"
+        },
+        "sessionId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "subjectId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "syncAttemptId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "attempts",
+        "deviceId",
+        "outcome",
+        "subjectId",
+        "syncAttemptId"
+      ],
+      "type": "object"
+    },
+    "type": {
+      "const": "sync.outcome",
+      "type": "string"
+    }
+  },
+  "required": [
+    "at",
+    "payload",
+    "type"
+  ],
+  "title": "EventSyncOutcome",
+  "type": "object",
+  "x-event-catalog-version": "1.3.0",
+  "x-event-type": "sync.outcome",
+  "x-protocol-version": "1.0.0"
+}

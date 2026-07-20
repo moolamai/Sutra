@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moolam.ai/schemas/bindings-speech.speech-cert.report.v1.json",
+  "title": "Speech certification report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profileId",
+    "outcome",
+    "subjectId",
+    "deviceId",
+    "exitCode",
+    "bindings",
+    "indicFixtures",
+    "voiceRtt",
+    "failures",
+    "telemetry"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "bindings-speech.speech-cert.report.v1"
+    },
+    "profileId": { "type": "string", "minLength": 1 },
+    "outcome": { "enum": ["pass", "fail"] },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "deviceId": { "type": "string", "minLength": 1 },
+    "exitCode": { "enum": [0, 1] },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["binding", "engine", "outcome", "exitCode", "passed", "failed", "verdicts"],
+        "properties": {
+          "binding": { "enum": ["stt", "tts"] },
+          "engine": { "type": "string", "minLength": 1 },
+          "outcome": { "enum": ["pass", "fail"] },
+          "exitCode": { "enum": [0, 1] },
+          "passed": { "type": "integer", "minimum": 0 },
+          "failed": { "type": "integer", "minimum": 0 },
+          "verdicts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["obligationId", "outcome", "mustText"],
+              "properties": {
+                "obligationId": { "type": "string" },
+                "outcome": { "type": "string" },
+                "mustText": { "type": "string" },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "indicFixtures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome", "utteranceCount", "failures"],
+      "properties": {
+        "outcome": { "enum": ["pass", "fail"] },
+        "utteranceCount": { "type": "integer", "minimum": 0 },
+        "failures": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "voiceRtt": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "nfrId",
+            "metric",
+            "outcome",
+            "ok",
+            "measuredP95Ms",
+            "budgetP95Ms",
+            "baselineP95Ms",
+            "allowedRelativeP95Ms",
+            "absoluteOk",
+            "relativeOk",
+            "sampleCount",
+            "samplesMs",
+            "deviceProfileId",
+            "subjectId",
+            "deviceId",
+            "clock",
+            "failures",
+            "policy"
+          ],
+          "properties": {
+            "nfrId": { "const": "NFR-07" },
+            "metric": { "const": "final_transcript_to_first_audio" },
+            "outcome": { "enum": ["pass", "fail"] },
+            "ok": { "type": "boolean" },
+            "measuredP95Ms": { "type": "number" },
+            "budgetP95Ms": { "type": "number" },
+            "baselineP95Ms": { "type": "number" },
+            "allowedRelativeP95Ms": { "type": "number" },
+            "absoluteOk": { "type": "boolean" },
+            "relativeOk": { "type": "boolean" },
+            "sampleCount": { "type": "integer", "minimum": 0 },
+            "samplesMs": {
+              "type": "array",
+              "items": { "type": "number" }
+            },
+            "deviceProfileId": { "type": "string" },
+            "subjectId": { "type": "string" },
+            "deviceId": { "type": "string" },
+            "clock": { "const": "performance.now" },
+            "failures": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "policy": {
+              "const": "absolute-ceiling-plus-relative-baseline"
+            }
+          }
+        }
+      ]
+    },
+    "failures": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event", "subjectId", "deviceId", "outcome"],
+      "properties": {
+        "event": { "const": "bindings_speech.speech_cert" },
+        "subjectId": { "type": "string" },
+        "deviceId": { "type": "string" },
+        "outcome": { "enum": ["pass", "fail"] },
+        "bindingCount": { "type": "integer" },
+        "fixtureCount": { "type": "integer" },
+        "voiceRttOk": { "type": "boolean" }
+      }
+    }
+  }
+}

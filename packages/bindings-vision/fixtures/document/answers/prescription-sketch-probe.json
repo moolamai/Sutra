@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "bindings-vision.prescription-sketch.v1",
+  "documentKind": "prescription-sketch",
+  "prescriberName": null,
+  "datedOn": null,
+  "pageIndex": 0,
+  "confidence": 0.55,
+  "lines": [
+    {
+      "index": 1,
+      "drug": "probe.drug.alpha",
+      "dose": "500 mg",
+      "frequency": "BID",
+      "duration": null,
+      "confidence": 0.7
+    },
+    {
+      "index": 2,
+      "drug": null,
+      "dose": null,
+      "frequency": null,
+      "duration": null,
+      "confidence": 0.15
+    }
+  ],
+  "partial": true,
+  "unresolvedFields": [
+    "prescriberName",
+    "datedOn",
+    "lines[1].drug",
+    "lines[1].dose",
+    "lines[1].frequency"
+  ]
+}
+

@@ -1,0 +1,24 @@
+{
+  "name": "@moolam/training-critics",
+  "version": "0.1.2",
+  "private": true,
+  "description": "Published TrajectoryCritic contract path — re-exports @moolam/learning critics.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    "./interface": "./interface.ts",
+    "./registry": "./registry.ts",
+    "./core_rubric": "./core_rubric.ts",
+    "./process_rewards": "./process_rewards.ts",
+    "./calibration": "./calibration.ts",
+    "./hack_fixtures": "./hack_fixtures.ts",
+    "./llm_judge_lane": "./llm_judge_lane.ts"
+  },
+  "scripts": {
+    "test": "pnpm --filter @moolam/learning run test",
+    "test:hack-suite": "pnpm --filter @moolam/learning run build && node --experimental-strip-types --test hack_suite.test.ts"
+  },
+  "dependencies": {
+    "@moolam/learning": "workspace:*"
+  }
+}

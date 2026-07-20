@@ -1,0 +1,499 @@
+{
+  "note": "GENERATED — do not hand-edit. Source: sync-protocol/schemas + wire-parity golden.",
+  "generatedFrom": {
+    "schema": "packages/sync-protocol/schemas/SyncRequest.json",
+    "golden": "packages/sync-protocol/fixtures/wire-parity/golden-envelopes.json"
+  },
+  "schemaTitle": "SyncRequest",
+  "schemaProtocolVersion": "1.0.0",
+  "topLevelRequired": [
+    "deviceId",
+    "edgeState",
+    "lastKnownCloudVector",
+    "protocolVersion",
+    "syncAttemptId"
+  ],
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "deviceId": {
+        "minLength": 4,
+        "type": "string"
+      },
+      "edgeState": {
+        "properties": {
+          "activeConceptId": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deviceIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "frictionLog": {
+            "items": {
+              "properties": {
+                "assistanceRequested": {
+                  "type": "boolean"
+                },
+                "capturedAt": {
+                  "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+                  "type": "string"
+                },
+                "conceptId": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "hesitationMs": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "inputVelocity": {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "outcome": {
+                  "enum": [
+                    "correct",
+                    "incorrect",
+                    "partial",
+                    "ungraded"
+                  ],
+                  "type": "string"
+                },
+                "revisionCount": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "assistanceRequested",
+                "capturedAt",
+                "conceptId",
+                "hesitationMs",
+                "inputVelocity",
+                "outcome",
+                "revisionCount"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "mastery": {
+            "additionalProperties": {
+              "properties": {
+                "alpha": {
+                  "additionalProperties": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "type": "object"
+                },
+                "beta": {
+                  "additionalProperties": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "type": "object"
+                },
+                "conceptId": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "lastExercisedAt": {
+                  "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "alpha",
+                "beta",
+                "conceptId",
+                "lastExercisedAt"
+              ],
+              "type": "object"
+            },
+            "type": "object"
+          },
+          "mode": {
+            "enum": [
+              "diagnostic",
+              "exploratory",
+              "guided",
+              "prerequisite-remediation",
+              "reinforcement"
+            ],
+            "type": "string"
+          },
+          "profile": {
+            "properties": {
+              "ageBand": {
+                "enum": [
+                  "adolescent",
+                  "adult",
+                  "child"
+                ],
+                "type": "string"
+              },
+              "language": {
+                "minLength": 2,
+                "type": "string"
+              },
+              "track": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "updatedAt": {
+                "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "ageBand",
+              "language",
+              "track",
+              "updatedAt"
+            ],
+            "type": "object"
+          },
+          "protocolVersion": {
+            "const": "1.0.0",
+            "type": "string"
+          },
+          "stateVector": {
+            "additionalProperties": {
+              "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "activeConceptId",
+          "deviceIds",
+          "frictionLog",
+          "mastery",
+          "mode",
+          "profile",
+          "protocolVersion",
+          "stateVector",
+          "subjectId"
+        ],
+        "type": "object"
+      },
+      "headers": {
+        "properties": {
+          "traceparent": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tracestate": {
+            "maxLength": 512,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "lastKnownCloudVector": {
+        "additionalProperties": {
+          "pattern": "^\\d{15}:\\d{6}:[A-Za-z0-9_-]{4,64}$",
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "protocolVersion": {
+        "const": "1.0.0",
+        "type": "string"
+      },
+      "syncAttemptId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+        "type": "string"
+      }
+    },
+    "required": [
+      "deviceId",
+      "edgeState",
+      "lastKnownCloudVector",
+      "protocolVersion",
+      "syncAttemptId"
+    ],
+    "title": "SyncRequest",
+    "type": "object",
+    "x-protocol-version": "1.0.0"
+  },
+  "valid": {
+    "protocolVersion": "1.0.0",
+    "deviceId": "edge-aaaa",
+    "lastKnownCloudVector": {},
+    "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000",
+    "edgeState": {
+      "protocolVersion": "1.0.0",
+      "subjectId": "anika-k",
+      "deviceIds": [
+        "edge-aaaa"
+      ],
+      "activeConceptId": "math.ratios",
+      "mode": "exploratory",
+      "mastery": {
+        "math.ratios": {
+          "conceptId": "math.ratios",
+          "alpha": {
+            "edge-aaaa": 3
+          },
+          "beta": {
+            "edge-aaaa": 1
+          },
+          "lastExercisedAt": "000000001000000:000000:edge-aaaa"
+        }
+      },
+      "frictionLog": [
+        {
+          "conceptId": "math.ratios",
+          "hesitationMs": 1200,
+          "inputVelocity": 3.2,
+          "revisionCount": 0,
+          "assistanceRequested": false,
+          "outcome": "correct",
+          "capturedAt": "000000001000000:000001:edge-aaaa"
+        }
+      ],
+      "profile": {
+        "ageBand": "child",
+        "track": "cbse-class-7-maths",
+        "language": "hi-IN",
+        "updatedAt": "000000001000000:000002:edge-aaaa"
+      },
+      "stateVector": {
+        "session": "000000001000000:000003:edge-aaaa"
+      }
+    }
+  },
+  "violations": [
+    {
+      "field": "deviceId",
+      "kind": "missing-required",
+      "payload": {
+        "protocolVersion": "1.0.0",
+        "lastKnownCloudVector": {},
+        "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000",
+        "edgeState": {
+          "protocolVersion": "1.0.0",
+          "subjectId": "anika-k",
+          "deviceIds": [
+            "edge-aaaa"
+          ],
+          "activeConceptId": "math.ratios",
+          "mode": "exploratory",
+          "mastery": {
+            "math.ratios": {
+              "conceptId": "math.ratios",
+              "alpha": {
+                "edge-aaaa": 3
+              },
+              "beta": {
+                "edge-aaaa": 1
+              },
+              "lastExercisedAt": "000000001000000:000000:edge-aaaa"
+            }
+          },
+          "frictionLog": [
+            {
+              "conceptId": "math.ratios",
+              "hesitationMs": 1200,
+              "inputVelocity": 3.2,
+              "revisionCount": 0,
+              "assistanceRequested": false,
+              "outcome": "correct",
+              "capturedAt": "000000001000000:000001:edge-aaaa"
+            }
+          ],
+          "profile": {
+            "ageBand": "child",
+            "track": "cbse-class-7-maths",
+            "language": "hi-IN",
+            "updatedAt": "000000001000000:000002:edge-aaaa"
+          },
+          "stateVector": {
+            "session": "000000001000000:000003:edge-aaaa"
+          }
+        }
+      }
+    },
+    {
+      "field": "edgeState",
+      "kind": "missing-required",
+      "payload": {
+        "protocolVersion": "1.0.0",
+        "deviceId": "edge-aaaa",
+        "lastKnownCloudVector": {},
+        "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000"
+      }
+    },
+    {
+      "field": "lastKnownCloudVector",
+      "kind": "missing-required",
+      "payload": {
+        "protocolVersion": "1.0.0",
+        "deviceId": "edge-aaaa",
+        "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000",
+        "edgeState": {
+          "protocolVersion": "1.0.0",
+          "subjectId": "anika-k",
+          "deviceIds": [
+            "edge-aaaa"
+          ],
+          "activeConceptId": "math.ratios",
+          "mode": "exploratory",
+          "mastery": {
+            "math.ratios": {
+              "conceptId": "math.ratios",
+              "alpha": {
+                "edge-aaaa": 3
+              },
+              "beta": {
+                "edge-aaaa": 1
+              },
+              "lastExercisedAt": "000000001000000:000000:edge-aaaa"
+            }
+          },
+          "frictionLog": [
+            {
+              "conceptId": "math.ratios",
+              "hesitationMs": 1200,
+              "inputVelocity": 3.2,
+              "revisionCount": 0,
+              "assistanceRequested": false,
+              "outcome": "correct",
+              "capturedAt": "000000001000000:000001:edge-aaaa"
+            }
+          ],
+          "profile": {
+            "ageBand": "child",
+            "track": "cbse-class-7-maths",
+            "language": "hi-IN",
+            "updatedAt": "000000001000000:000002:edge-aaaa"
+          },
+          "stateVector": {
+            "session": "000000001000000:000003:edge-aaaa"
+          }
+        }
+      }
+    },
+    {
+      "field": "protocolVersion",
+      "kind": "missing-required",
+      "payload": {
+        "deviceId": "edge-aaaa",
+        "lastKnownCloudVector": {},
+        "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000",
+        "edgeState": {
+          "protocolVersion": "1.0.0",
+          "subjectId": "anika-k",
+          "deviceIds": [
+            "edge-aaaa"
+          ],
+          "activeConceptId": "math.ratios",
+          "mode": "exploratory",
+          "mastery": {
+            "math.ratios": {
+              "conceptId": "math.ratios",
+              "alpha": {
+                "edge-aaaa": 3
+              },
+              "beta": {
+                "edge-aaaa": 1
+              },
+              "lastExercisedAt": "000000001000000:000000:edge-aaaa"
+            }
+          },
+          "frictionLog": [
+            {
+              "conceptId": "math.ratios",
+              "hesitationMs": 1200,
+              "inputVelocity": 3.2,
+              "revisionCount": 0,
+              "assistanceRequested": false,
+              "outcome": "correct",
+              "capturedAt": "000000001000000:000001:edge-aaaa"
+            }
+          ],
+          "profile": {
+            "ageBand": "child",
+            "track": "cbse-class-7-maths",
+            "language": "hi-IN",
+            "updatedAt": "000000001000000:000002:edge-aaaa"
+          },
+          "stateVector": {
+            "session": "000000001000000:000003:edge-aaaa"
+          }
+        }
+      }
+    },
+    {
+      "field": "syncAttemptId",
+      "kind": "missing-required",
+      "payload": {
+        "protocolVersion": "1.0.0",
+        "deviceId": "edge-aaaa",
+        "lastKnownCloudVector": {},
+        "edgeState": {
+          "protocolVersion": "1.0.0",
+          "subjectId": "anika-k",
+          "deviceIds": [
+            "edge-aaaa"
+          ],
+          "activeConceptId": "math.ratios",
+          "mode": "exploratory",
+          "mastery": {
+            "math.ratios": {
+              "conceptId": "math.ratios",
+              "alpha": {
+                "edge-aaaa": 3
+              },
+              "beta": {
+                "edge-aaaa": 1
+              },
+              "lastExercisedAt": "000000001000000:000000:edge-aaaa"
+            }
+          },
+          "frictionLog": [
+            {
+              "conceptId": "math.ratios",
+              "hesitationMs": 1200,
+              "inputVelocity": 3.2,
+              "revisionCount": 0,
+              "assistanceRequested": false,
+              "outcome": "correct",
+              "capturedAt": "000000001000000:000001:edge-aaaa"
+            }
+          ],
+          "profile": {
+            "ageBand": "child",
+            "track": "cbse-class-7-maths",
+            "language": "hi-IN",
+            "updatedAt": "000000001000000:000002:edge-aaaa"
+          },
+          "stateVector": {
+            "session": "000000001000000:000003:edge-aaaa"
+          }
+        }
+      }
+    }
+  ]
+}

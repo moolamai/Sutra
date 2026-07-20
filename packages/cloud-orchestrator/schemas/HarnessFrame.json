@@ -1,0 +1,409 @@
+{
+  "$defs": {
+    "def_1a98cf166b60": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "message": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "recoverable": {
+          "type": "boolean"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "HARNESS_ERROR",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "correlationId",
+        "message",
+        "recoverable",
+        "sequenceIndex",
+        "subjectId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_2791a59bea53": {
+      "additionalProperties": false,
+      "properties": {
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "pinnedAt": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "protocolVersion": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "SESSION_START",
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "pinnedAt",
+        "protocolVersion",
+        "sequenceIndex",
+        "subjectId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_3be929cee158": {
+      "additionalProperties": false,
+      "properties": {
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "turnId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "TURN_COMPLETE",
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "sequenceIndex",
+        "subjectId",
+        "turnId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_3ea23129a588": {
+      "additionalProperties": false,
+      "properties": {
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "delta": {
+          "type": "string"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "ANSWER_DELTA",
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "delta",
+        "sequenceIndex",
+        "subjectId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_4745d90fac5a": {
+      "additionalProperties": false,
+      "properties": {
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": null
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "error",
+            "pending",
+            "running",
+            "success"
+          ],
+          "type": "string"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "toolCallId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "TOOL_STATUS",
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "sequenceIndex",
+        "status",
+        "subjectId",
+        "toolCallId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_479895e6d54e": {
+      "additionalProperties": false,
+      "properties": {
+        "advisory": {
+          "$ref": "#/$defs/def_7870904d37c7"
+        },
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "ADVISORY_ATTACH",
+          "type": "string"
+        }
+      },
+      "required": [
+        "advisory",
+        "correlationId",
+        "sequenceIndex",
+        "subjectId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_5898ccacfd28": {
+      "additionalProperties": false,
+      "properties": {
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "tick": {
+          "$ref": "#/$defs/def_b2bea94f032a"
+        },
+        "type": {
+          "const": "METER_TICK",
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "sequenceIndex",
+        "subjectId",
+        "tick",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_7870904d37c7": {
+      "properties": {
+        "code": {
+          "enum": [
+            "CLOCK_SKEW_CLAMPED",
+            "DEPRECATED_FIELD_PRESENT",
+            "DUPLICATE_SAMPLE_DROPPED",
+            "STATE_VECTOR_REGRESSION",
+            "UNKNOWN_CONCEPT_QUARANTINED"
+          ],
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "detail"
+      ],
+      "type": "object"
+    },
+    "def_916e33ada53e": {
+      "additionalProperties": false,
+      "properties": {
+        "correlationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "delta": {
+          "type": "string"
+        },
+        "sequenceIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "subjectId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "const": "THOUGHT_DELTA",
+          "type": "string"
+        }
+      },
+      "required": [
+        "correlationId",
+        "delta",
+        "sequenceIndex",
+        "subjectId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "def_b2bea94f032a": {
+      "additionalProperties": false,
+      "properties": {
+        "aborted": {
+          "type": "boolean"
+        },
+        "cachedInputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "inputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "latencyMs": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "locality": {
+          "enum": [
+            "external-api",
+            "on-device",
+            "self-hosted"
+          ],
+          "type": "string"
+        },
+        "modelId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "outputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "aborted",
+        "cachedInputTokens",
+        "inputTokens",
+        "latencyMs",
+        "locality",
+        "modelId",
+        "outputTokens"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "discriminator": {
+    "mapping": {
+      "ADVISORY_ATTACH": "#/$defs/AdvisoryAttachFrame",
+      "ANSWER_DELTA": "#/$defs/AnswerDeltaFrame",
+      "HARNESS_ERROR": "#/$defs/HarnessErrorFrame",
+      "METER_TICK": "#/$defs/MeterTickFrame",
+      "SESSION_START": "#/$defs/SessionStartFrame",
+      "THOUGHT_DELTA": "#/$defs/ThoughtDeltaFrame",
+      "TOOL_STATUS": "#/$defs/ToolStatusFrame",
+      "TURN_COMPLETE": "#/$defs/TurnCompleteFrame"
+    },
+    "propertyName": "type"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/def_1a98cf166b60"
+    },
+    {
+      "$ref": "#/$defs/def_2791a59bea53"
+    },
+    {
+      "$ref": "#/$defs/def_3be929cee158"
+    },
+    {
+      "$ref": "#/$defs/def_3ea23129a588"
+    },
+    {
+      "$ref": "#/$defs/def_4745d90fac5a"
+    },
+    {
+      "$ref": "#/$defs/def_479895e6d54e"
+    },
+    {
+      "$ref": "#/$defs/def_5898ccacfd28"
+    },
+    {
+      "$ref": "#/$defs/def_916e33ada53e"
+    }
+  ],
+  "title": "HarnessFrame",
+  "x-protocol-version": "1.0.0"
+}

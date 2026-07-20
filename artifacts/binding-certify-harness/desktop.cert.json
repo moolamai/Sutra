@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "bindings-slm.cert-report.v1",
+  "recordedAt": "2026-07-16T01:04:28.481Z",
+  "event": "bindings_slm.certify",
+  "outcome": "pass",
+  "profileId": "desktop",
+  "adapter": "llamacpp",
+  "subjectId": "cert.desktop.llamacpp",
+  "deviceId": "ci-desktop-cpu",
+  "modelArtifactSha256": "f1ae43bcd01bb341ebe4159b0dd0f5ca6742d7a3680b65d3469a5b9af04d02b9",
+  "llamaCppPinnedRevision": "b5750",
+  "measuredArtifactSha256": "f1ae43bcd01bb341ebe4159b0dd0f5ca6742d7a3680b65d3469a5b9af04d02b9",
+  "obligationVerdicts": [
+    {
+      "obligationId": "CK-03.1",
+      "outcome": "pass"
+    },
+    {
+      "obligationId": "CK-03.2",
+      "outcome": "pass"
+    },
+    {
+      "obligationId": "CK-03.3",
+      "outcome": "pass"
+    }
+  ],
+  "egressRecord": {
+    "ok": true,
+    "attemptCount": 0,
+    "zeroEgressOps": [
+      "generate",
+      "embed"
+    ],
+    "obligationId": "CK-03.3"
+  },
+  "p95Benches": {
+    "first_token": {
+      "nfrId": "NFR-01",
+      "measuredMs": 0.2296999999999798,
+      "budgetP95Ms": 1500,
+      "floorP95Ms": 50,
+      "ok": true
+    },
+    "core_loop": {
+      "nfrId": "NFR-06",
+      "configured": true,
+      "budgetP95Ms": 10,
+      "policy": "absolute-ceiling-plus-relative-baseline",
+      "ok": true
+    }
+  },
+  "offlineTurn": {
+    "ok": true,
+    "servedLocally": true,
+    "frictionFolded": true,
+    "syncStatus": "offline-mode",
+    "turnCompletedEmitted": true,
+    "egressAttemptCount": 0,
+    "localityOk": true,
+    "restartSurvived": true,
+    "subjectIsolationOk": true,
+    "failures": []
+  },
+  "locality": {
+    "ok": true,
+    "egressAttempts": 0
+  },
+  "benches": {
+    "subset": [
+      "core_loop",
+      "first_token"
+    ],
+    "firstTokenMs": 0.2296999999999798,
+    "firstTokenBudgetP95Ms": 1500,
+    "firstTokenOk": true,
+    "coreLoopConfigured": true,
+    "mismatches": []
+  },
+  "failures": []
+}

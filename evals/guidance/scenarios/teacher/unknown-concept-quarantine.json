@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/unknown-concept-quarantine",
+  "title": "Unknown concept quarantines",
+  "description": "Concept not in pack → quarantine hold; router must not crash.",
+  "subjectId": "subj.eval.teacher.unknown",
+  "activeConceptId": "math.not_in_pack",
+  "mode": "diagnostic",
+  "masterySeed": {},
+  "frictionHistory": [],
+  "turnFriction": {
+    "conceptId": "math.not_in_pack",
+    "hesitationMs": 100,
+    "inputVelocity": 1,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "001700000000000:000013:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "hold",
+    "targetConceptId": "math.not_in_pack",
+    "mode": "diagnostic",
+    "rationaleKeywords": [
+      "GUIDE",
+      "math.not_in_pack"
+    ]
+  },
+  "tags": [
+    "hold",
+    "unknown-concept"
+  ]
+}

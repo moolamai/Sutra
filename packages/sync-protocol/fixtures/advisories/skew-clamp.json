@@ -1,0 +1,92 @@
+{
+  "specId": "SYNC-02",
+  "note": "CLOCK_SKEW_CLAMPED — physical HLC beyond nowMs+MAX_CLOCK_SKEW_MS is clamped; advisory lists original→clamped; in-bound and at-bound emit no skew advisory. Shared MAX_CLOCK_SKEW_MS named constant (not magic numbers).",
+  "MAX_CLOCK_SKEW_MS": 86400000,
+  "nowMs": 1000000000000,
+  "horizonPhysical": "001000086400000",
+  "local": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "subj-skew-clamp",
+    "deviceIds": ["cloud-aaaa"],
+    "activeConceptId": "math.ratios",
+    "mode": "guided",
+    "mastery": {
+      "math.ratios": {
+        "conceptId": "math.ratios",
+        "alpha": { "cloud-aaaa": 1 },
+        "beta": { "cloud-aaaa": 1 },
+        "lastExercisedAt": "001000000000000:000000:cloud-aaaa"
+      }
+    },
+    "frictionLog": [],
+    "profile": {
+      "ageBand": "child",
+      "track": "cbse-class-7-maths",
+      "language": "en",
+      "updatedAt": "001000000000000:000001:cloud-aaaa"
+    },
+    "stateVector": {
+      "session": "001000000000000:000002:cloud-aaaa",
+      "profile": "001000000000000:000001:cloud-aaaa",
+      "device:cloud-aaaa": "001000000000000:000001:cloud-aaaa"
+    }
+  },
+  "remoteTemplate": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "subj-skew-clamp",
+    "deviceIds": ["edge-bbbb"],
+    "activeConceptId": "math.ratios",
+    "mode": "exploratory",
+    "mastery": {
+      "math.ratios": {
+        "conceptId": "math.ratios",
+        "alpha": { "edge-bbbb": 1 },
+        "beta": { "edge-bbbb": 1 },
+        "lastExercisedAt": "001000000000000:000000:edge-bbbb"
+      }
+    },
+    "frictionLog": [],
+    "profile": {
+      "ageBand": "child",
+      "track": "cbse-class-7-maths",
+      "language": "en",
+      "updatedAt": "PLACEHOLDER"
+    },
+    "stateVector": {
+      "session": "PLACEHOLDER",
+      "profile": "PLACEHOLDER",
+      "device:edge-bbbb": "PLACEHOLDER"
+    }
+  },
+  "cases": {
+    "inBound": {
+      "physical": "001000000000000",
+      "logicalProfile": "000010",
+      "logicalSession": "000011",
+      "logicalDevice": "000012",
+      "expectClockSkewAdvisory": false
+    },
+    "atBound": {
+      "physical": "001000086400000",
+      "logicalProfile": "000010",
+      "logicalSession": "000011",
+      "logicalDevice": "000012",
+      "expectClockSkewAdvisory": false
+    },
+    "beyondBound": {
+      "physical": "009000000000000",
+      "logicalProfile": "000010",
+      "logicalSession": "000011",
+      "logicalDevice": "000012",
+      "expectClockSkewAdvisory": true,
+      "expectOriginalToClamped": [
+        "009000000000000:000010:edge-bbbb→001000086400000:000010:edge-bbbb",
+        "009000000000000:000011:edge-bbbb→001000086400000:000011:edge-bbbb",
+        "009000000000000:000010:edge-bbbb→001000086400000:000010:edge-bbbb",
+        "009000000000000:000012:edge-bbbb→001000086400000:000012:edge-bbbb"
+      ],
+      "expectMergedProfileUpdatedAt": "001000086400000:000010:edge-bbbb",
+      "expectMergedSession": "001000086400000:000011:edge-bbbb"
+    }
+  }
+}

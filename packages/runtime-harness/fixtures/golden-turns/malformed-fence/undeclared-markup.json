@@ -1,0 +1,30 @@
+{
+  "coverage": [
+    "undeclared_markup",
+    "never_answer"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedEvents": [
+    {
+      "delta": "hello ",
+      "type": "answer_delta"
+    },
+    {
+      "discardedBytes": 5,
+      "failureClass": "undeclared_markup",
+      "type": "violation"
+    }
+  ],
+  "forbiddenAnswerSubstrings": [
+    "<foo>",
+    "</foo>",
+    "bar"
+  ],
+  "id": "undeclared-markup",
+  "input": [
+    "hello <foo>bar</foo>"
+  ],
+  "scenario": "undeclared_markup",
+  "specId": "CK-07",
+  "subjectId": "anika-k"
+}

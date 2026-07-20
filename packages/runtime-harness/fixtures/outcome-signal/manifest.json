@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "description": "Golden harness turns for human_outcome_signal + executionState",
+  "cases": [
+    {
+      "id": "accepted",
+      "file": "cases/accepted.json",
+      "path": "accept"
+    },
+    {
+      "id": "rejected",
+      "file": "cases/rejected.json",
+      "path": "reject"
+    },
+    {
+      "id": "user-discard",
+      "file": "cases/user-discard.json",
+      "path": "discard"
+    },
+    {
+      "id": "abort-without-accept",
+      "file": "cases/abort-without-accept.json",
+      "path": "abort"
+    },
+    {
+      "id": "correction-amendment",
+      "file": "cases/correction-amendment.json",
+      "path": "correction"
+    }
+  ]
+}

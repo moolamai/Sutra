@@ -1,0 +1,50 @@
+{
+  "compactedSampleTimestamps": null,
+  "expectError": "SUBJECT_MISMATCH",
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": null,
+  "id": "20-subject-isolation-refused",
+  "kind": "subject-isolation",
+  "note": "Cross-subject merge must refuse — expectedJoin null; expectError SUBJECT_MISMATCH",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-alpha"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "exploratory",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-b"
+    },
+    "subjectId": "subj-beta"
+  },
+  "subjectId": "subj-alpha"
+}

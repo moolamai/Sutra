@@ -1,0 +1,40 @@
+{
+  "trajectoryFormatVersion": "trajectory.v1",
+  "turnId": "turn-golden-002",
+  "subjectId": "learner-b",
+  "deviceId": "edge-host2",
+  "capturedAt": "001700000000200:000001:edge-host2",
+  "locality": "self-hosted",
+  "consentRecordId": "consent-traj-002",
+  "stages": [
+    {
+      "stage": "perceive",
+      "status": "ok",
+      "chunkIndex": 0
+    },
+    {
+      "stage": "reason",
+      "status": "ok",
+      "chunkIndex": 0
+    },
+    {
+      "stage": "reason",
+      "status": "ok",
+      "chunkIndex": 1
+    },
+    {
+      "stage": "act",
+      "status": "ok",
+      "chunkIndex": 0,
+      "opCode": "reply.emit"
+    }
+  ],
+  "toolCalls": [],
+  "outcomes": {
+    "status": "completed",
+    "terminalStage": "act"
+  },
+  "modelId": "slm-host-v1",
+  "promptHash": "sha256:prompthashgolden02",
+  "responseHash": "sha256:responsehashgolden02"
+}

@@ -8,4 +8,6 @@
 
 export * from "./slm_runtime.js";
 export * from "./local_vector_db.js";
+export * from "./cognitive_bindings.js";
 export * from "./edge_agent.js";
+export * from "./coldstart.js";

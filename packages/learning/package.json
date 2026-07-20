@@ -1,0 +1,52 @@
+{
+  "name": "@moolam/learning",
+  "version": "1.1.0",
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. Learning substrate contracts: turn-trajectory schema (B9 metadata + C0 training fields), parse boundary for corpus/gym/critic pipelines.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/learning#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/learning"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "schemas:export": "pnpm run build && node scripts/export-trajectory-schema.mjs",
+    "schemas:check": "pnpm run build && node scripts/export-trajectory-schema.mjs --check",
+    "baselines:check": "pnpm run build && node scripts/check-baseline-registry.mjs",
+    "slices:check": "pnpm run build && node scripts/check-eval-slices.mjs",
+    "surgery:check": "pnpm run build && node scripts/check-one-surgery.mjs",
+    "calibration:check": "pnpm run build && node scripts/check-calibration-gate.mjs",
+    "hack:check": "pnpm run build && node scripts/check-hack-suite-gate.mjs",
+    "red-team:check": "pnpm run build && node scripts/check-candidate-red-team-gate.mjs",
+    "llm-judge-policy:check": "pnpm run build && node scripts/check-llm-judge-policy.mjs",
+    "llm-judge-gate:check": "pnpm run build && node scripts/check-llm-judge-gate.mjs",
+    "lineage:check": "pnpm run build && node scripts/check-lineage-completeness.mjs",
+    "research-rfc-adoption:check": "pnpm run build && node scripts/check-research-rfc-adoption.mjs",
+    "test": "pnpm run build && node --test tests/trajectory_schema.test.mjs tests/trajectory_schema_export.test.mjs tests/trajectory_roundtrip.test.mjs tests/outcome_signal.test.mjs tests/baseline_registry.test.mjs tests/eval_slices.test.mjs tests/governance_one_surgery.test.mjs tests/governance_constitution.test.mjs tests/governance_kill_switch.test.mjs tests/kill_switch_orchestrator.test.mjs tests/consent_law_export.test.mjs tests/consent_law_corpus_shard.test.mjs tests/consent_law_integration.test.mjs tests/federated_policy.test.mjs tests/federated_default_deny.negative.test.mjs tests/research_intake_rfc.test.mjs tests/research_intake_worked_example.test.mjs tests/research_intake_adoption.test.mjs tests/snapshot_store.test.mjs tests/critics_interface.test.mjs tests/critics_pack_oracles.test.mjs tests/critics_lineage.test.mjs tests/critics_core_rubric.test.mjs tests/critics_core_rubric_goldens.test.mjs tests/critics_process_rewards.test.mjs tests/critics_process_rewards_goldens.test.mjs tests/critics_calibration_set.test.mjs tests/critics_calibration_agreement.test.mjs tests/critics_calibration_promotion.test.mjs tests/hack_fixtures.test.mjs tests/llm_judge_policy.test.mjs tests/llm_judge_lane.test.mjs tests/llm_judge_gate.test.mjs tests/trajectory_queue.test.mjs tests/trajectory_queue_redis.test.mjs tests/staleness_control.test.mjs tests/policy_handshake.test.mjs tests/grpo_group.test.mjs tests/grpo_advantage.test.mjs tests/checkpoint_lineage.test.mjs tests/checkpoint_lineage_wal.test.mjs tests/checkpoint_lineage_completeness.test.mjs tests/batch_scheduler.test.mjs tests/batch_training_window.test.mjs tests/healing_audit.test.mjs && node --experimental-strip-types --test tests/routing_tuner.test.mjs tests/routing_tuner_shadow.test.mjs ../../training/eval/drift/drift_monitor.test.ts ../../training/eval/drift/drift_injection.test.ts ../../training/eval/red_team/candidate_safety.test.ts ../../training/eval/red_team/red_team_gate.test.ts ../../training/eval/red_team/erosion_ci.test.ts",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

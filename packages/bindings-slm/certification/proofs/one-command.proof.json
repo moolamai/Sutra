@@ -1,0 +1,37 @@
+{
+  "exitCode": 0,
+  "event": "bindings_slm.one_command_prove",
+  "recordedAt": "2026-07-16T01:03:07.590Z",
+  "deadlineMs": 5000,
+  "targets": [
+    {
+      "profileId": "desktop",
+      "adapter": "llamacpp",
+      "label": "llama.cpp",
+      "exitCode": 0,
+      "reportPath": "certification/proofs/reports/desktop.cert.json",
+      "outcome": "pass",
+      "subjectId": "cert.desktop.llamacpp",
+      "deviceId": "ci-desktop-cpu",
+      "replayExitCode": 0
+    },
+    {
+      "profileId": "android-mid",
+      "adapter": "onnx",
+      "label": "onnx-mobile",
+      "exitCode": 0,
+      "reportPath": "certification/proofs/reports/android-mid.cert.json",
+      "outcome": "pass",
+      "subjectId": "cert.android.onnx",
+      "deviceId": "ci-android-mid-range",
+      "replayExitCode": 0
+    }
+  ],
+  "seededRed": {
+    "ok": true,
+    "exitCode": 1,
+    "detail": "seeded hash violation failed single certify command as expected"
+  },
+  "failures": [],
+  "committedNote": "One-command certify proof: llama.cpp desktop + ONNX android-mid; seeded red then green."
+}

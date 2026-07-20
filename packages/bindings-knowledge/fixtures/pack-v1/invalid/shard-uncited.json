@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "shardId": "shard.demo.001",
+  "passages": [
+    {
+      "passageId": "pass.uncited",
+      "content": "This passage cites a source that is not in the manifest source table.",
+      "citation": {
+        "citationId": "cite.orphan",
+        "sourceId": "src.does-not-exist",
+        "locator": "missing"
+      },
+      "asOf": "2024-06-01T00:00:00.000Z"
+    }
+  ]
+}

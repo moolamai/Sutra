@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "shardId": "shard.demo.001",
+  "passages": [
+    {
+      "passageId": "pass.linear-equations.intro",
+      "content": "A linear equation in one variable has the form ax + b = 0 where a ≠ 0.",
+      "citation": {
+        "citationId": "cite.ncert.8.math.ch2.p1",
+        "sourceId": "src.ncert.class8.math",
+        "locator": "NCERT Class 8 Math Ch.2 §Linear Equations, p.1"
+      },
+      "asOf": "2024-06-01T00:00:00.000Z"
+    }
+  ]
+}

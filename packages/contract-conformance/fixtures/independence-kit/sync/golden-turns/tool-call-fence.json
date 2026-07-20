@@ -1,0 +1,65 @@
+{
+  "correlationId": "corr-gt-02",
+  "coverage": [
+    "tool_call_fence",
+    "advisory_attach",
+    "turn_complete"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedFrames": [
+    {
+      "correlationId": "corr-gt-02",
+      "pinnedAt": "2026-07-15T00:00:00.000Z",
+      "protocolVersion": "1.0.0",
+      "sequenceIndex": 0,
+      "subjectId": "anika-k",
+      "type": "SESSION_START"
+    },
+    {
+      "correlationId": "corr-gt-02",
+      "sequenceIndex": 1,
+      "status": "running",
+      "subjectId": "anika-k",
+      "toolCallId": "c1",
+      "type": "TOOL_STATUS"
+    },
+    {
+      "correlationId": "corr-gt-02",
+      "sequenceIndex": 2,
+      "status": "success",
+      "subjectId": "anika-k",
+      "toolCallId": "c1",
+      "type": "TOOL_STATUS"
+    },
+    {
+      "correlationId": "corr-gt-02",
+      "delta": "lookup returned: part:whole",
+      "sequenceIndex": 3,
+      "subjectId": "anika-k",
+      "type": "ANSWER_DELTA"
+    },
+    {
+      "advisory": {
+        "code": "CLOCK_SKEW_CLAMPED",
+        "detail": "clamped remote physical"
+      },
+      "correlationId": "corr-gt-02",
+      "sequenceIndex": 4,
+      "subjectId": "anika-k",
+      "type": "ADVISORY_ATTACH"
+    },
+    {
+      "correlationId": "corr-gt-02",
+      "sequenceIndex": 5,
+      "subjectId": "anika-k",
+      "turnId": "turn-gt-02",
+      "type": "TURN_COMPLETE"
+    }
+  ],
+  "id": "tool-call-fence",
+  "input": [
+    "```tool_call\n{\"toolName\":\"lookup\",\"arguments\":{\"query\":\"ratio\"},\"callId\":\"c1\"}\n```",
+    "lookup returned: part:whole"
+  ],
+  "subjectId": "anika-k"
+}

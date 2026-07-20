@@ -1,7 +1,7 @@
 // Memory retrieval latency: LocalVectorDb brute-force cosine search over
 // realistic on-device corpus sizes (the store's documented sweet spot is
 // below ~50k vectors).
-import { LocalVectorDb } from "@moolam/sdk";
+import { LocalVectorDb } from "sutra-sdk";
 import { bench } from "./_shared/bench.mjs";
 
 function memoryDriver() {

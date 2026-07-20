@@ -1,0 +1,66 @@
+{
+  "law": "commutative",
+  "note": "same capturedAt distinct payloads",
+  "left": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "subj-collision",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "activeConceptId": null,
+    "mode": "exploratory",
+    "mastery": {},
+    "profile": {
+      "ageBand": "adult",
+      "track": "math",
+      "language": "en",
+      "updatedAt": "000000000000001:000000:dev-a"
+    },
+    "stateVector": {
+      "session": "000000000000001:000000:dev-a"
+    },
+    "frictionLog": [
+      {
+        "conceptId": "a00",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct",
+        "capturedAt": "000000001000000:000000:edge-fric"
+      }
+    ]
+  },
+  "right": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "subj-collision",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "activeConceptId": null,
+    "mode": "exploratory",
+    "mastery": {},
+    "profile": {
+      "ageBand": "adult",
+      "track": "math",
+      "language": "en",
+      "updatedAt": "000000000000001:000000:dev-a"
+    },
+    "stateVector": {
+      "session": "000000000000001:000000:dev-a"
+    },
+    "frictionLog": [
+      {
+        "conceptId": "v-ref",
+        "hesitationMs": 9,
+        "inputVelocity": 1,
+        "revisionCount": 1,
+        "assistanceRequested": true,
+        "outcome": "incorrect",
+        "capturedAt": "000000001000000:000000:edge-fric"
+      }
+    ]
+  }
+}

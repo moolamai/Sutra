@@ -42,6 +42,23 @@ export interface KnowledgePassage {
 }
 
 /**
+ * Connector metadata surface (locality + truthful asOf + source table).
+ * Pack loaders MUST implement `describe()`; citations from `retrieve()`
+ * MUST resolve via `describe().sources` (equivalently `sources`).
+ */
+export interface KnowledgeConnectorDescribe {
+  /** Dominant locality class for this connector (sovereign gate). */
+  locality: KnowledgeSourceDescriptor["locality"];
+  /** Connector/pack-level asOf stamp — truthful staleness. */
+  asOf: string;
+  sources: readonly KnowledgeSourceDescriptor[];
+  /** Present for pack-backed connectors. */
+  packId?: string;
+  version?: string;
+  languages?: readonly string[];
+}
+
+/**
  * Contract requirements:
  *  1. Every passage MUST carry a resolvable `citation` - uncited knowledge
  *     is inadmissible to the ReasoningInterface by core policy.
@@ -52,4 +69,9 @@ export interface KnowledgePassage {
 export interface KnowledgeConnectorInterface {
   readonly sources: KnowledgeSourceDescriptor[];
   retrieve(query: KnowledgeQuery): Promise<KnowledgePassage[]>;
+  /**
+   * Optional describe surface. Pack-backed connectors MUST implement and
+   * return bundled-offline (or declared locality) plus truthful asOf.
+   */
+  describe?(): KnowledgeConnectorDescribe;
 }

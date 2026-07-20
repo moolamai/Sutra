@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "bindings-speech.cert-profile.v1",
+  "profileId": "indic-speech-ci",
+  "subjectId": "cert.speech.indic",
+  "deviceId": "ci-speech-ubuntu",
+  "locality": "on-device",
+  "obligationIds": ["CK-05.1", "CK-05.2"],
+  "bindings": ["stt", "tts"],
+  "indicFixtures": {
+    "requiredUtteranceIds": [
+      "hi-greeting",
+      "en-classroom",
+      "ta-greeting",
+      "hi-en-codeswitch",
+      "short-hi",
+      "hi-classroom-noise"
+    ],
+    "requirePartialBeforeFinal": true
+  },
+  "voiceRtt": {
+    "enabled": true,
+    "nfrId": "NFR-07",
+    "deviceProfileRelpath": "certification/device-profiles/mid-range-android.json",
+    "baselineRelpath": "certification/voice-rtt.baseline.json",
+    "utteranceId": "hi-greeting",
+    "language": "hi-IN"
+  },
+  "reportArtifact": {
+    "schemaVersion": "bindings-speech.speech-cert.report.v1",
+    "defaultRelpath": "certification/reports/speech.cert.json"
+  },
+  "description": "CI speech conformance: B0 CK-05 against whisper.cpp-class STT and local TTS, Indic fixtures, plus NFR-07 voice RTT (final transcript → first audio) on mid-range Android profile."
+}

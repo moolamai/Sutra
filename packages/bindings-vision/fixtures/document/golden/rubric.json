@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "bindings-vision.document-golden-rubric.v1",
+  "description": "Field-match rubric for teacher/doctor document golden fixtures. Gates schema validity, expected field equality, nullable honesty, and no-PII.",
+  "minScore": 0.85,
+  "weights": {
+    "schemaValid": 0.4,
+    "requiredFieldMatch": 0.35,
+    "nullableHonesty": 0.15,
+    "noPii": 0.1
+  }
+}
+

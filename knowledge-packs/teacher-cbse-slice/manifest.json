@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "packId": "pack.teacher.cbse-slice",
+  "version": "1.0.0",
+  "title": "Teacher CBSE maths slice (bundled-offline)",
+  "asOf": "2026-06-01T00:00:00.000Z",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "locality": "bundled-offline",
+  "languages": [
+    "en",
+    "hi"
+  ],
+  "sources": [
+    {
+      "sourceId": "src.ncert.class8.math.ratios",
+      "title": "NCERT Class 8 Mathematics — Ratios & Proportions (slice)",
+      "domain": "teacher",
+      "locality": "bundled-offline",
+      "coverage": {
+        "from": "2024-01-01",
+        "to": "2026-06-01"
+      }
+    }
+  ],
+  "contentShards": [
+    {
+      "shardId": "shard.cbse.ratios",
+      "relpath": "content/shard-ratios.json"
+    }
+  ]
+}

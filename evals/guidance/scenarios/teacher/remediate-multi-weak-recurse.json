@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/remediate-multi-weak-recurse",
+  "title": "Multi-weak prereqs — recurse to ratios",
+  "description": "Both ratios and equivalent_ratios below τ_r; weakest first hop equivalent_ratios, then recurse to ratios (fractions strong). Final target math.ratios.",
+  "subjectId": "subj.eval.teacher.remediate.multi",
+  "activeConceptId": "math.simple_proportion",
+  "mode": "guided",
+  "masterySeed": {
+    "math.simple_proportion": {
+      "conceptId": "math.simple_proportion",
+      "alpha": {
+        "dev-eval-teacher": 5
+      },
+      "beta": {
+        "dev-eval-teacher": 5
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": {
+        "dev-eval-teacher": 2
+      },
+      "beta": {
+        "dev-eval-teacher": 10
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.equivalent_ratios": {
+      "conceptId": "math.equivalent_ratios",
+      "alpha": {
+        "dev-eval-teacher": 1
+      },
+      "beta": {
+        "dev-eval-teacher": 20
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": {
+        "dev-eval-teacher": 20
+      },
+      "beta": {
+        "dev-eval-teacher": 1
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    }
+  },
+  "frictionHistory": [],
+  "turnFriction": {
+    "conceptId": "math.simple_proportion",
+    "hesitationMs": 20000,
+    "inputVelocity": 0.4,
+    "revisionCount": 4,
+    "assistanceRequested": true,
+    "outcome": "incorrect",
+    "capturedAt": "001700000000000:000008:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "remediate",
+    "targetConceptId": "math.ratios",
+    "mode": "prerequisite-remediation",
+    "rationaleKeywords": [
+      "SPIKE",
+      "loop",
+      "ratios"
+    ]
+  },
+  "tags": [
+    "remediate",
+    "hesitation-spike",
+    "multi-weak-prereq"
+  ]
+}

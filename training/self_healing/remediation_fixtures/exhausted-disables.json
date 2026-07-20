@@ -1,0 +1,31 @@
+{
+  "id": "exhausted-disables",
+  "kind": "exhaust",
+  "subjectId": "subj.reme.exhaust",
+  "deviceId": "dev.reme.fixture",
+  "locality": "on-device",
+  "expect": {
+    "ineffectiveLimit": 3,
+    "disabled": true,
+    "pageRequested": true,
+    "finalReason": "disabled_ineffective"
+  },
+  "policies": [
+    {
+      "policyId": "policy.exhaust.retry",
+      "version": 1,
+      "failureClass": "tool_timeout",
+      "confidence": 0.9,
+      "action": {
+        "kind": "adjust_retry_budget",
+        "surface": "retry_cap",
+        "maxRetries": 2
+      },
+      "disabled": false,
+      "ineffectiveAttempts": 0,
+      "pageRequested": false,
+      "triageActive": false,
+      "idempotencyKey": "seed.exhaust.1"
+    }
+  ]
+}

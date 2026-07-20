@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "training.license-ledger.v1",
+  "manifestId": "corpus.teacher.smoke-slice",
+  "catalog": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "spdxOrLabel": "CC-BY-4.0"
+    }
+  ],
+  "entries": [
+    {
+      "schemaVersion": "training.shard-provenance.v1",
+      "shardId": "shard.teacher.und.ratios",
+      "sourceId": "src.teacher.und.ratios",
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "consentClass": "synthetic",
+      "syntheticFlag": true,
+      "governmentFlag": false,
+      "locality": "on-device",
+      "laneCode": "teacher"
+    },
+    {
+      "schemaVersion": "training.shard-provenance.v1",
+      "shardId": "shard.teacher.ret.syllabus",
+      "sourceId": "src.teacher.ret.syllabus",
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "consentClass": "synthetic",
+      "syntheticFlag": true,
+      "governmentFlag": false,
+      "locality": "on-device",
+      "laneCode": "teacher"
+    }
+  ]
+}

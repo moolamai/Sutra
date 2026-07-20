@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "subj.batch.optout",
+  "sessionId": "sess.batch.synth",
+  "turnId": "turn.optout",
+  "deviceId": "dev.batch.synth",
+  "capturedAt": "2026-07-16T20:00:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": false,
+    "consentClass": "research",
+    "recordedAt": "2026-07-16T20:00:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "opCode": "tool.write",
+      "status": "ok"
+    }
+  ],
+  "policyCheckpointHash": "ckpt:sha256:synthpolicy0001",
+  "rolloutSeed": 1
+}

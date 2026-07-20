@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "offline.batch.e2e.fixtures.v1",
+  "setId": "c4.offline-batch.e2e.v1",
+  "description": "Synthetic consented B9 exports for offline batch e2e (CI micro threshold=4; production config remains hundreds-class).",
+  "readyExportRel": "ready",
+  "belowThresholdExportRel": "below-threshold",
+  "ciMinTrajectoryCount": 4,
+  "readyConsentedExpected": 4,
+  "readyFilteredOptOutExpected": 1,
+  "belowThresholdConsentedExpected": 1,
+  "locality": "on-device",
+  "pinnedAt": "2026-07-16T20:00:00.000Z"
+}

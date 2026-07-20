@@ -24,6 +24,7 @@ The clinical cognitive assistant: a decision-support companion for clinicians, c
 
 ## Start here
 
+- Formulary sketch (pack authoring source): [`data/formulary-sketch.md`](data/formulary-sketch.md) → built pack `knowledge-packs/doctor-formulary-sketch/`
 - Interfaces to bind: [`interfaces.md`](interfaces.md)
 - Memory semantics: [`memory.md`](memory.md)
 - Tool pack: [`tools.md`](tools.md)

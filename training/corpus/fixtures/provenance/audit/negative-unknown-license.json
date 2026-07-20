@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "training.license-ledger.v1",
+  "manifestId": "corpus.audit.unknown-license",
+  "catalog": [
+    {
+      "licenseId": "lic.cc-by-4.0",
+      "licenseClass": "open",
+      "spdxOrLabel": "CC-BY-4.0"
+    }
+  ],
+  "entries": [
+    {
+      "schemaVersion": "training.shard-provenance.v1",
+      "shardId": "shard.audit.unknown",
+      "sourceId": "src.audit.unknown",
+      "licenseId": "lic.not-in-catalog",
+      "licenseClass": "open",
+      "consentClass": "public",
+      "syntheticFlag": false,
+      "governmentFlag": false,
+      "locality": "on-device",
+      "laneCode": "teacher"
+    }
+  ]
+}

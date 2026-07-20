@@ -1,0 +1,18 @@
+{
+  "id": "correction-amendment",
+  "subjectId": "anika-k",
+  "turnId": "turn-outcome-correct-orig",
+  "amendmentTurnId": "turn-outcome-correct-amend",
+  "sessionId": "sess-outcome-e2e",
+  "deviceId": "edge-aaaa",
+  "path": "correction",
+  "expectedSignal": "ACCEPTED",
+  "executionState": {
+    "commandExecuted": "tool.write",
+    "statusCode": 200
+  },
+  "streamFrames": ["SESSION_START", "TOKEN_DELTA", "TURN_COMPLETE"],
+  "expectPreAbortFrames": false,
+  "locality": "on-device",
+  "priorSignalImmutable": true
+}

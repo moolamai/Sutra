@@ -1,0 +1,21 @@
+{
+  "name": "@moolam/template-fastapi-adapter-transport",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TypeScript SyncTransport client for the fastapi-adapter template",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "smoke": "node --experimental-strip-types scripts/smoke-transport.ts"
+  },
+  "dependencies": {
+    "sutra-sdk": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

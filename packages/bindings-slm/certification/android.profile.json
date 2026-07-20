@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "bindings-slm.cert-profile.v1",
+  "profileId": "android",
+  "adapter": "onnx",
+  "description": "Mid-range Android (device/emulator) certification for OnnxSlmRuntime: B0 model suite, B1 zero-egress, NFR-01 first_token floor, memory-ceiling refuse-before-materialize. Uses in-process ORT stand-in in CI; native ORT Mobile on device.",
+  "hardware": {
+    "class": "mid-range-android",
+    "gpuRequired": false,
+    "quantPolicy": "INT4/INT8 quantized ONNX only — see android/SUPPORTED_QUANT_FORMATS.json; NNAPI/GPU delegate optional with CPU fallback",
+    "emulatorOk": true,
+    "deviceProfileRelpath": "android/device-profiles/mid-range.json"
+  },
+  "modelArtifact": {
+    "name": "phi-mini-int8-within",
+    "format": "onnx",
+    "quantization": "int8",
+    "fixtureRelpath": "android/fixtures/within-budget.onnx",
+    "artifactSha256": "c680b298c2b8f9fe6d21a900d9803f2c94297af19302fea3a4b5aab3a470eb1f",
+    "onnxRuntimePinnedVersion": "1.17.3",
+    "supportedQuantFormatsRelpath": "android/SUPPORTED_QUANT_FORMATS.json"
+  },
+  "obligations": {
+    "b0Model": ["CK-03.1", "CK-03.2", "CK-03.3"],
+    "b1Locality": {
+      "harness": "egress-recorder",
+      "zeroEgressOps": ["generate", "embed"],
+      "obligationId": "CK-03.3",
+      "policyId": "sovereign-default"
+    }
+  },
+  "benches": {
+    "subset": ["first_token"],
+    "gates": {
+      "first_token": {
+        "metricId": "first_token",
+        "nfrId": "NFR-01",
+        "budgetP95Ms": 1500,
+        "policy": "relative-vs-profile-floor",
+        "floorP95Ms": 50,
+        "notes": "NFR-01 mid-range Android ≤1.5s p95; CI in-process stand-in asserts first stream delta under floorP95Ms."
+      }
+    }
+  },
+  "memoryCeiling": {
+    "maxMemoryMiBFromDeviceProfile": true,
+    "overBudgetFixtureRelpath": "android/fixtures/over-budget.onnx",
+    "requireRefuseBeforeMaterialize": true
+  },
+  "subjectId": "cert.android.onnx",
+  "deviceId": "ci-android-mid-range",
+  "segfaultRetry": {
+    "maxAttempts": 2,
+    "matchClasses": ["segfault", "SIGSEGV", "native crash"]
+  },
+  "observability": {
+    "event": "bindings_slm.certify",
+    "emitContentBodies": false
+  },
+  "reportArtifact": {
+    "schemaVersion": "bindings-slm.cert-report.v1",
+    "ciRelpath": "artifacts/onnx-mobile-android-cert/android.cert.json",
+    "committedRelpath": "android/certification/reports/android.cert.json",
+    "contains": [
+      "obligationVerdicts",
+      "egressRecord",
+      "p95Benches",
+      "memoryCeiling",
+      "modelArtifactSha256",
+      "onnxRuntimePinnedVersion",
+      "supportedQuantFormats"
+    ]
+  }
+}

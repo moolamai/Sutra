@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "code": {
+      "enum": [
+        "CLOCK_SKEW_CLAMPED",
+        "DEPRECATED_FIELD_PRESENT",
+        "DUPLICATE_SAMPLE_DROPPED",
+        "STATE_VECTOR_REGRESSION",
+        "UNKNOWN_CONCEPT_QUARANTINED"
+      ],
+      "type": "string"
+    },
+    "detail": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "detail"
+  ],
+  "title": "SyncAdvisory",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

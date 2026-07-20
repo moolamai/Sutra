@@ -1,0 +1,10 @@
+{
+  "modelId": "phi-mini-int8-within",
+  "contextWindow": 2048,
+  "quantization": "int8",
+  "memoryFootprintMiB": 512,
+  "languages": ["en-IN", "hi-IN"],
+  "embedDim": 8,
+  "graphInputs": ["input_ids"],
+  "graphOutputs": ["logits", "embeddings"]
+}

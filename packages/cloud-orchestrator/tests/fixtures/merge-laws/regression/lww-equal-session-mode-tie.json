@@ -1,0 +1,114 @@
+{
+  "law": "convergence",
+  "note": "equal session HLC with differing mode — LWW tie must be order-independent",
+  "subjectId": "t3497_5",
+  "replicas": [
+    {
+      "protocolVersion": "1.0.0",
+      "subjectId": "t3497_5",
+      "deviceIds": ["PNKWF"],
+      "activeConceptId": null,
+      "mode": "prerequisite-remediation",
+      "mastery": {},
+      "frictionLog": [
+        {
+          "conceptId": "dr0no6a",
+          "hesitationMs": 4259,
+          "inputVelocity": 301.26017795047846,
+          "revisionCount": 8911,
+          "assistanceRequested": false,
+          "outcome": "correct",
+          "capturedAt": "000000001000000:000000:PNKWF"
+        }
+      ],
+      "profile": {
+        "ageBand": "child",
+        "track": "qv7k0",
+        "language": "en-IN",
+        "updatedAt": "001784094780954:003292:PNKWF"
+      },
+      "stateVector": {
+        "session": "001784094780954:228523:hYWv3k",
+        "profile": "001784094780954:228523:0000",
+        "device:hYWv3k": "001784094780954:228523:hYWv3k",
+        "device:0000": "001784094780954:228523:0000"
+      }
+    },
+    {
+      "protocolVersion": "1.0.0",
+      "subjectId": "t3497_5",
+      "deviceIds": ["0000"],
+      "activeConceptId": null,
+      "mode": "exploratory",
+      "mastery": {},
+      "frictionLog": [],
+      "profile": {
+        "ageBand": "child",
+        "track": "a00",
+        "language": "en-IN",
+        "updatedAt": "000000000000000:000000:0000"
+      },
+      "stateVector": { "session": "000000000000000:000000:0000" }
+    },
+    {
+      "protocolVersion": "1.0.0",
+      "subjectId": "t3497_5",
+      "deviceIds": ["0000"],
+      "activeConceptId": null,
+      "mode": "exploratory",
+      "mastery": {},
+      "frictionLog": [],
+      "profile": {
+        "ageBand": "child",
+        "track": "a00",
+        "language": "en-IN",
+        "updatedAt": "000000000000000:000000:0000"
+      },
+      "stateVector": { "session": "000000000000000:000000:0000" }
+    },
+    {
+      "protocolVersion": "1.0.0",
+      "subjectId": "t3497_5",
+      "deviceIds": ["0000"],
+      "activeConceptId": null,
+      "mode": "exploratory",
+      "mastery": {},
+      "frictionLog": [],
+      "profile": {
+        "ageBand": "child",
+        "track": "a00",
+        "language": "en-IN",
+        "updatedAt": "000000000000000:000000:0000"
+      },
+      "stateVector": { "session": "000000000000000:000000:0000" }
+    },
+    {
+      "protocolVersion": "1.0.0",
+      "subjectId": "t3497_5",
+      "deviceIds": ["00000000"],
+      "activeConceptId": null,
+      "mode": "exploratory",
+      "mastery": {},
+      "frictionLog": [],
+      "profile": {
+        "ageBand": "child",
+        "track": "aa0pciaz",
+        "language": "en-IN",
+        "updatedAt": "000000000000000:000000:00000000"
+      },
+      "stateVector": {
+        "session": "001784094780954:228523:hYWv3k",
+        "profile": "001784094780954:228523:0000",
+        "device:hYWv3k": "001784094780954:228523:hYWv3k",
+        "device:0000": "001784094780954:228523:0000"
+      }
+    }
+  ],
+  "orders": [
+    [0, 1, 2, 3, 4],
+    [4, 3, 2, 1, 0],
+    [2, 4, 1, 0, 3],
+    [0, 4, 2, 1, 3]
+  ],
+  "n": 5
+}

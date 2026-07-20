@@ -1,0 +1,8 @@
+{
+  "scenarioId": "downloading",
+  "description": "AICore present but system model still downloading — not_ready; planner selects onnx-mobile without generate hang.",
+  "capabilityFixtureRelpath": "android/aicore/fixtures/downloading.capability.json",
+  "expectSelectedCandidateId": "onnx-mobile",
+  "expectOnDeviceGenerationAvailable": false,
+  "expectAbsenceReason": "model_downloading"
+}

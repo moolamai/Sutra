@@ -1,7 +1,7 @@
 // cloud-sync: two device replicas diverge offline, then converge through
 // the real CRDT merge engine. Convergence is a property of the data types:
 // merge order cannot change the result.
-import { CrdtHarnessResolver, HlcClock, PROTOCOL_VERSION } from "@moolam/sdk";
+import { CrdtHarnessResolver, HlcClock, PROTOCOL_VERSION } from "sutra-sdk";
 
 function genesis(subjectId, deviceId, clock) {
   const now = clock.tick();

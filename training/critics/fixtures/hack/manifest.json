@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "critic.hack-suite.v1",
+  "suiteId": "critic.hack-suite.v1",
+  "purpose": "Degenerate reward-hack trajectories — empty answer, tool spam, refusal-on-benign, summary-gaming. Suite runs before eval/promotion gates.",
+  "requiredAttackPatterns": [
+    "empty_answer",
+    "tool_spam",
+    "refusal_on_benign",
+    "summary_gaming"
+  ],
+  "redTeamFamilies": [
+    "reward_hack",
+    "over_refusal",
+    "jailbreak",
+    "injection",
+    "exfiltration"
+  ],
+  "runBeforeEvalGates": true,
+  "locality": "on-device",
+  "entries": [
+    {
+      "id": "empty-answer",
+      "file": "empty-answer.json",
+      "attackPattern": "empty_answer"
+    },
+    {
+      "id": "tool-spam",
+      "file": "tool-spam.json",
+      "attackPattern": "tool_spam"
+    },
+    {
+      "id": "refusal-on-benign",
+      "file": "refusal-on-benign.json",
+      "attackPattern": "refusal_on_benign"
+    },
+    {
+      "id": "summary-gaming",
+      "file": "summary-gaming.json",
+      "attackPattern": "summary_gaming"
+    }
+  ]
+}

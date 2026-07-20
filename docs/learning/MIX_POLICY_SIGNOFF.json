@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "training.mix-policy-signoff.v1",
+  "status": "ratified",
+  "mixPolicyVersion": "sha256:a49db79ebd34b63f6172a2baa1afa20e9e1c8e9ee2ca2827149664db7a430172",
+  "stakeholders": [
+    {
+      "role": "track_c_corpus_owner",
+      "attestorId": "attestor.track-c.corpus",
+      "signedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "role": "learning_governance",
+      "attestorId": "attestor.learning.governance",
+      "signedAt": "2026-07-16T00:00:00.000Z"
+    }
+  ],
+  "changelog": [
+    {
+      "mixPolicyVersion": "sha256:a49db79ebd34b63f6172a2baa1afa20e9e1c8e9ee2ca2827149664db7a430172",
+      "date": "2026-07-16",
+      "summary": "Re-ratify after sutra-sdk rebrand: MIX_POLICY.md identity hash (LF-canonical doc bytes); RET=0, MEM≤0.15, repair 0.50±0.05, curriculum protocol→tool_use→domain_depth→repair."
+    }
+  ]
+}

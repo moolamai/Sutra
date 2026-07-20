@@ -1,0 +1,35 @@
+{
+  "correlationId": "corr-gt-04",
+  "coverage": [
+    "meter_tick",
+    "tool_call_fence",
+    "advisory_attach",
+    "turn_complete"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedOutcomes": [
+    {
+      "checkId": "oracle.golden.meter-tick.frame_sequence.identity",
+      "frameCount": 7,
+      "kind": "frame_sequence",
+      "verifiable": true
+    },
+    {
+      "checkId": "oracle.golden.meter-tick.frame_sequence.terminal",
+      "expected": "TURN_COMPLETE",
+      "kind": "terminal_frame",
+      "verifiable": true
+    }
+  ],
+  "expectedTerminalFrame": "TURN_COMPLETE",
+  "frameCount": 7,
+  "locality": "on-device",
+  "oracleCheckId": "oracle.golden.meter-tick.frame_sequence",
+  "pinnedAt": "2026-07-15T00:00:00.000Z",
+  "scenarioId": "meter-tick",
+  "schemaVersion": "gym-golden-episode.v1",
+  "sourceId": "meter-tick",
+  "sourceKind": "a_p6_golden",
+  "sourceRelPath": "packages/runtime-harness/fixtures/golden-turns/meter-tick.json",
+  "subjectId": "anika-k"
+}

@@ -1,0 +1,74 @@
+{
+  "id": "duplicate-captured-at-idempotent",
+  "description": "Duplicate capturedAt never double-counts in the rollup",
+  "input": {
+    "subjectId": "learner-a",
+    "deviceId": "edge-dev1",
+    "consentRecordId": "consent-agg-001",
+    "locality": "self-hosted",
+    "rolledUpAt": "001700000000100:000009:edge-dev1"
+  },
+  "consent": {
+    "consentRecordId": "consent-agg-001",
+    "subjectId": "learner-a",
+    "optedIn": true,
+    "active": true,
+    "scope": "aggregation",
+    "recordedAt": "2026-07-17T00:00:00.000Z"
+  },
+  "samples": [
+    {
+      "conceptId": "ratios",
+      "hesitationMs": 100,
+      "inputVelocity": 3.5,
+      "revisionCount": 1,
+      "assistanceRequested": false,
+      "outcome": "correct",
+      "capturedAt": "001700000000005:000001:edge-dev1"
+    },
+    {
+      "conceptId": "ratios",
+      "hesitationMs": 999,
+      "inputVelocity": 1.0,
+      "revisionCount": 9,
+      "assistanceRequested": true,
+      "outcome": "incorrect",
+      "capturedAt": "001700000000005:000001:edge-dev1"
+    },
+    {
+      "conceptId": "ratios",
+      "hesitationMs": 100,
+      "inputVelocity": 3.5,
+      "revisionCount": 1,
+      "assistanceRequested": false,
+      "outcome": "correct",
+      "capturedAt": "001700000000005:000001:edge-dev1"
+    }
+  ],
+  "expectedRollup": {
+    "schemaVersion": "aggregation.v1",
+    "subjectId": "learner-a",
+    "deviceId": "edge-dev1",
+    "consentRecordId": "consent-agg-001",
+    "locality": "self-hosted",
+    "rolledUpAt": "001700000000100:000009:edge-dev1",
+    "sampleCount": 1,
+    "concepts": [
+      {
+        "conceptId": "ratios",
+        "sampleCount": 1,
+        "hesitationMsSum": 999,
+        "hesitationMsMax": 999,
+        "inputVelocitySum": 1,
+        "revisionCountSum": 9,
+        "assistanceRequestedCount": 1,
+        "outcomes": {
+          "correct": 0,
+          "partial": 0,
+          "incorrect": 1,
+          "ungraded": 0
+        }
+      }
+    ]
+  }
+}

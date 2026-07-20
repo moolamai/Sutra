@@ -1,0 +1,56 @@
+{
+  "id": "version-winner-idempotent",
+  "kind": "remediate",
+  "subjectId": "subj.reme.version",
+  "deviceId": "dev.reme.fixture",
+  "locality": "on-device",
+  "expect": {
+    "applied": true,
+    "actionKind": "adjust_retry_budget",
+    "surface": "retry_cap",
+    "maxRetries": 6,
+    "maxApplyCount": 1,
+    "idempotentReplay": true,
+    "resolved": true
+  },
+  "policies": [
+    {
+      "policyId": "policy.ver.a",
+      "version": 1,
+      "failureClass": "tool_timeout",
+      "confidence": 0.99,
+      "action": {
+        "kind": "adjust_retry_budget",
+        "surface": "retry_cap",
+        "maxRetries": 2
+      },
+      "disabled": false,
+      "ineffectiveAttempts": 0,
+      "pageRequested": false,
+      "triageActive": false,
+      "idempotencyKey": "seed.ver.a"
+    },
+    {
+      "policyId": "policy.ver.b",
+      "version": 3,
+      "failureClass": "tool_timeout",
+      "confidence": 0.85,
+      "action": {
+        "kind": "adjust_retry_budget",
+        "surface": "retry_cap",
+        "maxRetries": 6
+      },
+      "disabled": false,
+      "ineffectiveAttempts": 0,
+      "pageRequested": false,
+      "triageActive": false,
+      "idempotencyKey": "seed.ver.b"
+    }
+  ],
+  "execute": {
+    "failureClass": "tool_timeout",
+    "evidenceFingerprint": "fp.ver.1",
+    "executionKey": "exec.ver.1",
+    "replay": true
+  }
+}

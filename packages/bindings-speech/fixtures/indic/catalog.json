@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "bindings-speech.indic-utterances.v1",
+  "sampleRateHz": 16000,
+  "pcmEncoding": "s16le-mono",
+  "description": "Committed Indic + English + code-switched Hindi/English STT audio fixtures (PCM s16le mono @ 16kHz). A short UTF-8 probe is embedded at the PCM head for the whisper.cpp-class in-process seam; production backends decode acoustics and ignore the prefix.",
+  "utterances": [
+    {
+      "id": "hi-greeting",
+      "kind": "indic-mono",
+      "language": "hi-IN",
+      "durationMs": 600,
+      "sampleRateHz": 16000,
+      "pcmRelpath": "audio/hi-greeting.pcm",
+      "byteLength": 19200,
+      "containsCodeSwitch": false,
+      "expectedLanguage": "hi-IN"
+    },
+    {
+      "id": "en-classroom",
+      "kind": "english-mono",
+      "language": "en-IN",
+      "durationMs": 700,
+      "sampleRateHz": 16000,
+      "pcmRelpath": "audio/en-classroom.pcm",
+      "byteLength": 22400,
+      "containsCodeSwitch": false,
+      "expectedLanguage": "en-IN"
+    },
+    {
+      "id": "ta-greeting",
+      "kind": "indic-mono",
+      "language": "ta-IN",
+      "durationMs": 650,
+      "sampleRateHz": 16000,
+      "pcmRelpath": "audio/ta-greeting.pcm",
+      "byteLength": 20800,
+      "containsCodeSwitch": false,
+      "expectedLanguage": "ta-IN"
+    },
+    {
+      "id": "hi-en-codeswitch",
+      "kind": "code-switched",
+      "language": "hi-IN",
+      "durationMs": 900,
+      "sampleRateHz": 16000,
+      "pcmRelpath": "audio/hi-en-codeswitch.pcm",
+      "byteLength": 28800,
+      "containsCodeSwitch": true,
+      "expectedLanguage": "hi-IN"
+    },
+    {
+      "id": "short-hi",
+      "kind": "short-utterance",
+      "language": "hi-IN",
+      "durationMs": 120,
+      "sampleRateHz": 16000,
+      "pcmRelpath": "audio/short-hi.pcm",
+      "byteLength": 3840,
+      "containsCodeSwitch": false,
+      "expectedLanguage": "hi-IN"
+    },
+    {
+      "id": "hi-classroom-noise",
+      "kind": "indic-classroom-noise",
+      "language": "hi-IN",
+      "durationMs": 900,
+      "sampleRateHz": 16000,
+      "pcmRelpath": "audio/hi-classroom-noise.pcm",
+      "byteLength": 28800,
+      "containsCodeSwitch": true,
+      "expectedLanguage": "hi-IN",
+      "ambientNoise": true
+    }
+  ]
+}

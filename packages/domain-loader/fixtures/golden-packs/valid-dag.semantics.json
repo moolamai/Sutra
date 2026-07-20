@@ -1,0 +1,27 @@
+{
+  "packId": "golden-valid-dag",
+  "version": "1.0.0",
+  "versionStamp": "golden-valid-dag@1.0.0",
+  "advanceThreshold": 0.85,
+  "remediateThreshold": 0.4,
+  "nodes": [
+    {
+      "conceptId": "math.fractions",
+      "title": "Fractions",
+      "prerequisites": [],
+      "ageFloor": "child"
+    },
+    {
+      "conceptId": "math.percentages",
+      "title": "Percentages",
+      "prerequisites": ["math.ratios"],
+      "ageFloor": "child"
+    },
+    {
+      "conceptId": "math.ratios",
+      "title": "Ratios",
+      "prerequisites": ["math.fractions"],
+      "ageFloor": "child"
+    }
+  ]
+}

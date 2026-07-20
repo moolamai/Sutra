@@ -2,106 +2,104 @@
 
 **Indian Sovereign AI Initiative · Moolam AI**
 
-Sutra ships in deliberate stages. Each stage has explicit acceptance criteria; a stage is not "done" because code exists, but because the criteria hold.
+Sutra ships in deliberate stages. A stage is not "done" because code exists — it is done when acceptance criteria hold.
 
-Scope note: Sutra is **cognitive infrastructure**, not an application. Education is the first reference domain; the cognitive contracts (`packages/contracts`) and the core loop (`packages/cognitive-core`) carry the same primitives into law, medicine, finance, engineering, and beyond. Each stage below tracks both tracks: the protocol/reference-domain track and the contracts/platform track.
-
----
-
-## Stage 0 - Protocol & Contracts Scaffold `← WE ARE HERE`
-
-The foundation: a complete, buildable, verifiable skeleton of the Hybrid Cognitive Sync Protocol and the domain-agnostic cognitive contracts.
-
-**Delivered (protocol & reference-domain track):**
-
-- Canonical wire contract (`packages/sync-protocol/src/contract.ts`) with Zod runtime validation and a Pydantic mirror.
-- CRDT merge engine in both TypeScript and Python (G-Counter mastery shards, G-Set friction log, LWW session registers, HLC clocks), smoke-tested for commutativity, idempotence, and duplicate elimination in both languages.
-- Reference cloud engine: FastAPI ingress + LangGraph cyclical task router + graph planner + pgvector memory graph + sync service, composed by `agent_runtime.py`.
-- Edge host: pluggable SLM runtime interface, SQLite-backed local vector store, autonomous sync engine with backoff/quarantine semantics.
-- Shared telemetry package (`packages/telemetry`) used by the edge host and available to the cloud.
-- Self-host stack (`infra/docker-compose.yml`) and the Playground protocol console.
-- Master PRD matrix (`docs/PRD_MATRIX.md`) with per-spec edge cases.
-
-**Delivered (contracts & platform track):**
-
-- The cognitive contracts in `packages/contracts`: Memory, Model, Reasoning, Speech, Vision, Tool, Planning, Knowledge Connector, and the runtime contracts (lifecycle, scheduler, events, storage), each with documented MUST-level obligations (durability, traces, citations, risk classes, locality).
-- The `CognitiveCore` reference composition (`packages/cognitive-core`): perceive → recall → retrieve → reason → respond → reflect.
-- The reference runtime (`packages/runtime`): lifecycle host, in-process scheduler, in-process event bus.
-- The SDK (`packages/sdk`): one public entry point re-exporting the stable surface.
-- Five domain specifications (`domains/`): teacher, lawyer, doctor, engineering, finance.
-- Eight runnable examples (`examples/`) and four microbenchmarks (`benchmarks/`).
-- Layered documentation (`docs/`), five ADRs (`docs/adr/`), five design documents (`design/`), and the RFC process (`rfcs/`).
-
-**Honest caveats at this stage:** APIs may change; master state is held in memory unless `SUTRA_PG_DSN` is set; no security/authn layer yet; task graphs are demonstration-sized; contracts have no conformance suites yet and only the education bindings exist.
+Sutra is **cognitive infrastructure**, not an application. Education is the first reference domain; the same contracts and core loop extend to law, medicine, finance, engineering, and beyond.
 
 ---
 
-## Stage 1 - Hardening & Conformance
+## Current status (July 2026)
 
-Make the contracts something third parties can implement against with confidence, in both tracks.
+| Milestone | Status |
+|-----------|--------|
+| [Protocol 1.0 freeze RFC](../rfcs/0001-protocol-1.0-freeze.md) | **Accepted** — `PROTOCOL_VERSION = "1.0.0"` |
+| Production publish gate | **Unlocked** (`pnpm production-publish:gate`) |
+| npm pack dry-run | **Green** (`pnpm publish:pack`) — 15 public `@moolam/*` packages |
+| Security review (SEC-01) | Internal red team complete; P0/P1 closed |
+| Field pilot (B8) | Findings FP-001…FP-004 closed |
+| **npm registry** | **Pending** — tag `v1.0.0` + CI publish (see [PUBLISH-CHECKLIST.md](./sdk/PUBLISH-CHECKLIST.md)) |
+| Reference companion app ([Swayam](https://github.com/moolamai/swayam)) | In development — not a Sutra deliverable |
 
-**Acceptance criteria (protocol & reference-domain track):**
-
-- [ ] Property-based test suite fuzzing merge orderings across TS and Python; identical joins byte-for-byte.
-- [ ] CI contract-drift check: generated JSON Schemas from Zod and Pydantic diffed on every commit.
-- [ ] Master cognitive state persisted to Postgres (JSONB) with the `sync_audit` trail wired.
-- [ ] LangGraph checkpointing on Redis; router state survives process restart.
-- [ ] AuthN/AuthZ at the API boundary (deployment-pluggable; no third-party identity requirement).
-- [ ] Versioned protocol changelog and deprecation policy published.
-
-**Acceptance criteria (contracts & platform track):**
-
-- [ ] Per-contract conformance suites: an implementation that type-checks but violates an obligation (e.g. empty reasoning trace, uncited knowledge passage, missing write-ahead tool audit) fails CI.
-- [ ] Locality enforcement tests: deployments can prove regulated data classes never cross `on-device` / `self-hosted` boundaries.
-- [ ] Reference in-memory implementations of all contracts for testing and prototyping (the example mocks promoted to a supported package).
-- [ ] `AgentProfile` refusal boundaries checked by the reasoning layer, with tests demonstrating scope-of-practice enforcement.
-- [ ] Dependency-direction lint in CI: contracts import nothing; no package imports `domains/`.
+**What 1.0 means for builders:** stable SDK surface, frozen wire protocol, executable conformance, certified binding program, reference edge and cloud hosts. **What it does not mean:** a finished consumer companion, full cross-app agentic automation, or a hosted Deep SaaS.
 
 ---
 
-## Stage 2 - Reference Bindings & Pilots
+## Stage 0 — Protocol & contracts scaffold `COMPLETE`
 
-Put real autonomous cognitive companions in users' hands.
+Foundation: buildable Hybrid Cognitive Sync Protocol and domain-agnostic cognitive contracts.
 
-**Acceptance criteria (protocol & reference-domain track):**
-
-- [ ] Native SLM adapters: llama.cpp (desktop), ONNX Runtime Mobile, Android AICore/MediaPipe, Apple MLX.
-- [ ] Production task graph packs: CBSE middle-school mathematics; system-design interview track.
-- [ ] Task graph authoring tooling (flat-row prerequisite DAGs, validated against the router).
-- [ ] Sustained-offline field trial: two weeks disconnected, full reconciliation on reconnect, zero evidence loss.
-- [ ] Pilot deployments with partner classrooms/institutes; friction-model calibration against real cohorts.
-- [ ] NFR targets from the PRD matrix measured and met on mid-range Android hardware, tracked in `benchmarks/`.
-
-**Acceptance criteria (contracts & platform track):**
-
-- [ ] Speech reference bindings: on-device STT/TTS with first-class Indic language support (voice-only companions become buildable).
-- [ ] Vision reference binding: local VLM behind the `VisionInterface` seam.
-- [ ] Tool execution policy engine: risk-classed approval flows (`read`/`compute` auto, `write` policy-gated, `critical` human-gated) with write-ahead audit.
-- [ ] Knowledge connector reference implementations: one bundled-offline pack format and one self-hosted RAG index.
-- [ ] At least one complete **non-education domain** built end to end from its specification in `domains/` (candidates: lawyer or doctor), demonstrating the domain-changes-primitives-stay thesis.
+Delivered: wire contract + CRDT merge (TS + Python), reference cloud engine, edge host, telemetry, Playground, PRD matrix, SDK barrel, domain specs, examples, benchmarks, RFC process.
 
 ---
 
-## Stage 3 - Ecosystem
+## Stage 1 — Hardening & conformance `LARGELY DELIVERED`
 
-Sutra as shared infrastructure across industries.
+Make contracts implementable with confidence.
 
-**Acceptance criteria:**
+**Delivered:**
 
-- [ ] Wire contract and cognitive contracts frozen at 1.0 with additive-only evolution guarantees, governed through the RFC process.
-- [ ] Community registry of domain configurations: task graphs, knowledge connectors, tool packs, and agent profiles, with a review process.
-- [ ] Institution deployment blueprints (sizing, backup, data-residency guidance) for schools, courts/firms, clinics, and enterprises.
-- [ ] Multilingual evaluation across major Indian languages, text and voice.
-- [ ] At least one independent, non-reference backend implementation passing the conformance suites, proof the contracts, not the codebase, are the product.
-- [ ] Regulated-domain deployment guides (law, medicine, finance) documenting trace, citation, audit, and locality guarantees against sector requirements.
+- Executable obligation suites (`@moolam/contract-conformance`, `pnpm conformance`)
+- AuthN/AuthZ at cloud API boundary with subject-scope enforcement
+- Postgres-backed master state + `sync_audit` trail (when `SUTRA_PG_DSN` set)
+- Versioned protocol changelog and deprecation policy
+- `@moolam/contract-mocks` for prototyping
+- Dependency-direction and publish-readiness gates in CI
+- STRIDE threat model + external-equivalent security review
+
+**Remaining / ongoing:**
+
+- [ ] Property-based fuzz of merge orderings across TS and Python at scale
+- [ ] Broader independent backend implementations passing conformance
 
 ---
 
-## How to engage at each stage
+## Stage 2 — Reference bindings & pilots `IN PROGRESS`
 
-| You are… | Stage 0 (now) | Stage 1-2 | Stage 3 |
-|---|---|---|---|
-| **Developer / founder (any industry)** | Explore the Playground; run the `examples/`; read the contracts; prototype against the reference engine locally | Build your domain configuration on the SDK; join pilots | Ship on frozen 1.0 contracts |
-| **Domain professional / researcher** | Audit the PRD matrix, the mastery/routing models, and your profession's specification in `domains/` | Contribute calibration studies, task graphs, and knowledge connectors | Publish and deploy against stable, citable contracts |
-| **Contributor** | Conformance tests, docs, adapter stubs | Runtime/speech/vision bindings, tool policy engine, connector implementations | Registry, evaluation harnesses |
-| **End user** | Try the Playground's glass-box console | Join pilot programs | Use apps built on Sutra |
+Real companions on real devices.
+
+**Delivered:**
+
+- Certified binding profiles: desktop llama.cpp, Android ONNX (`android-mid`), Apple MLX
+- `sutra-bindings-slm`, `bindings-speech`, `bindings-vision`, `bindings-knowledge`
+- Tool execution policy engine (risk classes, write-ahead audit)
+- Teacher CBSE slice knowledge pack + field-pilot evidence
+- Indic STT classroom-noise fixture (`FP-002` closed)
+- Offline-edge live demo path (`offline-edge:live`)
+
+**Remaining:**
+
+- [ ] Sustained multi-week disconnected field trials at scale
+- [ ] Production-sized task-graph packs beyond pilot slices
+- [ ] Second non-education domain built end-to-end from `domains/`
+- [ ] NFR targets on mid-range Android tracked continuously in CI
+
+---
+
+## Stage 3 — Ecosystem `NEXT`
+
+Shared infrastructure across industries.
+
+**Delivered (partial):**
+
+- Protocol and cognitive contracts frozen at 1.0 with additive-only RFC policy
+- Certified Binding program and independence-kit verifier
+- Launch and migration documentation (`docs/releases/`)
+
+**Remaining:**
+
+- [ ] **npm/PyPI 1.0.0 publication** (CI tag `v1.0.0`)
+- [ ] Community registry of domain packs and tool plugins
+- [ ] Institution deployment blueprints (schools, firms, clinics, enterprises)
+- [ ] Multilingual evaluation harness across major Indian languages
+- [ ] Regulated-domain deployment guides with sector-specific audit mapping
+
+---
+
+## How to engage
+
+| You are… | Now (1.0) | Next |
+|---|---|---|
+| **App developer / founder** | `pnpm install sutra-sdk@1.0.0` (after publish), run `examples/`, read [`docs/sdk/`](sdk/README.md) | Ship companion on certified bindings; join pilot programs |
+| **Domain professional** | Audit PRD matrix and your spec under `domains/` | Contribute packs, task graphs, evaluation slices |
+| **Contributor** | Conformance tests, bindings, docs | Registry, evaluation harnesses, independent backends |
+| **End user** | Playground + offline-edge demos | Apps built on Sutra (e.g. Swayam) |

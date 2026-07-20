@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "packId": "pack.demo.cbse-math-slice",
+  "version": "1.0.0",
+  "title": "Demo CBSE math slice (fixture)",
+  "asOf": "2026-06-01T00:00:00.000Z",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "locality": "bundled-offline",
+  "languages": ["en", "hi"],
+  "sources": [
+    {
+      "sourceId": "src.ncert.class8.math",
+      "title": "NCERT Class 8 Mathematics (fixture)",
+      "domain": "teacher",
+      "locality": "bundled-offline",
+      "coverage": {
+        "from": "2024-01-01",
+        "to": "2026-06-01"
+      }
+    }
+  ],
+  "contentShards": [
+    {
+      "shardId": "shard.demo.001",
+      "relpath": "content/shard-001.json"
+    }
+  ]
+}

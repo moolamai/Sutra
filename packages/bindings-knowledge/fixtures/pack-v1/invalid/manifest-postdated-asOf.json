@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "bindings-knowledge.pack-v1",
+  "packId": "pack.demo.postdated",
+  "version": "0.0.1",
+  "asOf": "2099-01-01T00:00:00.000Z",
+  "builtAt": "2026-07-01T12:00:00.000Z",
+  "locality": "bundled-offline",
+  "languages": ["en"],
+  "sources": [
+    {
+      "sourceId": "src.fixture",
+      "title": "Fixture source",
+      "domain": "teacher",
+      "locality": "bundled-offline",
+      "coverage": { "from": "2024-01-01", "to": "2026-01-01" }
+    }
+  ],
+  "contentShards": [
+    { "shardId": "shard.x", "relpath": "content/x.json" }
+  ]
+}

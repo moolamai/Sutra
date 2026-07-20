@@ -1,0 +1,246 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "bindings": {
+      "items": {
+        "properties": {
+          "mode": {
+            "enum": [
+              "HARD_STOP_WRITE",
+              "QUEUE_AND_WARN",
+              "STALE_READ"
+            ],
+            "type": "string"
+          },
+          "operation": {
+            "enum": [
+              "read",
+              "write"
+            ],
+            "type": "string"
+          },
+          "surface": {
+            "enum": [
+              "model",
+              "storage",
+              "sync"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "operation",
+          "surface"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "type": "array"
+    },
+    "modes": {
+      "properties": {
+        "HARD_STOP_WRITE": {
+          "properties": {
+            "allowsFabrication": {
+              "const": false,
+              "type": "boolean"
+            },
+            "allowsSilentWriteRetry": {
+              "const": false,
+              "type": "boolean"
+            },
+            "description": {
+              "maxLength": 512,
+              "minLength": 1,
+              "type": "string"
+            },
+            "mode": {
+              "enum": [
+                "HARD_STOP_WRITE",
+                "QUEUE_AND_WARN",
+                "STALE_READ"
+              ],
+              "type": "string"
+            },
+            "readPolicy": {
+              "enum": [
+                "fresh",
+                "stale-with-marker",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "requiresFreshnessMarker": {
+              "type": "boolean"
+            },
+            "signalCode": {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            "writePolicy": {
+              "enum": [
+                "hard-stop-rollback",
+                "proceed",
+                "queue-and-warn"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "allowsFabrication",
+            "allowsSilentWriteRetry",
+            "description",
+            "mode",
+            "readPolicy",
+            "requiresFreshnessMarker",
+            "signalCode",
+            "writePolicy"
+          ],
+          "type": "object"
+        },
+        "QUEUE_AND_WARN": {
+          "properties": {
+            "allowsFabrication": {
+              "const": false,
+              "type": "boolean"
+            },
+            "allowsSilentWriteRetry": {
+              "const": false,
+              "type": "boolean"
+            },
+            "description": {
+              "maxLength": 512,
+              "minLength": 1,
+              "type": "string"
+            },
+            "mode": {
+              "enum": [
+                "HARD_STOP_WRITE",
+                "QUEUE_AND_WARN",
+                "STALE_READ"
+              ],
+              "type": "string"
+            },
+            "readPolicy": {
+              "enum": [
+                "fresh",
+                "stale-with-marker",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "requiresFreshnessMarker": {
+              "type": "boolean"
+            },
+            "signalCode": {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            "writePolicy": {
+              "enum": [
+                "hard-stop-rollback",
+                "proceed",
+                "queue-and-warn"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "allowsFabrication",
+            "allowsSilentWriteRetry",
+            "description",
+            "mode",
+            "readPolicy",
+            "requiresFreshnessMarker",
+            "signalCode",
+            "writePolicy"
+          ],
+          "type": "object"
+        },
+        "STALE_READ": {
+          "properties": {
+            "allowsFabrication": {
+              "const": false,
+              "type": "boolean"
+            },
+            "allowsSilentWriteRetry": {
+              "const": false,
+              "type": "boolean"
+            },
+            "description": {
+              "maxLength": 512,
+              "minLength": 1,
+              "type": "string"
+            },
+            "mode": {
+              "enum": [
+                "HARD_STOP_WRITE",
+                "QUEUE_AND_WARN",
+                "STALE_READ"
+              ],
+              "type": "string"
+            },
+            "readPolicy": {
+              "enum": [
+                "fresh",
+                "stale-with-marker",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "requiresFreshnessMarker": {
+              "type": "boolean"
+            },
+            "signalCode": {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            "writePolicy": {
+              "enum": [
+                "hard-stop-rollback",
+                "proceed",
+                "queue-and-warn"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "allowsFabrication",
+            "allowsSilentWriteRetry",
+            "description",
+            "mode",
+            "readPolicy",
+            "requiresFreshnessMarker",
+            "signalCode",
+            "writePolicy"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "HARD_STOP_WRITE",
+        "QUEUE_AND_WARN",
+        "STALE_READ"
+      ],
+      "type": "object"
+    },
+    "version": {
+      "maxLength": 32,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "bindings",
+    "modes",
+    "version"
+  ],
+  "title": "DegradationRegistry",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "llm-judge.eval-set.v1",
+  "setId": "llm-judge.tone-clarity.v1",
+  "heldOut": true,
+  "excludeFromTrainingCorpora": true,
+  "excludeFromCriticCalibration": true,
+  "pinnedSeed": 7903,
+  "defaultAgreementThreshold": 0.85,
+  "locality": "on-device",
+  "entries": [
+    {
+      "id": "tone.pass.01",
+      "file": "entries/tone-pass-01.json",
+      "contentHash": "sha256:3d3f5adb8b9a49f39eb518762d69b7b102896bee49d1456268da54694900c6ab",
+      "aspect": "tone",
+      "humanLabel": "pass",
+      "locality": "on-device",
+      "subjectId": "subj.lj.tone.pass.01",
+      "deviceId": "dev.lj.01",
+      "turnId": "turn.lj.tone.pass.01"
+    },
+    {
+      "id": "tone.fail.01",
+      "file": "entries/tone-fail-01.json",
+      "contentHash": "sha256:1e5f583df065164d6bc5fbc2659ff1e0768479fbc3b9b06b95c5fa983f35cb0c",
+      "aspect": "tone",
+      "humanLabel": "fail",
+      "locality": "on-device",
+      "subjectId": "subj.lj.tone.fail.01",
+      "deviceId": "dev.lj.01",
+      "turnId": "turn.lj.tone.fail.01"
+    },
+    {
+      "id": "clarity.pass.01",
+      "file": "entries/clarity-pass-01.json",
+      "contentHash": "sha256:6a36057245ff8bfbed6f8be18c6b733eaa9c6bafc6193a3dd0d07af9489e59ab",
+      "aspect": "clarity",
+      "humanLabel": "pass",
+      "locality": "on-device",
+      "subjectId": "subj.lj.clarity.pass.01",
+      "deviceId": "dev.lj.02",
+      "turnId": "turn.lj.clarity.pass.01"
+    },
+    {
+      "id": "clarity.fail.01",
+      "file": "entries/clarity-fail-01.json",
+      "contentHash": "sha256:581834dff0232d83a2d6b1662dd38238ea5aa409b582f8c3730eb6a73bb6bdfb",
+      "aspect": "clarity",
+      "humanLabel": "fail",
+      "locality": "self-hosted",
+      "subjectId": "subj.lj.clarity.fail.01",
+      "deviceId": "dev.lj.02",
+      "turnId": "turn.lj.clarity.fail.01"
+    },
+    {
+      "id": "tone.pass.02",
+      "file": "entries/tone-pass-02.json",
+      "contentHash": "sha256:07895a89da5e135a22e0a28bc886de33e4856a73edb9bd37d8aaac62a9fbea2d",
+      "aspect": "tone",
+      "humanLabel": "pass",
+      "locality": "on-device",
+      "subjectId": "subj.lj.tone.pass.02",
+      "deviceId": "dev.lj.01",
+      "turnId": "turn.lj.tone.pass.02"
+    },
+    {
+      "id": "tone.fail.02",
+      "file": "entries/tone-fail-02.json",
+      "contentHash": "sha256:5c6153976b05052201ce328f647275fd955032ea1b40b5cd433273563f563fa5",
+      "aspect": "tone",
+      "humanLabel": "fail",
+      "locality": "on-device",
+      "subjectId": "subj.lj.tone.fail.02",
+      "deviceId": "dev.lj.01",
+      "turnId": "turn.lj.tone.fail.02"
+    },
+    {
+      "id": "clarity.pass.02",
+      "file": "entries/clarity-pass-02.json",
+      "contentHash": "sha256:244890a6d595feffab380ad7b0da010b0fb1b4a900ec46167b1ea19a1edb1f59",
+      "aspect": "clarity",
+      "humanLabel": "pass",
+      "locality": "on-device",
+      "subjectId": "subj.lj.clarity.pass.02",
+      "deviceId": "dev.lj.02",
+      "turnId": "turn.lj.clarity.pass.02"
+    },
+    {
+      "id": "clarity.fail.02",
+      "file": "entries/clarity-fail-02.json",
+      "contentHash": "sha256:85c794a6349726944dae6d962ba52bb57e20baa8a4f15a3e7cc3c9bdc3101cd8",
+      "aspect": "clarity",
+      "humanLabel": "fail",
+      "locality": "self-hosted",
+      "subjectId": "subj.lj.clarity.fail.02",
+      "deviceId": "dev.lj.02",
+      "turnId": "turn.lj.clarity.fail.02"
+    }
+  ]
+}

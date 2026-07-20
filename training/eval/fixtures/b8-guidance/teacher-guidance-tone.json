@@ -1,0 +1,22 @@
+{
+  "id": "teacher-guidance-tone",
+  "kind": "guidance",
+  "domainPack": "teacher",
+  "language": "en",
+  "binding": "b8",
+  "pinnedSeed": 2001,
+  "rubric": {
+    "aspect": "tone",
+    "threshold": 0.8
+  },
+  "cases": [
+    {
+      "caseId": "tone-warm-redirect",
+      "expect": "pass"
+    },
+    {
+      "caseId": "tone-harsh-reject",
+      "expect": "fail"
+    }
+  ]
+}

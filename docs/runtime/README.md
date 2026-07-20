@@ -16,7 +16,8 @@ An agent is code that needs somewhere to run. The runtime layer defines what any
 | Host | Environment | Notes |
 |---|---|---|
 | `EdgeAgent` (`packages/edge-agent`) | Phones, browsers, embedded devices | Wraps the loop with a local SLM, local vector store, telemetry, and a sync client; fully offline-capable |
-| Cloud engine (`packages/cloud-orchestrator`) | Server processes | `agent_runtime.py` composes the task router and master state store behind `POST /v1/agent/turn` |
+| Cloud engine (`packages/cloud-orchestrator`) | Server processes | `agent_runtime.py` composes the task router and master state store behind `POST /v1/agent/turn`; pluggable AuthN/AuthZ at the FastAPI boundary — see [pluggable auth deployment guide](../../packages/cloud-orchestrator/docs/pluggable-auth-deployment.md) |
+| Runtime harness (`packages/runtime-harness`) | Streaming turn host + token parser | A P6 golden-turn import, replay, and chunk-boundary fuzz — operator workflow: [golden-replay-operator.md](../../packages/runtime-harness/docs/golden-replay-operator.md) |
 | Test harness | Node test runner | The same loop with mock bindings; see `examples/_shared/mocks.mjs` |
 
 The point of the contracts is that these three are the same agent. Nothing in `cognitive-core` knows which host it is inside.

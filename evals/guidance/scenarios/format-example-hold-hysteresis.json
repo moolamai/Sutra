@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "scenarioId": "format/example-hold-hysteresis",
+  "title": "Format example — hysteretic hold near hesitation boundary",
+  "description": "Schema/format fixture only (not a teacher golden). Mid-band mastery, hesitation just below SPIKE threshold → expected hold. Documents hysteretic dead-band behavior for EVALSCEN-001.",
+  "subjectId": "subj.eval.format.hold",
+  "deviceId": "dev-eval-format",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "activeConceptId": "math.ratios",
+  "mode": "exploratory",
+  "masterySeed": {
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": { "dev-eval-format": 5.0 },
+      "beta": { "dev-eval-format": 5.0 },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-format"
+    },
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": { "dev-eval-format": 20.0 },
+      "beta": { "dev-eval-format": 1.0 },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-format"
+    }
+  },
+  "frictionHistory": [
+    {
+      "conceptId": "math.ratios",
+      "hesitationMs": 800,
+      "inputVelocity": 2.0,
+      "revisionCount": 0,
+      "assistanceRequested": false,
+      "outcome": "correct",
+      "capturedAt": "001700000000000:000001:dev-eval-format"
+    }
+  ],
+  "turnFriction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 14999,
+    "inputVelocity": 1.5,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "001700000000000:000002:dev-eval-format"
+  },
+  "expected": {
+    "routeAction": "hold",
+    "targetConceptId": "math.ratios",
+    "mode": "exploratory",
+    "rationaleKeywords": ["hold", "0.40", "0.85"]
+  },
+  "tags": ["hold", "hysteresis", "hesitation-spike", "format-example"]
+}

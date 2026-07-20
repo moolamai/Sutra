@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-bad-seed",
+  "turnId": "turn-bad-seed",
+  "capturedAt": "2026-07-15T21:04:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T21:04:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "status": "ok"
+    }
+  ],
+  "rolloutSeed": -1
+}

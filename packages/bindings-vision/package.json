@@ -1,0 +1,51 @@
+{
+  "name": "sutra-bindings-vision",
+  "version": "1.1.0",
+  "description": "Local VLM binding behind VisionInterface (maxInputBytes + responseSchema-valid JSON).",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/bindings-vision#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/bindings-vision"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "fixtures",
+    "schemas",
+    "certification"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/vlm_binding.test.mjs tests/ck06_fixtures.test.mjs tests/edge_vlm_harness.test.mjs tests/document_understanding.test.mjs tests/prescription_sketch.test.mjs tests/document_golden.test.mjs",
+    "certify:document-golden": "pnpm run build && node ./certification/run-document-golden.mjs --report-out ./certification/reports/document.golden.json",
+    "ci:certify:document-golden": "node ./certification/run-document-golden.mjs --report-out ../../artifacts/vision-document-golden/document.golden.json",
+    "prove:document-golden": "pnpm run build && node ./certification/prove-document-golden.mjs",
+    "ci:prove:document-golden": "node ./certification/prove-document-golden.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "dependencies": {
+    "@moolam/cognitive-core": "workspace:*",
+    "@moolam/contract-conformance": "workspace:*",
+    "@moolam/contracts": "workspace:*",
+    "@moolam/edge-agent": "workspace:*",
+    "@moolam/sync-protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^5.8.0"
+  }
+}

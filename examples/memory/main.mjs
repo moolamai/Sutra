@@ -1,8 +1,9 @@
 // memory: the on-device LocalVectorDb over a minimal in-memory
 // StorageDriver. Demonstrates durable upsert, similarity search, and
 // kind-aware decay (corrections never decay; episodics do).
-import { LocalVectorDb } from "@moolam/sdk";
-import { embed } from "../_shared/mocks.mjs";
+import { LocalVectorDb } from "sutra-sdk";
+import { embed } from "@moolam/contract-mocks";
+
 
 /** In-memory StorageDriver implementing the statements LocalVectorDb issues. */
 function memoryDriver() {

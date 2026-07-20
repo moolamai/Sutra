@@ -1,0 +1,16 @@
+{
+  "id": "accepted",
+  "subjectId": "anika-k",
+  "turnId": "turn-outcome-accepted",
+  "sessionId": "sess-outcome-e2e",
+  "deviceId": "edge-aaaa",
+  "path": "accept",
+  "expectedSignal": "ACCEPTED",
+  "executionState": {
+    "commandExecuted": "tool.write",
+    "statusCode": 200
+  },
+  "streamFrames": ["SESSION_START", "TOKEN_DELTA", "TOOL_STATUS", "TURN_COMPLETE"],
+  "expectPreAbortFrames": false,
+  "locality": "on-device"
+}

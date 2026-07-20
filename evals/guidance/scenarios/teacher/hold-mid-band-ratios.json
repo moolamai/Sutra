@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/hold-mid-band-ratios",
+  "title": "Hold mid-band ratios",
+  "description": "Mastery in hysteretic dead band; strong fractions; nominal friction → hold on ratios.",
+  "subjectId": "subj.eval.teacher.hold.mid",
+  "activeConceptId": "math.ratios",
+  "mode": "exploratory",
+  "masterySeed": {
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": {
+        "dev-eval-teacher": 5
+      },
+      "beta": {
+        "dev-eval-teacher": 5
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": {
+        "dev-eval-teacher": 20
+      },
+      "beta": {
+        "dev-eval-teacher": 1
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    }
+  },
+  "frictionHistory": [
+    {
+      "conceptId": "math.ratios",
+      "hesitationMs": 600,
+      "inputVelocity": 2,
+      "revisionCount": 0,
+      "assistanceRequested": false,
+      "outcome": "correct",
+      "capturedAt": "001700000000000:000009:dev-eval-teacher"
+    }
+  ],
+  "turnFriction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 200,
+    "inputVelocity": 2,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "001700000000000:000010:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "hold",
+    "targetConceptId": "math.ratios",
+    "mode": "exploratory",
+    "rationaleKeywords": [
+      "nominal",
+      "Ratios"
+    ]
+  },
+  "tags": [
+    "hold",
+    "hysteresis"
+  ]
+}

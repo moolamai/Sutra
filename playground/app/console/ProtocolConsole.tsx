@@ -27,11 +27,12 @@ import {
   masteryMean,
   mergeReplicas,
   routeTurn,
+  taskGraphPackVersionStamp,
   type DeviceReplica,
   type InteractionInput,
   type CognitiveState,
 } from "./engine";
-import { HlcClock } from "@moolam/sync-protocol";
+import { HlcClock } from "@moolam/sync-protocol/client";
 
 const SUBJECT_ID = "subject-demo";
 
@@ -65,7 +66,7 @@ function initialState(): ConsoleState {
         kind: "system",
         lines: [
           `protocol v${PROTOCOL_VERSION} · two edge replicas + cloud master initialized`,
-          `τ_advance=${ADVANCE_THRESHOLD} τ_remediate=${REMEDIATE_THRESHOLD} hesitation_spike=${HESITATION_SPIKE_MS}ms`,
+          `task-graph ${taskGraphPackVersionStamp ?? "unloaded"} · τ_advance=${ADVANCE_THRESHOLD} τ_remediate=${REMEDIATE_THRESHOLD} hesitation_spike=${HESITATION_SPIKE_MS}ms`,
         ],
       },
     ],

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/advance-fractions-to-ratios",
+  "title": "Advance fractions → ratios",
+  "description": "High fractions mastery, nominal friction → advance to ratios.",
+  "subjectId": "subj.eval.teacher.advance.fractions",
+  "activeConceptId": "math.fractions",
+  "mode": "exploratory",
+  "masterySeed": {
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": {
+        "dev-eval-teacher": 20
+      },
+      "beta": {
+        "dev-eval-teacher": 1
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    }
+  },
+  "frictionHistory": [
+    {
+      "conceptId": "math.fractions",
+      "hesitationMs": 400,
+      "inputVelocity": 3,
+      "revisionCount": 0,
+      "assistanceRequested": false,
+      "outcome": "correct",
+      "capturedAt": "001700000000000:000001:dev-eval-teacher"
+    }
+  ],
+  "turnFriction": {
+    "conceptId": "math.fractions",
+    "hesitationMs": 100,
+    "inputVelocity": 3,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "001700000000000:000002:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "advance",
+    "targetConceptId": "math.ratios",
+    "mode": "exploratory",
+    "rationaleKeywords": [
+      "0.85",
+      "advancing",
+      "math.ratios"
+    ]
+  },
+  "tags": [
+    "advance"
+  ]
+}

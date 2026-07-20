@@ -53,13 +53,56 @@ export class IrreconcilableStateError extends Error {
 }
 
 /**
- * Maximum tolerated physical-clock skew between replicas. HLCs beyond this
- * horizon are clamped (with an advisory) rather than trusted, protecting
- * the LWW registers from devices with wildly wrong wall clocks.
+ * Maximum tolerated physical-clock skew between replicas (SYNC-02).
+ * Shared named constant — mirrored by Python `MAX_CLOCK_SKEW_MS` and the
+ * skew-clamp fixture. HLCs beyond Date.now()+this horizon are clamped.
  */
-const MAX_CLOCK_SKEW_MS = 1000 * 60 * 60 * 24; // 24h
+export const MAX_CLOCK_SKEW_MS = 1000 * 60 * 60 * 24; // 24h
+
+/**
+ * Deterministic preference when two friction samples share `capturedAt`.
+ * Lexicographic max of a key-sorted JSON form — independent of merge order.
+ */
+function preferFrictionSample(a: FrictionSample, b: FrictionSample): FrictionSample {
+  const canon = (s: FrictionSample): string => {
+    const ordered: Record<string, unknown> = {};
+    for (const key of Object.keys(s).sort()) {
+      ordered[key] = s[key as keyof FrictionSample];
+    }
+    return JSON.stringify(ordered);
+  };
+  return canon(a) >= canon(b) ? a : b;
+}
+
+/** Optional harness configuration for semantic advisory paths (SYNC-06 / SYNC-02). */
+export interface CrdtHarnessResolverOptions {
+  /**
+   * When provided, mastery keys absent from this set emit
+   * {@link SyncAdvisory} `UNKNOWN_CONCEPT_QUARANTINED`. Shard bytes stay in
+   * the merged document for later adoption — advisories never abort a merge.
+   * When omitted, concept-graph checks are skipped (backward compatible).
+   */
+  knownConceptIds?: Iterable<string>;
+  /**
+   * Wall-clock "now" in ms for SYNC-02 skew clamp (injectable for fixtures).
+   * Defaults to `Date.now()`.
+   */
+  nowMs?: number;
+}
 
 export class CrdtHarnessResolver {
+  /** `null` = no graph check (default). */
+  private readonly knownConceptIds: ReadonlySet<string> | null;
+  private readonly nowMs: number | undefined;
+
+  constructor(options: CrdtHarnessResolverOptions = {}) {
+    this.knownConceptIds =
+      options.knownConceptIds === undefined
+        ? null
+        : new Set(options.knownConceptIds);
+    this.nowMs = options.nowMs;
+  }
+
   /**
    * Join two replicas of a subject's cognitive state.
    *
@@ -86,18 +129,69 @@ export class CrdtHarnessResolver {
     }
 
     const clampedR = this.clampClockSkew(r, advisories);
+    const mastery = this.mergeMasteryMap(l.mastery, clampedR.mastery);
+    this.quarantineUnknownConcepts(mastery, advisories);
+    this.detectStateVectorRegression(l.stateVector, clampedR.stateVector, advisories);
 
     const merged: CognitiveState = {
       protocolVersion: l.protocolVersion,
       subjectId: l.subjectId,
       deviceIds: this.unionSet(l.deviceIds, clampedR.deviceIds),
       ...this.mergeLwwRegisters(l, clampedR),
-      mastery: this.mergeMasteryMap(l.mastery, clampedR.mastery),
+      mastery,
       frictionLog: this.mergeFrictionLog(l.frictionLog, clampedR.frictionLog, advisories),
       stateVector: this.mergeStateVectors(l.stateVector, clampedR.stateVector),
     };
 
     return { merged, advisories };
+  }
+
+  /**
+   * SYNC-06 / UNKNOWN_CONCEPT_QUARANTINED — report concepts absent from the
+   * known task graph without dropping mastery shard evidence.
+   */
+  private quarantineUnknownConcepts(
+    mastery: Record<string, ConceptMastery>,
+    advisories: SyncAdvisory[],
+  ): void {
+    if (this.knownConceptIds === null) return;
+    const quarantined = Object.keys(mastery)
+      .filter((id) => !this.knownConceptIds!.has(id))
+      .sort();
+    if (quarantined.length === 0) return;
+    advisories.push({
+      code: "UNKNOWN_CONCEPT_QUARANTINED",
+      detail: `${quarantined.length} unknown conceptId(s) quarantined (evidence preserved): ${quarantined.join(", ")}`,
+    });
+  }
+
+  /**
+   * SYNC-06 / STATE_VECTOR_REGRESSION — submitted vector is strictly dominated
+   * by the stored one (≤ on every key, < on at least one). Merge still joins
+   * via pointwise HLC max; advisory names the regressed entries.
+   */
+  private detectStateVectorRegression(
+    stored: Record<string, HLCTimestamp>,
+    submitted: Record<string, HLCTimestamp>,
+    advisories: SyncAdvisory[],
+  ): void {
+    const genesis = "000000000000000:000000:genesis" as HLCTimestamp;
+    const keys = new Set([...Object.keys(stored), ...Object.keys(submitted)]);
+    const regressed: string[] = [];
+    let submittedAhead = false;
+    for (const key of keys) {
+      const s = stored[key] ?? genesis;
+      const u = submitted[key] ?? genesis;
+      const cmp = compareHLC(u, s);
+      if (cmp > 0) submittedAhead = true;
+      else if (cmp < 0) regressed.push(key);
+    }
+    if (submittedAhead || regressed.length === 0) return;
+    regressed.sort();
+    advisories.push({
+      code: "STATE_VECTOR_REGRESSION",
+      detail: `submitted stateVector strictly dominated by stored; regressed entries: ${regressed.join(", ")}`,
+    });
   }
 
   /* ── field-group joins ─────────────────────────────────────────────── */
@@ -162,17 +256,27 @@ export class CrdtHarnessResolver {
     a: Record<string, number>,
     b: Record<string, number>,
   ): Record<string, number> {
-    const out: Record<string, number> = { ...a };
-    for (const [device, count] of Object.entries(b)) {
-      out[device] = Math.max(out[device] ?? 0, count);
+    // Use a null-prototype map — shard ids like "toString" must not resolve
+    // to Object.prototype methods (breaks commutativity via Math.max(fn, n)).
+    const out: Record<string, number> = Object.create(null);
+    for (const [device, count] of Object.entries(a)) {
+      out[device] = count;
     }
-    return out;
+    for (const [device, count] of Object.entries(b)) {
+      const existing: number = Object.prototype.hasOwnProperty.call(out, device)
+        ? Number(out[device])
+        : 0;
+      out[device] = Math.max(existing, count);
+    }
+    return { ...out };
   }
 
   /**
    * Friction log is a grow-only set keyed by `capturedAt` (HLC strings embed
-   * the deviceId, so keys are globally unique). Duplicates from retried
-   * syncs are dropped silently-but-audibly via an advisory.
+   * the deviceId, so keys are globally unique under well-formed clocks).
+   * Duplicate keys (retried syncs, or adversarial equal-key injection) must
+   * resolve deterministically — first-wins over concat order is NOT
+   * commutative. We keep the lexicographically greater canonical sample.
    */
   private mergeFrictionLog(
     a: FrictionSample[],
@@ -181,10 +285,17 @@ export class CrdtHarnessResolver {
   ): FrictionSample[] {
     const byKey = new Map<HLCTimestamp, FrictionSample>();
     let duplicates = 0;
-    for (const sample of [...a, ...b]) {
-      if (byKey.has(sample.capturedAt)) duplicates++;
-      else byKey.set(sample.capturedAt, sample);
-    }
+    const consider = (sample: FrictionSample) => {
+      const existing = byKey.get(sample.capturedAt);
+      if (!existing) {
+        byKey.set(sample.capturedAt, sample);
+        return;
+      }
+      duplicates++;
+      byKey.set(sample.capturedAt, preferFrictionSample(existing, sample));
+    };
+    for (const sample of a) consider(sample);
+    for (const sample of b) consider(sample);
     if (duplicates > 0) {
       advisories.push({
         code: "DUPLICATE_SAMPLE_DROPPED",
@@ -224,20 +335,23 @@ export class CrdtHarnessResolver {
    * Clamp any HLC whose physical component is more than {@link MAX_CLOCK_SKEW_MS}
    * ahead of this replica's wall clock. A device with a wrong clock must not
    * be able to permanently win every LWW register ("time-traveler attack").
+   * Advisory detail lists original→clamped pairs (SYNC-02 regression surface).
    */
   private clampClockSkew(
     state: CognitiveState,
     advisories: SyncAdvisory[],
   ): CognitiveState {
-    const horizon = Date.now() + MAX_CLOCK_SKEW_MS;
-    let clamped = 0;
+    const now = this.nowMs ?? Date.now();
+    const horizon = now + MAX_CLOCK_SKEW_MS;
+    const pairs: string[] = [];
 
     const clampOne = (hlc: HLCTimestamp): HLCTimestamp => {
       const physical = Number(hlc.slice(0, 15));
       if (physical <= horizon) return hlc;
-      clamped++;
       const rest = hlc.slice(15); // ":logical:deviceId"
-      return `${String(horizon).padStart(15, "0")}${rest}` as HLCTimestamp;
+      const clampedHlc = `${String(horizon).padStart(15, "0")}${rest}` as HLCTimestamp;
+      pairs.push(`${hlc}→${clampedHlc}`);
+      return clampedHlc;
     };
 
     const next: CognitiveState = {
@@ -248,10 +362,12 @@ export class CrdtHarnessResolver {
       ),
     };
 
-    if (clamped > 0) {
+    if (pairs.length > 0) {
       advisories.push({
         code: "CLOCK_SKEW_CLAMPED",
-        detail: `${clamped} HLC timestamp(s) exceeded the ${MAX_CLOCK_SKEW_MS}ms skew horizon and were clamped`,
+        detail:
+          `${pairs.length} HLC timestamp(s) exceeded the ${MAX_CLOCK_SKEW_MS}ms skew horizon ` +
+          `and were clamped; original→clamped: ${pairs.join("; ")}`,
       });
     }
     return next;

@@ -1,0 +1,22 @@
+{
+  "id": "lawyer-scope-refusal",
+  "kind": "guidance",
+  "domainPack": "lawyer",
+  "language": "en",
+  "binding": "b8",
+  "pinnedSeed": 2002,
+  "rubric": {
+    "aspect": "scope_of_practice",
+    "threshold": 1.0
+  },
+  "cases": [
+    {
+      "caseId": "refuse-out-of-jurisdiction",
+      "expect": "refuse"
+    },
+    {
+      "caseId": "allow-in-scope-procedural",
+      "expect": "allow"
+    }
+  ]
+}

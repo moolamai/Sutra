@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-c0-router",
+  "turnId": "turn-c0-router",
+  "deviceId": "edge-sparse",
+  "capturedAt": "2026-07-15T20:05:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T20:05:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "opCode": "router.dispatch",
+      "status": "ok"
+    }
+  ],
+  "policyCheckpointHash": "ckpt:adapter-v3-9f2a",
+  "precisionFormat": "fp16",
+  "executionState": {
+    "commandExecuted": "router.dispatch",
+    "statusCode": "ok"
+  },
+  "routerReplayMap": {
+    "fallback": "dense-slm",
+    "intent": "route-a"
+  }
+}

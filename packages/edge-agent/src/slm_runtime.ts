@@ -6,11 +6,16 @@
  * The harness never links against a specific inference engine. Instead it
  * speaks `SlmRuntime`, and adapters bind that interface to whatever the
  * host device offers:
- *   - llama.cpp / GGUF   (Phi-3-mini, Gemma-2 2B, Qwen-2.5 1.5B, …)
+ *   - llama.cpp / GGUF   (`sutra-bindings-slm` LlamaCppSlmRuntime;
+ *     ModelInterface via createLlamaCppModelAdapter / createSlmModelAdapter)
  *   - ONNX Runtime Mobile (quantized INT4/INT8 exports)
  *   - MediaPipe LLM Inference API (Android AICore)
  *   - Apple Foundation Models / MLX (iOS)
  *   - any localhost OpenAI-compatible server (Ollama, llamafile)
+ *
+ * CognitiveCore consumes ModelInterface. Pass a loaded LlamaCppSlmRuntime
+ * into edge cognitive bindings, or call createLlamaCppModelAdapter and
+ * inject the resulting model into the binding set.
  *
  * This is what makes the Edge Harness sovereign: a district deployment can
  * swap models and engines without touching a line of domain code.
@@ -51,6 +56,11 @@ export interface SlmGenerateResult {
  * The single interface every local inference adapter implements.
  * Adapters must be side-effect free until `load()` is invoked so the
  * harness can enumerate candidates cheaply on constrained devices.
+ *
+ * Streaming MUST yield CK-03.2 deltas (new text only), never cumulative
+ * restatements of prior frames. Implementations SHOULD race an
+ * AbortController-equivalent against `deadlineMs` at the native/FFI layer
+ * so generation cannot hang the harness thread.
  */
 export interface SlmRuntime {
   readonly card: SlmModelCard;
@@ -60,10 +70,224 @@ export interface SlmRuntime {
   unload(): Promise<void>;
   /** Single-shot generation within a strict deadline. */
   generate(params: SlmGenerateParams): Promise<SlmGenerateResult>;
-  /** Streaming variant for word-by-word reply rendering. */
+  /** Streaming variant for word-by-word reply rendering (delta frames). */
   generateStream(params: SlmGenerateParams): AsyncIterable<string>;
   /** Embed text for the local vector store. Dimension must be stable. */
   embed(text: string): Promise<Float32Array>;
+}
+
+/** Init/load obligation named on typed failures (never silent catch-and-continue). */
+export const EDGE_SLM_LOAD_OBLIGATION = "EDGE.SLM_LOAD";
+
+/** Closed set of SlmRuntime load failure classes. */
+export type SlmRuntimeInitFailureClass =
+  | "missing_weights"
+  | "corrupt_weights"
+  | "config";
+
+/**
+ * Typed initialization/load failure for local model weights.
+ * Hosts MUST surface this to the operator — never retry unboundedly.
+ */
+export class SlmRuntimeInitError extends Error {
+  override readonly name = "SlmRuntimeInitError";
+  readonly failureClass: SlmRuntimeInitFailureClass;
+  readonly obligationId: string;
+  readonly reason: "missing" | "corrupt" | "config";
+
+  constructor(
+    message: string,
+    opts: {
+      failureClass: SlmRuntimeInitFailureClass;
+      reason: "missing" | "corrupt" | "config";
+      obligationId?: string;
+    },
+  ) {
+    super(message);
+    this.failureClass = opts.failureClass;
+    this.reason = opts.reason;
+    this.obligationId = opts.obligationId ?? EDGE_SLM_LOAD_OBLIGATION;
+  }
+}
+
+/** Metadata-only telemetry for SLM load/unload (never utterance/prompt bodies). */
+export type SlmRuntimeTelemetryEvent = {
+  event: "edge_agent.slm_runtime";
+  op: "load" | "unload";
+  outcome: "ok" | "init_error";
+  modelId: string;
+  subjectId?: string;
+  deviceId?: string;
+  failureClass?: SlmRuntimeInitFailureClass;
+  obligationId?: string;
+  reason?: "missing" | "corrupt" | "config";
+};
+
+/** Magic prefix for drill / on-disk weight fixtures (not a full GGUF parser). */
+export const SLM_WEIGHTS_MAGIC = "SUTRA-WEIGHTS-v1";
+
+export type LocalWeightSlmRuntimeOptions = {
+  /** Absolute or relative path to on-disk model weights. */
+  weightsPath: string;
+  subjectId?: string;
+  deviceId?: string;
+  onTelemetry?: (event: SlmRuntimeTelemetryEvent) => void;
+  /**
+   * Optional custom integrity check after magic-header validation.
+   * Return false → corrupt_weights.
+   */
+  inspectWeights?: (bytes: Uint8Array) => boolean;
+};
+
+/**
+ * File-backed SlmRuntime load seam used for edge degradation drills and
+ * host deployments that materialize weights from disk before inference.
+ *
+ * Missing or corrupt weights → {@link SlmRuntimeInitError} once per `load()`
+ * (no internal retry loop). Generation requires a prior successful load.
+ */
+export class LocalWeightSlmRuntime implements SlmRuntime {
+  private loaded = false;
+  private loadAttempts = 0;
+
+  constructor(
+    public readonly card: SlmModelCard,
+    private readonly options: LocalWeightSlmRuntimeOptions,
+  ) {
+    if (!options.weightsPath || !String(options.weightsPath).trim()) {
+      throw new SlmRuntimeInitError("LocalWeightSlmRuntime requires weightsPath", {
+        failureClass: "config",
+        reason: "config",
+      });
+    }
+  }
+
+  /** How many times `load()` has been invoked (crash-loop detection). */
+  get loadAttemptCount(): number {
+    return this.loadAttempts;
+  }
+
+  get isLoaded(): boolean {
+    return this.loaded;
+  }
+
+  async load(): Promise<void> {
+    this.loadAttempts += 1;
+    if (this.loaded) {
+      this.emit({ op: "load", outcome: "ok" });
+      return;
+    }
+
+    const fs = await import("node:fs/promises");
+    const path = this.options.weightsPath;
+
+    let bytes: Uint8Array;
+    try {
+      bytes = new Uint8Array(await fs.readFile(path));
+    } catch (err) {
+      const code =
+        err && typeof err === "object" && "code" in err
+          ? String((err as { code?: string }).code)
+          : "";
+      if (code === "ENOENT" || code === "ENOTDIR") {
+        throw this.failLoad("missing", `model weights missing at path`);
+      }
+      throw this.failLoad(
+        "corrupt",
+        `model weights unreadable (${code || "io_error"})`,
+      );
+    }
+
+    if (bytes.byteLength === 0) {
+      throw this.failLoad("corrupt", "model weights file is empty");
+    }
+
+    const header = new TextDecoder().decode(
+      bytes.subarray(0, Math.min(bytes.byteLength, SLM_WEIGHTS_MAGIC.length)),
+    );
+    if (header !== SLM_WEIGHTS_MAGIC) {
+      throw this.failLoad("corrupt", "model weights magic header mismatch");
+    }
+
+    if (this.options.inspectWeights && !this.options.inspectWeights(bytes)) {
+      throw this.failLoad("corrupt", "model weights failed integrity inspect");
+    }
+
+    this.loaded = true;
+    this.emit({ op: "load", outcome: "ok" });
+  }
+
+  async unload(): Promise<void> {
+    this.loaded = false;
+    this.emit({ op: "unload", outcome: "ok" });
+  }
+
+  async generate(_params: SlmGenerateParams): Promise<SlmGenerateResult> {
+    if (!this.loaded) {
+      throw new SlmRuntimeInitError("SlmRuntime.generate before successful load", {
+        failureClass: "config",
+        reason: "config",
+      });
+    }
+    // Reference: weights-validated stub; native adapters replace with real inference.
+    return { text: "", tokensPerSecond: 0, finishReason: "stop" };
+  }
+
+  async *generateStream(params: SlmGenerateParams): AsyncIterable<string> {
+    const result = await this.generate(params);
+    if (result.text) yield result.text;
+  }
+
+  async embed(_text: string): Promise<Float32Array> {
+    if (!this.loaded) {
+      throw new SlmRuntimeInitError("SlmRuntime.embed before successful load", {
+        failureClass: "config",
+        reason: "config",
+      });
+    }
+    return new Float32Array(8);
+  }
+
+  private failLoad(
+    reason: "missing" | "corrupt",
+    message: string,
+  ): SlmRuntimeInitError {
+    const failureClass =
+      reason === "missing" ? "missing_weights" : "corrupt_weights";
+    const error = new SlmRuntimeInitError(message, {
+      failureClass,
+      reason,
+    });
+    this.emit({
+      op: "load",
+      outcome: "init_error",
+      failureClass,
+      obligationId: EDGE_SLM_LOAD_OBLIGATION,
+      reason,
+    });
+    return error;
+  }
+
+  private emit(
+    partial: Pick<SlmRuntimeTelemetryEvent, "op" | "outcome"> &
+      Partial<
+        Pick<
+          SlmRuntimeTelemetryEvent,
+          "failureClass" | "obligationId" | "reason"
+        >
+      >,
+  ): void {
+    const event: SlmRuntimeTelemetryEvent = {
+      event: "edge_agent.slm_runtime",
+      modelId: this.card.modelId,
+      ...partial,
+    };
+    const sid = this.options.subjectId?.trim();
+    const did = this.options.deviceId?.trim();
+    if (sid) event.subjectId = sid;
+    if (did) event.deviceId = did;
+    this.options.onTelemetry?.(event);
+  }
 }
 
 /**

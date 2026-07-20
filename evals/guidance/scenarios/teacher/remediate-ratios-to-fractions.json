@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "guidance-eval.scenario.v1",
+  "deviceId": "dev-eval-teacher",
+  "packId": "teacher-cbse-slice",
+  "packVersion": "1.0.0",
+  "seed": 42,
+  "scenarioId": "teacher/remediate-ratios-to-fractions",
+  "title": "Remediate ratios → fractions on spike",
+  "description": "Hesitation spike + weak fractions → prerequisite-remediation to fractions.",
+  "subjectId": "subj.eval.teacher.remediate.ratios",
+  "activeConceptId": "math.ratios",
+  "mode": "guided",
+  "masterySeed": {
+    "math.ratios": {
+      "conceptId": "math.ratios",
+      "alpha": {
+        "dev-eval-teacher": 5
+      },
+      "beta": {
+        "dev-eval-teacher": 5
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    },
+    "math.fractions": {
+      "conceptId": "math.fractions",
+      "alpha": {
+        "dev-eval-teacher": 1
+      },
+      "beta": {
+        "dev-eval-teacher": 20
+      },
+      "lastExercisedAt": "001700000000000:000000:dev-eval-teacher"
+    }
+  },
+  "frictionHistory": [
+    {
+      "conceptId": "math.ratios",
+      "hesitationMs": 5000,
+      "inputVelocity": 1,
+      "revisionCount": 2,
+      "assistanceRequested": false,
+      "outcome": "partial",
+      "capturedAt": "001700000000000:000005:dev-eval-teacher"
+    }
+  ],
+  "turnFriction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 20000,
+    "inputVelocity": 0.5,
+    "revisionCount": 3,
+    "assistanceRequested": true,
+    "outcome": "incorrect",
+    "capturedAt": "001700000000000:000006:dev-eval-teacher"
+  },
+  "expected": {
+    "routeAction": "remediate",
+    "targetConceptId": "math.fractions",
+    "mode": "prerequisite-remediation",
+    "rationaleKeywords": [
+      "SPIKE",
+      "loop",
+      "fractions"
+    ]
+  },
+  "tags": [
+    "remediate",
+    "hesitation-spike"
+  ]
+}

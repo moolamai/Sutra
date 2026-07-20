@@ -1,0 +1,206 @@
+{
+  "description": "Prompt assembly + bindings-hash determinism goldens (state-hash caching).",
+  "cases": [
+    {
+      "id": "identical-bindings-stable",
+      "specId": "state-hash-caching",
+      "protects": "Identical bindings → identical static block hash; golden byte compare of canonical hash input and static prefix.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "sessionId": "sess-1",
+      "profile": {
+        "domainId": "mathematics-mentor",
+        "charter": "You are a patient tutor. Stay within elementary scope.",
+        "refusals": ["medical-advice", "legal-advice"],
+        "languages": ["en", "hi"]
+      },
+      "protocol": {
+        "protocolVersion": "1.0.0",
+        "instructions": "Use thought/answer fences. Never invent citations."
+      },
+      "bindingFields": {
+        "modelId": "slm-local",
+        "knowledgeSourceIds": ["pack-a", "pack-b"]
+      },
+      "turnContext": {
+        "utterance": "Explain ratios.",
+        "memories": [{ "id": "m1", "text": "prior fraction lesson" }],
+        "passages": [
+          { "id": "p1", "sourceId": "pack-a", "text": "a:b means a/b" }
+        ]
+      },
+      "expected": {
+        "outcome": "ok",
+        "bindingsHash": "74f442bcd18933054b72e6d8af102f6ae7682193cb2cfdcff45461db2853a29a",
+        "canonicalJson": "{\"bindingFields\":{\"knowledgeSourceIds\":[\"pack-a\",\"pack-b\"],\"modelId\":\"slm-local\"},\"profile\":{\"charter\":\"You are a patient tutor. Stay within elementary scope.\",\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]},\"protocol\":{\"instructions\":\"Use thought/answer fences. Never invent citations.\",\"protocolVersion\":\"1.0.0\"},\"subjectId\":\"anika-k\"}",
+        "staticBlock": "<<<SUTRA_PROMPT_STATIC>>>\n### charter\nYou are a patient tutor. Stay within elementary scope.\n### protocol\nversion: 1.0.0\nUse thought/answer fences. Never invent citations.\n### profile\n{\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]}\n<<<END_SUTRA_PROMPT_STATIC>>>",
+        "dynamicBlock": "<<<SUTRA_PROMPT_DYNAMIC>>>\n### utterance\nExplain ratios.\n### memories\n[m1] prior fraction lesson\n### passages\n[p1|pack-a] a:b means a/b\n<<<END_SUTRA_PROMPT_DYNAMIC>>>"
+      }
+    },
+    {
+      "id": "key-order-flap",
+      "specId": "state-hash-caching",
+      "protects": "Canonical hash serialization sorts keys — no hash flap from object / list insertion order.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "profile": {
+        "domainId": "mathematics-mentor",
+        "charter": "You are a patient tutor. Stay within elementary scope.",
+        "languages": ["hi", "en"],
+        "refusals": ["legal-advice", "medical-advice"]
+      },
+      "protocol": {
+        "instructions": "Use thought/answer fences. Never invent citations.",
+        "protocolVersion": "1.0.0"
+      },
+      "bindingFields": {
+        "knowledgeSourceIds": ["pack-a", "pack-b"],
+        "modelId": "slm-local"
+      },
+      "turnContext": {
+        "utterance": "Different turn — must not affect bindings hash.",
+        "memories": [],
+        "passages": []
+      },
+      "expected": {
+        "outcome": "ok",
+        "bindingsHash": "74f442bcd18933054b72e6d8af102f6ae7682193cb2cfdcff45461db2853a29a",
+        "canonicalJson": "{\"bindingFields\":{\"knowledgeSourceIds\":[\"pack-a\",\"pack-b\"],\"modelId\":\"slm-local\"},\"profile\":{\"charter\":\"You are a patient tutor. Stay within elementary scope.\",\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]},\"protocol\":{\"instructions\":\"Use thought/answer fences. Never invent citations.\",\"protocolVersion\":\"1.0.0\"},\"subjectId\":\"anika-k\"}",
+        "staticBlock": "<<<SUTRA_PROMPT_STATIC>>>\n### charter\nYou are a patient tutor. Stay within elementary scope.\n### protocol\nversion: 1.0.0\nUse thought/answer fences. Never invent citations.\n### profile\n{\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]}\n<<<END_SUTRA_PROMPT_STATIC>>>",
+        "dynamicBlock": "<<<SUTRA_PROMPT_DYNAMIC>>>\n### utterance\nDifferent turn — must not affect bindings hash.\n### memories\n### passages\n<<<END_SUTRA_PROMPT_DYNAMIC>>>"
+      }
+    },
+    {
+      "id": "charter-mutation",
+      "specId": "state-hash-caching",
+      "protects": "Profile charter update mid-session → hash change and static byte change (cache miss).",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "profile": {
+        "domainId": "mathematics-mentor",
+        "charter": "Updated charter — new framing.",
+        "refusals": ["medical-advice", "legal-advice"],
+        "languages": ["en", "hi"]
+      },
+      "protocol": {
+        "protocolVersion": "1.0.0",
+        "instructions": "Use thought/answer fences. Never invent citations."
+      },
+      "bindingFields": {
+        "modelId": "slm-local",
+        "knowledgeSourceIds": ["pack-a", "pack-b"]
+      },
+      "turnContext": {
+        "utterance": "Explain ratios.",
+        "memories": [],
+        "passages": []
+      },
+      "expected": {
+        "outcome": "ok",
+        "bindingsHash": "387950fe834419a6a149e2c2306ab66c531440ef4d22b458bbc4dbc9cd089fef",
+        "canonicalJson": "{\"bindingFields\":{\"knowledgeSourceIds\":[\"pack-a\",\"pack-b\"],\"modelId\":\"slm-local\"},\"profile\":{\"charter\":\"Updated charter — new framing.\",\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]},\"protocol\":{\"instructions\":\"Use thought/answer fences. Never invent citations.\",\"protocolVersion\":\"1.0.0\"},\"subjectId\":\"anika-k\"}",
+        "staticBlock": "<<<SUTRA_PROMPT_STATIC>>>\n### charter\nUpdated charter — new framing.\n### protocol\nversion: 1.0.0\nUse thought/answer fences. Never invent citations.\n### profile\n{\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]}\n<<<END_SUTRA_PROMPT_STATIC>>>",
+        "dynamicBlock": "<<<SUTRA_PROMPT_DYNAMIC>>>\n### utterance\nExplain ratios.\n### memories\n### passages\n<<<END_SUTRA_PROMPT_DYNAMIC>>>"
+      }
+    },
+    {
+      "id": "binding-field-mutation",
+      "specId": "state-hash-caching",
+      "protects": "Single binding field change → hash change; static prefix bytes unchanged when profile/protocol unchanged.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "profile": {
+        "domainId": "mathematics-mentor",
+        "charter": "You are a patient tutor. Stay within elementary scope.",
+        "refusals": ["medical-advice", "legal-advice"],
+        "languages": ["en", "hi"]
+      },
+      "protocol": {
+        "protocolVersion": "1.0.0",
+        "instructions": "Use thought/answer fences. Never invent citations."
+      },
+      "bindingFields": {
+        "modelId": "slm-local-v2",
+        "knowledgeSourceIds": ["pack-a", "pack-b"]
+      },
+      "turnContext": {
+        "utterance": "",
+        "memories": [],
+        "passages": []
+      },
+      "expected": {
+        "outcome": "ok",
+        "bindingsHash": "bd632b727b63a1f71ce2d2bfba2904fb2deadeb91a8e59bf25415a24114bf1ee",
+        "canonicalJson": "{\"bindingFields\":{\"knowledgeSourceIds\":[\"pack-a\",\"pack-b\"],\"modelId\":\"slm-local-v2\"},\"profile\":{\"charter\":\"You are a patient tutor. Stay within elementary scope.\",\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]},\"protocol\":{\"instructions\":\"Use thought/answer fences. Never invent citations.\",\"protocolVersion\":\"1.0.0\"},\"subjectId\":\"anika-k\"}",
+        "staticBlock": "<<<SUTRA_PROMPT_STATIC>>>\n### charter\nYou are a patient tutor. Stay within elementary scope.\n### protocol\nversion: 1.0.0\nUse thought/answer fences. Never invent citations.\n### profile\n{\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]}\n<<<END_SUTRA_PROMPT_STATIC>>>",
+        "dynamicBlock": "<<<SUTRA_PROMPT_DYNAMIC>>>\n### utterance\n\n### memories\n### passages\n<<<END_SUTRA_PROMPT_DYNAMIC>>>"
+      }
+    },
+    {
+      "id": "static-only-empty-dynamic",
+      "specId": "state-hash-caching",
+      "protects": "Empty dynamic block still valid — static-only turn; hash ignores utterance.",
+      "subjectId": "anika-k",
+      "deviceId": "edge-aaaa",
+      "profile": {
+        "domainId": "mathematics-mentor",
+        "charter": "You are a patient tutor. Stay within elementary scope.",
+        "refusals": ["medical-advice", "legal-advice"],
+        "languages": ["en", "hi"]
+      },
+      "protocol": {
+        "protocolVersion": "1.0.0",
+        "instructions": "Use thought/answer fences. Never invent citations."
+      },
+      "bindingFields": {
+        "modelId": "slm-local",
+        "knowledgeSourceIds": ["pack-a", "pack-b"]
+      },
+      "turnContext": {
+        "utterance": "",
+        "memories": [],
+        "passages": []
+      },
+      "expected": {
+        "outcome": "ok",
+        "bindingsHash": "74f442bcd18933054b72e6d8af102f6ae7682193cb2cfdcff45461db2853a29a",
+        "canonicalJson": "{\"bindingFields\":{\"knowledgeSourceIds\":[\"pack-a\",\"pack-b\"],\"modelId\":\"slm-local\"},\"profile\":{\"charter\":\"You are a patient tutor. Stay within elementary scope.\",\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]},\"protocol\":{\"instructions\":\"Use thought/answer fences. Never invent citations.\",\"protocolVersion\":\"1.0.0\"},\"subjectId\":\"anika-k\"}",
+        "staticBlock": "<<<SUTRA_PROMPT_STATIC>>>\n### charter\nYou are a patient tutor. Stay within elementary scope.\n### protocol\nversion: 1.0.0\nUse thought/answer fences. Never invent citations.\n### profile\n{\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]}\n<<<END_SUTRA_PROMPT_STATIC>>>",
+        "dynamicBlock": "<<<SUTRA_PROMPT_DYNAMIC>>>\n### utterance\n\n### memories\n### passages\n<<<END_SUTRA_PROMPT_DYNAMIC>>>"
+      }
+    },
+    {
+      "id": "cross-subject-isolation",
+      "specId": "state-hash-caching",
+      "protects": "Subject isolation — distinct subjectId never shares bindings digest for the same profile.",
+      "subjectId": "jamie-r",
+      "deviceId": "edge-bbbb",
+      "profile": {
+        "domainId": "mathematics-mentor",
+        "charter": "You are a patient tutor. Stay within elementary scope.",
+        "refusals": ["medical-advice", "legal-advice"],
+        "languages": ["en", "hi"]
+      },
+      "protocol": {
+        "protocolVersion": "1.0.0",
+        "instructions": "Use thought/answer fences. Never invent citations."
+      },
+      "bindingFields": {
+        "modelId": "slm-local",
+        "knowledgeSourceIds": ["pack-a", "pack-b"]
+      },
+      "turnContext": {
+        "utterance": "Hello",
+        "memories": [],
+        "passages": []
+      },
+      "expected": {
+        "outcome": "ok",
+        "bindingsHash": "1ae7e0d545110d04f3d5e7b04c9139afc4c22ea4dc4148e64c2589494d86114c",
+        "canonicalJson": "{\"bindingFields\":{\"knowledgeSourceIds\":[\"pack-a\",\"pack-b\"],\"modelId\":\"slm-local\"},\"profile\":{\"charter\":\"You are a patient tutor. Stay within elementary scope.\",\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]},\"protocol\":{\"instructions\":\"Use thought/answer fences. Never invent citations.\",\"protocolVersion\":\"1.0.0\"},\"subjectId\":\"jamie-r\"}",
+        "staticBlock": "<<<SUTRA_PROMPT_STATIC>>>\n### charter\nYou are a patient tutor. Stay within elementary scope.\n### protocol\nversion: 1.0.0\nUse thought/answer fences. Never invent citations.\n### profile\n{\"domainId\":\"mathematics-mentor\",\"languages\":[\"en\",\"hi\"],\"refusals\":[\"legal-advice\",\"medical-advice\"]}\n<<<END_SUTRA_PROMPT_STATIC>>>",
+        "dynamicBlock": "<<<SUTRA_PROMPT_DYNAMIC>>>\n### utterance\nHello\n### memories\n### passages\n<<<END_SUTRA_PROMPT_DYNAMIC>>>"
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "callIndex": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "code": {
+      "enum": [
+        "AMBIGUOUS_ARRAY",
+        "EMPTY_ENVELOPE",
+        "INVALID_ARGUMENTS",
+        "INVALID_CALL_ID",
+        "INVALID_JSON",
+        "MISSING_FENCE",
+        "MISSING_TOOL_NAME",
+        "SCHEMA_VIOLATION",
+        "SUBJECT_REQUIRED",
+        "TOO_MANY_CALLS"
+      ],
+      "type": "string"
+    },
+    "issuePath": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "message": {
+      "maxLength": 256,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "issuePath",
+    "message"
+  ],
+  "title": "ToolEnvelopeError",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

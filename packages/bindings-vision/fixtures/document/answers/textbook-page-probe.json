@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "bindings-vision.textbook-page.v1",
+  "documentKind": "textbook-page",
+  "title": "Ratios and proportions",
+  "chapter": "Chapter 5",
+  "pageNumber": 42,
+  "pageIndex": 0,
+  "confidence": 0.88,
+  "blocks": [
+    {
+      "kind": "heading",
+      "text": "5.1 Introduction",
+      "confidence": 0.9
+    },
+    {
+      "kind": "paragraph",
+      "text": "A ratio compares two quantities of the same kind.",
+      "confidence": 0.85
+    },
+    {
+      "kind": "equation",
+      "text": null,
+      "confidence": 0.3
+    }
+  ],
+  "partial": true,
+  "unresolvedFields": ["blocks[2].text"]
+}
+

@@ -1,0 +1,2 @@
+{"exampleId":"ex.micro.und.1","knowledgeMode":"UND","laneCode":"pack.teacher.cbse-slice","contentHash":"sha256:1111111111111111111111111111111111111111111111111111111111111111","frameTypes":["SESSION_START","ANSWER_DELTA","TURN_COMPLETE"]}
+{"exampleId":"ex.micro.und.2","knowledgeMode":"UND","laneCode":"pack.teacher.cbse-slice","contentHash":"sha256:2222222222222222222222222222222222222222222222222222222222222222","frameTypes":["SESSION_START","THOUGHT_DELTA","TURN_COMPLETE"]}

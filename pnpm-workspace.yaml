@@ -1,5 +1,13 @@
 packages:
   - "packages/*"
+  - "tools/conformance-cli"
   - "playground"
   - "examples"
   - "benchmarks"
+  - "docs-site"
+  - "training/gym"
+  - "training/corpus"
+  - "training/distillation"
+  - "training/critics"
+  - "training/pipeline"
+  - "evals/guidance"

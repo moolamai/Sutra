@@ -1,0 +1,11 @@
+[
+  {
+    "toolName": "lookup",
+    "arguments": { "query": "ratio" },
+    "callId": "c1"
+  },
+  {
+    "toolName": "calculator",
+    "arguments": { "expr": "1+1" }
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "name": "@moolam/training-gym",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Training gym anti-cheat charter: production harness path only; replay parity.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "parity:check": "pnpm exec turbo run build --filter=@moolam/runtime-harness && node scripts/check-replay-parity.mjs",
+    "ci:parity": "pnpm run parity:check",
+    "guidance:check": "node scripts/compile-guidance-scenarios.mjs --check",
+    "guidance:write": "node scripts/compile-guidance-scenarios.mjs --write",
+    "golden:check": "node scripts/compile-golden-scenarios.mjs --check",
+    "golden:write": "node scripts/compile-golden-scenarios.mjs --write",
+    "catalog:check": "node scripts/compile-scenario-catalog.mjs --check",
+    "catalog:write": "node scripts/compile-scenario-catalog.mjs --write",
+    "catalog:smoke": "pnpm --filter @moolam/runtime-harness run build && node --experimental-strip-types scripts/smoke-scenario-catalog.mjs",
+    "test": "pnpm --filter @moolam/runtime-harness run build && pnpm --filter @moolam/learning run build && node --experimental-strip-types --test tests/replay_parity.test.ts tests/guidance_episode_tasks.test.ts tests/golden_episode_tasks.test.ts tests/scenario_catalog.test.ts tests/gym_env.test.ts tests/episode_termination.test.ts tests/determinism.test.ts tests/snapshot_store.test.ts tests/fleet.test.ts tests/fleet_deadline.test.ts tests/telemetry.test.ts tests/fleet_telemetry_e2e.test.ts",
+    "prove:determinism-sampling": "node --experimental-strip-types scripts/emit-seeded-entropy.mjs 42 subj.prove.xproc dev-prove-xproc thought-answer-basic"
+  },
+  "exports": {
+    "./env": "./env.ts",
+    "./fleet": "./fleet.ts",
+    "./telemetry": "./telemetry.ts"
+  },
+  "dependencies": {
+    "@moolam/learning": "workspace:*",
+    "@moolam/runtime-harness": "workspace:*"
+  }
+}

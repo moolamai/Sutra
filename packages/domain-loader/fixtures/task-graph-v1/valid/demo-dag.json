@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "task-graph.v1",
+  "packId": "demo-math-sd-slice",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "title": "Demo math + systems design slice",
+  "description": "Mirrors cloud-orchestrator demo_task_graph for schema validation.",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [
+    { "conceptId": "math.fractions", "title": "Fractions", "ageFloor": "child" },
+    { "conceptId": "math.ratios", "title": "Ratios & Proportion", "ageFloor": "child" },
+    { "conceptId": "math.percentages", "title": "Percentages", "ageFloor": "child" },
+    { "conceptId": "sd.networking", "title": "Networking Basics", "ageFloor": "adult" },
+    { "conceptId": "sd.load-balancing", "title": "Load Balancing", "ageFloor": "adult" },
+    { "conceptId": "sd.consistent-hashing", "title": "Consistent Hashing", "ageFloor": "adult" }
+  ],
+  "edges": [
+    {
+      "fromConceptId": "math.ratios",
+      "toConceptId": "math.fractions",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "math.percentages",
+      "toConceptId": "math.ratios",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "sd.load-balancing",
+      "toConceptId": "sd.networking",
+      "type": "prerequisite"
+    },
+    {
+      "fromConceptId": "sd.consistent-hashing",
+      "toConceptId": "sd.load-balancing",
+      "type": "prerequisite"
+    }
+  ]
+}

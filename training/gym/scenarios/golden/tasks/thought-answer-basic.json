@@ -1,0 +1,36 @@
+{
+  "correlationId": "corr-gt-01",
+  "coverage": [
+    "thought_delta",
+    "answer_delta",
+    "tool_call_fence",
+    "advisory_attach",
+    "turn_complete"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedOutcomes": [
+    {
+      "checkId": "oracle.golden.thought-answer-basic.frame_sequence.identity",
+      "frameCount": 7,
+      "kind": "frame_sequence",
+      "verifiable": true
+    },
+    {
+      "checkId": "oracle.golden.thought-answer-basic.frame_sequence.terminal",
+      "expected": "TURN_COMPLETE",
+      "kind": "terminal_frame",
+      "verifiable": true
+    }
+  ],
+  "expectedTerminalFrame": "TURN_COMPLETE",
+  "frameCount": 7,
+  "locality": "on-device",
+  "oracleCheckId": "oracle.golden.thought-answer-basic.frame_sequence",
+  "pinnedAt": "2026-07-15T00:00:00.000Z",
+  "scenarioId": "thought-answer-basic",
+  "schemaVersion": "gym-golden-episode.v1",
+  "sourceId": "thought-answer-basic",
+  "sourceKind": "a_p6_golden",
+  "sourceRelPath": "packages/runtime-harness/fixtures/golden-turns/thought-answer-basic.json",
+  "subjectId": "anika-k"
+}

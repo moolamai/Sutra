@@ -1,0 +1,120 @@
+{
+  "cognitiveState": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "anika-k",
+    "deviceIds": ["edge-aaaa"],
+    "activeConceptId": "math.ratios",
+    "mode": "exploratory",
+    "mastery": {
+      "math.ratios": {
+        "conceptId": "math.ratios",
+        "alpha": { "edge-aaaa": 3 },
+        "beta": { "edge-aaaa": 1 },
+        "lastExercisedAt": "000000001000000:000000:edge-aaaa"
+      }
+    },
+    "frictionLog": [
+      {
+        "conceptId": "math.ratios",
+        "hesitationMs": 1200,
+        "inputVelocity": 3.2,
+        "revisionCount": 0,
+        "assistanceRequested": false,
+        "outcome": "correct",
+        "capturedAt": "000000001000000:000001:edge-aaaa"
+      }
+    ],
+    "profile": {
+      "ageBand": "child",
+      "track": "cbse-class-7-maths",
+      "language": "hi-IN",
+      "updatedAt": "000000001000000:000002:edge-aaaa"
+    },
+    "stateVector": {
+      "session": "000000001000000:000003:edge-aaaa"
+    }
+  },
+  "friction": {
+    "conceptId": "math.ratios",
+    "hesitationMs": 1200,
+    "inputVelocity": 3.2,
+    "revisionCount": 0,
+    "assistanceRequested": false,
+    "outcome": "correct",
+    "capturedAt": "000000001000000:000001:edge-aaaa"
+  },
+  "syncRequest": {
+    "protocolVersion": "1.0.0",
+    "deviceId": "edge-aaaa",
+    "lastKnownCloudVector": {},
+    "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000"
+  },
+  "syncResponse": {
+    "protocolVersion": "1.0.0",
+    "compactedSampleTimestamps": ["000000001000000:000001:edge-aaaa"],
+    "advisories": [
+      {
+        "code": "CLOCK_SKEW_CLAMPED",
+        "detail": "clamped remote physical"
+      }
+    ]
+  },
+  "agentTurnRequest": {
+    "protocolVersion": "1.0.0",
+    "subjectId": "anika-k",
+    "sessionId": "sess-1",
+    "utterance": "what is a ratio?"
+  },
+  "agentTurnResponse": {
+    "protocolVersion": "1.0.0",
+    "reply": "A ratio compares two quantities.",
+    "nextConceptId": "math.ratios.simplify",
+    "mode": "guided",
+    "routingRationale": "novice friction on core concept",
+    "masteryEstimate": 0.42
+  },
+  "syncAuditItem": {
+    "subjectId": "anika-k",
+    "deviceId": "edge-aaaa",
+    "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000",
+    "protocolVersion": "1.0.0",
+    "advisories": [
+      {
+        "code": "CLOCK_SKEW_CLAMPED",
+        "detail": "clamped remote physical"
+      }
+    ],
+    "stateVectorBefore": {
+      "session": "000000001000000:000003:edge-aaaa"
+    },
+    "stateVectorAfter": {
+      "session": "000000001000000:000004:edge-aaaa"
+    },
+    "createdAt": "2026-07-15T12:00:00+00:00"
+  },
+  "syncAuditPage": {
+    "subjectId": "anika-k",
+    "items": [
+      {
+        "subjectId": "anika-k",
+        "deviceId": "edge-aaaa",
+        "syncAttemptId": "550e8400-e29b-41d4-a716-446655440000",
+        "protocolVersion": "1.0.0",
+        "advisories": [
+          {
+            "code": "CLOCK_SKEW_CLAMPED",
+            "detail": "clamped remote physical"
+          }
+        ],
+        "stateVectorBefore": {
+          "session": "000000001000000:000003:edge-aaaa"
+        },
+        "stateVectorAfter": {
+          "session": "000000001000000:000004:edge-aaaa"
+        },
+        "createdAt": "2026-07-15T12:00:00+00:00"
+      }
+    ],
+    "nextCursor": null
+  }
+}

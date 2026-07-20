@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "bindings-speech.tts-voices.v1",
+  "engine": "local-tts-v1",
+  "description": "Voice models actually loaded for local TTS. supportedLanguages is derived only from this set — never aspirational. Fallback language is used when the requested BCP-47 tag is absent (CK-05.2); hosts observe outcome=fallback telemetry — no silent English substitution.",
+  "fallbackLanguage": "en-IN",
+  "voices": [
+    {
+      "voiceId": "indic-hi-f1",
+      "language": "hi-IN",
+      "sampleRateHz": 16000
+    },
+    {
+      "voiceId": "indic-en-f1",
+      "language": "en-IN",
+      "sampleRateHz": 16000
+    },
+    {
+      "voiceId": "indic-ta-f1",
+      "language": "ta-IN",
+      "sampleRateHz": 16000
+    }
+  ],
+  "mixedScriptPolicy": "Devanagari+Latin (and other mixed-script) input synthesizes on the effective voice without crash; language selection still follows requested BCP-47 with declared fallback — it does not auto-switch mid-utterance."
+}

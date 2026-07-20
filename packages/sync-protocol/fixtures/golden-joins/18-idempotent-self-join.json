@@ -1,0 +1,173 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000000000008:000001:dev-a",
+        "conceptId": "c.x",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {
+      "c.x": {
+        "alpha": {
+          "dev-a": 7
+        },
+        "beta": {
+          "dev-a": 2
+        },
+        "conceptId": "c.x",
+        "lastExercisedAt": "000000000000008:000000:dev-a"
+      }
+    },
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-idemp"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000000000008:000001:dev-a",
+        "conceptId": "c.x",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {
+      "c.x": {
+        "alpha": {
+          "dev-a": 7
+        },
+        "beta": {
+          "dev-a": 2
+        },
+        "conceptId": "c.x",
+        "lastExercisedAt": "000000000000008:000000:dev-a"
+      }
+    },
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-idemp"
+  },
+  "id": "18-idempotent-self-join",
+  "kind": "idempotent",
+  "note": "merge(a,a) ≡ a under canonical serialization",
+  "stateA": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000000000008:000001:dev-a",
+        "conceptId": "c.x",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {
+      "c.x": {
+        "alpha": {
+          "dev-a": 7
+        },
+        "beta": {
+          "dev-a": 2
+        },
+        "conceptId": "c.x",
+        "lastExercisedAt": "000000000000008:000000:dev-a"
+      }
+    },
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-idemp"
+  },
+  "stateB": {
+    "activeConceptId": null,
+    "deviceIds": [
+      "dev-a"
+    ],
+    "frictionLog": [
+      {
+        "assistanceRequested": false,
+        "capturedAt": "000000000000008:000001:dev-a",
+        "conceptId": "c.x",
+        "hesitationMs": 0,
+        "inputVelocity": 0,
+        "outcome": "correct",
+        "revisionCount": 0
+      }
+    ],
+    "mastery": {
+      "c.x": {
+        "alpha": {
+          "dev-a": 7
+        },
+        "beta": {
+          "dev-a": 2
+        },
+        "conceptId": "c.x",
+        "lastExercisedAt": "000000000000008:000000:dev-a"
+      }
+    },
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000000:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000000:dev-a"
+    },
+    "subjectId": "subj-idemp"
+  },
+  "subjectId": "subj-idemp"
+}

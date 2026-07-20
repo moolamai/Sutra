@@ -1,0 +1,26 @@
+{
+  "name": "@moolam/docs-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public Sutra docs site (VitePress) — mirrors committed docs/ with clear ownership boundaries",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "docs:sync": "node scripts/sync-content.mjs",
+    "docs:api": "node scripts/generate-api.mjs",
+    "docs:dev": "pnpm docs:sync && pnpm docs:api && vitepress dev",
+    "docs:build": "pnpm docs:sync && pnpm docs:api && vitepress build",
+    "docs:preview": "vitepress preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "typedoc": "^0.28.5",
+    "typedoc-plugin-markdown": "^4.6.4",
+    "typescript": "^5.8.0",
+    "vitepress": "^1.6.3",
+    "vue": "^3.5.13"
+  }
+}

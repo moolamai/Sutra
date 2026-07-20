@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "task-graph.v0",
+  "packId": "bad-schema",
+  "domainId": "teacher",
+  "version": "1.0.0",
+  "thresholds": {
+    "advanceThreshold": 0.85,
+    "remediateThreshold": 0.4
+  },
+  "concepts": [{ "conceptId": "x", "title": "X" }],
+  "edges": []
+}

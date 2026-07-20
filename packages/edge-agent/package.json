@@ -1,8 +1,17 @@
 {
   "name": "@moolam/edge-agent",
-  "version": "0.1.0",
-  "description": "The Edge Harness. Offline-first autonomous agent runtime for local SLMs (Phi-3, Gemma, quantized GGUF/ONNX) with durable friction telemetry and on-device vector memory.",
+  "version": "1.1.0",
+  "description": "Internal component of Sutra SDK — applications should install sutra-sdk. The Edge Harness. Offline-first autonomous agent runtime for local SLMs (Phi-3, Gemma, quantized GGUF/ONNX) with durable friction telemetry and on-device vector memory.",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/moolamai/sutra/tree/main/packages/edge-agent#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moolamai/sutra.git",
+    "directory": "packages/edge-agent"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,18 +21,27 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test tests/chat_prompt_assembly.test.mjs tests/slm_model_adapter.test.mjs tests/slm_runtime_weights.test.mjs tests/model_adapter_conformance.test.mjs tests/local_vector_memory.test.mjs tests/memory_decay_pinning.test.mjs tests/edge_cognitive_bindings.test.mjs tests/edge_agent_event_bus.test.mjs tests/edge_agent_turn_completed.test.mjs tests/edge_agent_sync_outcome.test.mjs tests/edge_agent_unified_turn.test.mjs tests/trajectory_capture_hook.test.mjs tests/trajectory_capture_load.test.mjs tests/offline_edge_regression.test.mjs tests/offline_horizon.test.mjs tests/coldstart.test.mjs tests/coldstart_parity.test.mjs",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
+    "@moolam/cognitive-core": "workspace:*",
     "@moolam/contracts": "workspace:*",
+    "@moolam/observability": "workspace:*",
+    "@moolam/runtime": "workspace:*",
     "@moolam/sync-protocol": "workspace:*",
     "@moolam/telemetry": "workspace:*"
   },
   "devDependencies": {
+    "@moolam/contract-conformance": "workspace:*",
+    "@opentelemetry/sdk-trace-base": "2.0.1",
+    "@types/node": "^22.20.0",
     "typescript": "^5.8.0"
   }
 }

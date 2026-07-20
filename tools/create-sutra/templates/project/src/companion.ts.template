@@ -1,0 +1,46 @@
+import { CognitiveCore } from "sutra-sdk";
+import { agentProfile } from "./config/domain.ts";
+import {
+  makeKnowledge,
+  makeMemory,
+  makeModel,
+  makeNoTools,
+  makePlanning,
+  makeReasoning,
+} from "./mocks/reference-bindings.ts";
+
+export type CompanionTurnInput = {
+  subjectId: string;
+  sessionId: string;
+  utterance: string;
+};
+
+/** Wire CognitiveCore with reference mocks — swap bindings for production adapters. */
+export function createCompanionCore(subjectId: string) {
+  if (!subjectId.trim()) {
+    throw new Error("subjectId is required for companion core wiring");
+  }
+  const bindingOpts = { subjectId, persona: "{{PROJECT_NAME}}" };
+  return new CognitiveCore(agentProfile, {
+    memory: makeMemory(bindingOpts),
+    model: makeModel(bindingOpts),
+    reasoning: makeReasoning(),
+    planning: makePlanning(),
+    tools: makeNoTools(),
+    knowledge: makeKnowledge(bindingOpts),
+  });
+}
+
+/** Run one mocked turn scoped to a single subject. */
+export async function runMockTurn(input: CompanionTurnInput) {
+  const subjectId = input.subjectId.trim();
+  if (!subjectId) {
+    throw new Error("subjectId is required for mock turn");
+  }
+  const core = createCompanionCore(subjectId);
+  return core.turn({
+    subjectId,
+    sessionId: input.sessionId,
+    utterance: input.utterance,
+  });
+}

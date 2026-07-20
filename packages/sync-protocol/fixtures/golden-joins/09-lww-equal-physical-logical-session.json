@@ -1,0 +1,93 @@
+{
+  "canonicalJoin": {
+    "activeConceptId": "math.percents",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "diagnostic",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000001:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000005:dev-b"
+    },
+    "subjectId": "subj-lww"
+  },
+  "compactedSampleTimestamps": null,
+  "expectError": null,
+  "expectedAfterPruneRemerge": null,
+  "expectedJoin": {
+    "activeConceptId": "math.percents",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "diagnostic",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000001:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000005:dev-b"
+    },
+    "subjectId": "subj-lww"
+  },
+  "id": "09-lww-equal-physical-logical-session",
+  "kind": "lww-equal-hlc",
+  "note": "Equal physical+logical session HLC — deviceId lexicographic tie-break",
+  "stateA": {
+    "activeConceptId": "math.ratios",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "guided",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000001:dev-a"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000005:dev-a"
+    },
+    "subjectId": "subj-lww"
+  },
+  "stateB": {
+    "activeConceptId": "math.percents",
+    "deviceIds": [
+      "dev-a",
+      "dev-b"
+    ],
+    "frictionLog": [],
+    "mastery": {},
+    "mode": "diagnostic",
+    "profile": {
+      "ageBand": "adult",
+      "language": "en",
+      "track": "algebra",
+      "updatedAt": "000000001000000:000001:dev-b"
+    },
+    "protocolVersion": "1.0.0",
+    "stateVector": {
+      "session": "000000001000000:000005:dev-b"
+    },
+    "subjectId": "subj-lww"
+  },
+  "subjectId": "subj-lww"
+}

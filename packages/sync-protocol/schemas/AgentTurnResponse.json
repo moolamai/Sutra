@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "degraded": {
+      "type": "boolean"
+    },
+    "freshnessMarker": {
+      "properties": {
+        "capturedAt": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "last-known-good",
+            "local-cache"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "capturedAt",
+        "source"
+      ],
+      "type": "object"
+    },
+    "masteryEstimate": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "number"
+    },
+    "mode": {
+      "enum": [
+        "diagnostic",
+        "exploratory",
+        "guided",
+        "prerequisite-remediation",
+        "reinforcement"
+      ],
+      "type": "string"
+    },
+    "nextConceptId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "protocolVersion": {
+      "const": "1.0.0",
+      "type": "string"
+    },
+    "reply": {
+      "type": "string"
+    },
+    "routingRationale": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "masteryEstimate",
+    "mode",
+    "nextConceptId",
+    "protocolVersion",
+    "reply",
+    "routingRationale"
+  ],
+  "title": "AgentTurnResponse",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

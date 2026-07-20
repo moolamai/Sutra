@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "llm-judge.eval-entry.v1",
+  "id": "tone.pass.01",
+  "aspect": "tone",
+  "subjectId": "subj.lj.tone.pass.01",
+  "deviceId": "dev.lj.01",
+  "turnId": "turn.lj.tone.pass.01",
+  "locality": "on-device",
+  "humanLabel": "pass"
+}

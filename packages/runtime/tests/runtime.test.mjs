@@ -17,6 +17,38 @@ test("event bus isolates subscriber errors and reports them", () => {
   assert.ok(seen.includes(InProcessEventBus.SUBSCRIBER_ERROR), "error surfaced as event");
 });
 
+test("ValidatingEventBus throw mode rejects via CatalogContractError (EVENCATA-002)", async () => {
+  const { ValidatingEventBus, CatalogContractError } = await import("../dist/index.js");
+  const bus = new ValidatingEventBus(
+    new InProcessEventBus(),
+    () => ({ ok: false, obligation: "catalog.unknown-type", detail: "nope" }),
+    "throw",
+  );
+  assert.throws(
+    () => bus.publish({ type: "x", at: "1", payload: {} }),
+    (err) => err instanceof CatalogContractError && err.obligation === "catalog.unknown-type",
+  );
+});
+
+test("ValidatingEventBus drop mode increments counter without throw (EVENCATA-002)", async () => {
+  const { ValidatingEventBus } = await import("../dist/index.js");
+  const seen = [];
+  const inner = new InProcessEventBus();
+  inner.subscribe("*", (e) => seen.push(e.type));
+  const bus = new ValidatingEventBus(
+    inner,
+    (event) =>
+      event.type === "ok"
+        ? { ok: true, event }
+        : { ok: false, obligation: "catalog.unknown-type", detail: "drop" },
+    "drop",
+  );
+  bus.publish({ type: "bad", at: "1", payload: {} });
+  bus.publish({ type: "ok", at: "1", payload: {} });
+  assert.equal(bus.droppedInvalidCount, 1);
+  assert.deepEqual(seen, ["ok"]);
+});
+
 test("scheduler runs tasks in order and a failure never blocks the queue", async () => {
   const events = [];
   const scheduler = new InProcessScheduler({ onEvent: (e) => events.push(e) });

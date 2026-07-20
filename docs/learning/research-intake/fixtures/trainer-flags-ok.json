@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "research.intake.trainer-flags.v1",
+  "description": "Green fixture — enabled trainer flags cite RFC refs (no orphans).",
+  "flags": [
+    {
+      "flagId": "trainer.grpo.group_size_challenger",
+      "enabled": true,
+      "rfcRef": "RFC-2026-004",
+      "summary": "Challenger pin G=6 under worked-example RFC (not production-adopted)."
+    },
+    {
+      "flagId": "trainer.grpo.clip_eps_experimental",
+      "enabled": false,
+      "summary": "Dormant ε experiment — enabling requires a new RFC before flip."
+    }
+  ]
+}

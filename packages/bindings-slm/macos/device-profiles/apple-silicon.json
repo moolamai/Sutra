@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "bindings-slm.device-profile.v1",
+  "profileId": "apple-silicon",
+  "platform": "darwin",
+  "arch": "arm64",
+  "hardwareClass": "apple-silicon",
+  "metalRequired": true,
+  "description": "Apple silicon macOS/arm64 certification class for MlxSlmRuntime (Metal execution).",
+  "nfr": {
+    "firstTokenP95Ms": 1500,
+    "nfrId": "NFR-01"
+  }
+}

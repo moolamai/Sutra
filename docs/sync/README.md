@@ -24,3 +24,7 @@ Hybrid Logical Clocks order events across devices whose wall clocks disagree. Ea
 3. Device adopts the response after validating it; a validation failure keeps local state and surfaces the advisory.
 
 There is no partial sync and no operational transform log: the document is small by design (counters and ids, not content), so full-document exchange stays cheap. The `cloud-sync` example demonstrates divergence and convergence end to end; `benchmarks/` measures merge throughput and round-trip latency. Decision history is in [ADR 0003](../adr/0003-sync-protocol.md); implementation philosophy in [`design/sync.md`](../../design/sync.md).
+
+## Self-healing advisories
+
+Semantic anomalies (clock skew, duplicate friction keys, unknown concepts, dominated state vectors) complete the merge and return typed `SyncAdvisory` rows. The implementor reference — codes, triggers, payload shapes, and regression fixtures — is [`packages/sync-protocol/docs/advisory-surface.md`](../../packages/sync-protocol/docs/advisory-surface.md).

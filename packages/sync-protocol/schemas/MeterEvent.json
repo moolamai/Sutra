@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "aborted": {
+      "type": "boolean"
+    },
+    "cachedInputTokens": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "inputTokens": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "latencyMs": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "locality": {
+      "enum": [
+        "external-api",
+        "on-device",
+        "self-hosted"
+      ],
+      "type": "string"
+    },
+    "modelId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "outputTokens": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "aborted",
+    "cachedInputTokens",
+    "inputTokens",
+    "latencyMs",
+    "locality",
+    "modelId",
+    "outputTokens"
+  ],
+  "title": "MeterEvent",
+  "type": "object",
+  "x-protocol-version": "1.0.0"
+}

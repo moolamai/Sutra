@@ -128,6 +128,30 @@ What any host (phone app, server process, test harness) must provide: `Lifecycle
 | One-way lifecycle transitions (except suspend/resume) | Half-initialized components produce plausible-looking wrong turns |
 | Events are observations, never control flow | Removing all subscribers must not break correctness |
 
+## 10. `BudgetHook` - host-side spend throttling
+
+**File:** `src/budget.ts`
+
+Called after each accepted meter tick (`MeterEvent` / EventBus `harness.meter`). Returns a closed decision — `allow`, `throttle`, or `hardStop` — so hosts gate generation **before** budget overrun. Wire semantics and worked examples: [`docs/protocol/METERING.md`](../protocol/METERING.md).
+
+| Obligation | Rationale |
+|---|---|
+| Closed decision enum | Free-text control signals are not protocol |
+| `subjectId`-scoped budget state | Cross-subject aggregation is a defect |
+| Invoke on `aborted: true` ticks | Partial turns must still account spend |
+
+## 11. `DegradationRegistry` - named dependency-failure behaviors
+
+**File:** `src/degradation.ts`
+
+Read-only registry of closed modes (`STALE_READ`, `HARD_STOP_WRITE`, `QUEUE_AND_WARN`). Adapters call `lookup(surface, operation)` instead of improvising. Wire schema + MUST behaviors: [`docs/protocol/DEGRADATION-REGISTRY.md`](../protocol/DEGRADATION-REGISTRY.md). Drill map (failure → signal → proving drill): [`docs/protocol/DEGRADATION-DRILL-CROSSREF.md`](../protocol/DEGRADATION-DRILL-CROSSREF.md).
+
+| Obligation | Rationale |
+|---|---|
+| Stale reads carry `freshnessMarker` | Fabricated data is a contract violation |
+| Writes hard-stop; no silent retry | Silent write retry corrupts subject state |
+| Registry not mutable per tenant | Behavior definitions ship with the SDK |
+
 ---
 
 ## Composition: `CognitiveCore`

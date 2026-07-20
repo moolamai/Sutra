@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "aggregation.v1",
+  "fixtureKind": "telemetry-aggregation-golden",
+  "rollups": [
+    {
+      "id": "two-concepts-on-device",
+      "file": "golden/two-concepts-on-device.json",
+      "locality": "on-device",
+      "expectSampleCount": 3,
+      "expectConceptCount": 2
+    },
+    {
+      "id": "duplicate-captured-at-idempotent",
+      "file": "golden/duplicate-captured-at-idempotent.json",
+      "locality": "self-hosted",
+      "expectSampleCount": 1,
+      "expectConceptCount": 1
+    }
+  ],
+  "consentRejections": [
+    {
+      "id": "missing-consent",
+      "file": "consent/missing-consent.json",
+      "expectedObligation": "consent_missing"
+    },
+    {
+      "id": "expired-consent",
+      "file": "consent/expired-consent.json",
+      "expectedObligation": "consent_expired"
+    },
+    {
+      "id": "cross-subject-consent",
+      "file": "consent/cross-subject-consent.json",
+      "expectedObligation": "cross_subject"
+    }
+  ]
+}

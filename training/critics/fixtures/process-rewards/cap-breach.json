@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "subj.process.cap-breach",
+  "sessionId": "sess.process.1",
+  "turnId": "turn.cap-breach",
+  "deviceId": "dev.process.01",
+  "capturedAt": "2026-07-16T12:00:00.000Z",
+  "locality": "self-hosted",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-16T12:00:00.000Z"
+  },
+  "stages": [
+    { "stage": "act", "opCode": "tool.write", "status": "ok" }
+  ],
+  "correctionDepth": 11,
+  "correctionExhausted": true
+}

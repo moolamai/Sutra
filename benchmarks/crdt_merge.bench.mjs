@@ -1,7 +1,7 @@
 // CRDT merge throughput: how fast the cloud can reconcile replicas.
 // Measures CrdtHarnessResolver.merge (including schema validation) over
 // documents of increasing size.
-import { CrdtHarnessResolver, PROTOCOL_VERSION } from "@moolam/sdk";
+import { CrdtHarnessResolver, PROTOCOL_VERSION } from "sutra-sdk";
 import { bench } from "./_shared/bench.mjs";
 
 const hlc = (ms, logical, device) => `${String(ms).padStart(15, "0")}:${String(logical).padStart(6, "0")}:${device}`;

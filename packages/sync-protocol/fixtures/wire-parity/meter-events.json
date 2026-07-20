@@ -1,0 +1,57 @@
+{
+  "description": "Shared MeterEvent wire fixtures — TS Zod + Python Pydantic parity.",
+  "meters": [
+    {
+      "id": "complete-on-device",
+      "meter": {
+        "inputTokens": 12,
+        "outputTokens": 4,
+        "cachedInputTokens": 2,
+        "latencyMs": 35,
+        "modelId": "slm-local",
+        "locality": "on-device",
+        "aborted": false
+      }
+    },
+    {
+      "id": "aborted-partial",
+      "meter": {
+        "inputTokens": 8,
+        "outputTokens": 1,
+        "cachedInputTokens": 0,
+        "latencyMs": 12,
+        "modelId": "slm-local",
+        "locality": "on-device",
+        "aborted": true
+      }
+    },
+    {
+      "id": "external-api",
+      "meter": {
+        "inputTokens": 100,
+        "outputTokens": 40,
+        "cachedInputTokens": 20,
+        "latencyMs": 420,
+        "modelId": "cloud-model",
+        "locality": "external-api",
+        "aborted": false
+      }
+    }
+  ],
+  "catalogEnvelope": {
+    "type": "harness.meter",
+    "at": "2026-07-15T10:02:00.040Z",
+    "payload": {
+      "subjectId": "anika-k",
+      "sessionId": "sess-1",
+      "deviceId": "edge-aaaa",
+      "inputTokens": 12,
+      "outputTokens": 4,
+      "cachedInputTokens": 2,
+      "latencyMs": 35,
+      "modelId": "slm-local",
+      "locality": "on-device",
+      "aborted": false
+    }
+  }
+}

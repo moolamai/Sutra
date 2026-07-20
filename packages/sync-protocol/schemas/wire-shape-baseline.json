@@ -1,0 +1,13 @@
+{
+  "protocolVersion": "1.0.0",
+  "types": {
+    "AgentTurnRequest": "da766347930021e8086294107348cf10d4c0c0dd6d94083c2991c278c9fff415",
+    "AgentTurnResponse": "0f76105ea7d9cd4a3392b20890ff4f7573d627cd2172a18680947e9073f4d384",
+    "CognitiveState": "0ced24524ae27f6a512dbee0c3683ded57dd3d8d37c5feea63d639c28baef2cf",
+    "ConceptMastery": "f6a8b94fe1978324746dea2f82217fd5e36cf0f99b7e403b56689cf3c7cf7832",
+    "FrictionSample": "f3c68acbb9b44f983e7bd67db7c49c8a9d3ff298848d35298a48432183d95e55",
+    "SyncAdvisory": "fa7482d08b9dc2c7b4ec16f5e9a2bc11e7e94dc318f09d35777a940404b66ece",
+    "SyncRequest": "8d1e6d403cc834c6c4dfc15db05f4da51cac5bdebf881012d28651a97a62d90d",
+    "SyncResponse": "b6cc33a33d22d741af80d05a62444032d94d43845a81c0c3736383ef90b8f5fa"
+  }
+}

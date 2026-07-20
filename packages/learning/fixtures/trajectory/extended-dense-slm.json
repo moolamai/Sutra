@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "trajectory.v1",
+  "subjectId": "anika-k",
+  "sessionId": "sess-c0-dense",
+  "turnId": "turn-c0-dense",
+  "deviceId": "edge-aaaa",
+  "capturedAt": "2026-07-15T20:00:00.000Z",
+  "locality": "on-device",
+  "consent": {
+    "optedIn": true,
+    "consentClass": "research",
+    "recordedAt": "2026-07-15T20:00:00.000Z"
+  },
+  "stages": [
+    {
+      "stage": "act",
+      "opCode": "model.generate",
+      "status": "ok"
+    }
+  ],
+  "policyCheckpointHash": "sha256:abcdef0123456789",
+  "precisionFormat": "int4",
+  "executionState": {
+    "commandExecuted": "model.generate",
+    "statusCode": 200
+  }
+}

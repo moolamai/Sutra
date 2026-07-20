@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Sutra Edge Companion",
+    "slug": "sutra-edge-app",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["ios", "android"],
+    "plugins": []
+  }
+}

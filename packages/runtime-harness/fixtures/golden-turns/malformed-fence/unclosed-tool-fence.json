@@ -1,0 +1,26 @@
+{
+  "coverage": [
+    "unclosed_fence",
+    "never_answer"
+  ],
+  "deviceId": "edge-aaaa",
+  "expectedEvents": [
+    {
+      "discardedBytes": 57,
+      "failureClass": "unclosed_fence",
+      "type": "violation"
+    }
+  ],
+  "forbiddenAnswerSubstrings": [
+    "lookup",
+    "toolName",
+    "callId"
+  ],
+  "id": "unclosed-tool-fence",
+  "input": [
+    "```tool_call\n{\"toolName\":\"lookup\",\"arguments\":{\"q\":\"x\"},\"callId\":\"c1\"}"
+  ],
+  "scenario": "unclosed_fence",
+  "specId": "CK-07",
+  "subjectId": "anika-k"
+}

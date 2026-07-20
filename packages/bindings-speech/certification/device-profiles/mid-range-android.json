@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "bindings-speech.device-profile.v1",
+  "profileId": "android-mid-range-voice",
+  "platform": "android",
+  "hardwareClass": "mid-range",
+  "description": "India-first mid-range Android voice RTT budget (final transcript → first synthesized audio). Aligns with PRD_MATRIX NFR-07 ≤ 2.5s p95.",
+  "nfr": {
+    "nfrId": "NFR-07",
+    "metric": "final_transcript_to_first_audio",
+    "voiceRttP95Ms": 2500
+  }
+}
